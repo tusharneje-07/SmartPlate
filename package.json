@@ -1,0 +1,15 @@
+{
+  "name": "smartplate",
+  "version": "0.0.1",
+  "description": "A Mess Management and Order Application Where User can Order Food in Mess, Can Track his Food Intake Accroding to Protine, Fat and all other Parameters & Mess Owener can Manage There Canteen/Mess Work Like Payment History, Need and also Analyze Upcoming Mob for Next Week.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "npx tailwindcss -i ./templates/frontend_dependancy/input.css -o ./templates/frontend_dependancy/output.css --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
