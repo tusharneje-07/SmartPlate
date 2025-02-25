@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartPlate Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to SmartPlate Dashboard</h1>
+    </header>
+    <nav>
+      <ul></ul>
+    </nav>
+    <main>
+      <h2>Dashboard Content</h2>
+      <p>This is where the main content of the dashboard will go.</p>
+      <h2>Welcome, {{ user.first_name }}!</h2>
+      <p>Email: {{ user.email }}</p>
+      <p>Full Name: {{ user.get_full_name }}</p>
+    </main>
+    <footer>
+      <p>&copy; 2023 SmartPlate. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
