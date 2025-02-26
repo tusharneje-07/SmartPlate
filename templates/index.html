@@ -1,23 +1,40 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SmartPlate</title>
-    {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endcomment %}
+
+    {% comment %} Backend Link {% endcomment %}
     <link rel="stylesheet" href="{% static '/output.css' %}">
-</head>
-<body>
-    <header>
-        <h1 class="bg-red-400">Welcome to SmartPlate</h1>
-    </header>
-    <main>
-        <p>Your content goes here.</p>
-        <p>Tailwind is Initilized</p>
-    </main>
-    <footer>
-        <p class="text-[0.5rem] font-bold bg-slate-300">&copy; 2025 SmartPlate. All rights reserved.</p>
+    {% comment %} Frontend Link {% endcomment %}
+    <link rel="stylesheet" href="./frontend_dependancy/output.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet" />
+
+  </head>
+  <body class="flex m-0 dark:bg-backgroundDark justify-center items-center h-screen font-lato">
+    <div class="flex flex-col p-4 justify-center items-center w-3/4 h-1/2 dark:bg-secbackgroundDark rounded-xl">
+      <div class="flex flex-col justify-center items-center text-center gap-4">
+        <div class="rounded-full bg-white flex justify-center items-center w-36 h-36">
+          <div class="border-8 border-gray-200 rounded-full p-6">
+            {% comment %} <img src="./frontend_dependancy/imgs/diet.png" class="w-20 h-20" alt="Food Plate PNG" /> {% endcomment %}
+            <img src="{% static '/imgs/diet.png' %}" class="w-20 h-20" alt="Food Plate PNG" />
+          </div>
+        </div>
+        <p class="text-lg font-bold dark:text-textPrimaryDark">SmartPlate</p>
+        <span class="text-xs dark:text-textPrimaryDark">Hungry? Let's find a nearby mess with a delicious menu 😋</span>
+        <button class="flex flex-row justify-center items-center w-2/3 p-2 bg-accent hover:bg-accenthover rounded-xl dark:text-textPrimaryDark font-semibold text-sm transition-colors duration-300 ease-in-out">
+          Get Started<svg xmlns="http://www.w3.org/2000/svg" class="mt-[0.05rem] w-6 h-6 dark:fill-textPrimaryDark" viewBox="0 -960 960 960">
+            <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <footer class="fixed bottom-0 left-0 text-[0.5rem] w-full flex justify-center py-[0.07rem] bg-secbackgroundDark dark:text-textPrimaryDark">
+      <p>&copy; 2025 SmartPlate. All rights reserved.</p>
     </footer>
-</body>
+  </body>
 </html>

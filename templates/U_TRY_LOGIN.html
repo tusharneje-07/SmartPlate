@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              backgroundLight: '#FAFCFE',
+              textPrimaryLight: '#181818',
+              textPrimaryDark: '#FFFFFF',
+              accent: '#3EB075',
+              accentHover: '#69B075',
+              buttonLight: '#181818',
+              buttonDark: '#FFFFFF'
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      .toggle-btn {
+        padding: 12px;
+        background-color: #1e293b;
+        border-radius: 50%;
+        color: white;
+        border: 2px solid #1e293b;
+        cursor: pointer;
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 50;
+        transition: transform 0.3s ease;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .toggle-btn:hover {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body class="bg-backgroundLight font-basic transition-colors duration-300 flex flex-col items-center justify-center min-h-screen relative">
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="toggle-btn">
+      <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
+        <path d="M12 3.75a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75zm6.364 3.136a.75.75 0 1 1 1.06 1.06l-1.06 1.061a.75.75 0 1 1-1.06-1.06l1.06-1.061zM12 18.75a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75zm-6.364-3.136a.75.75 0 1 1-1.06-1.06l1.06-1.061a.75.75 0 1 1 1.06 1.06l-1.06 1.061zM3.75 12a.75.75 0 0 1-.75-.75v-1.5a.75.75 0 0 1 1.5 0v1.5a.75.75 0 0 1-.75.75zM12 6.75a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5z" />
+      </svg>
+    </button>
+
+    <!-- Main Container -->
+    <div class="relative flex flex-col md:flex-row w-full h-screen md:h-auto md:w-[800px] bg-[#0A0A0F] text-[#F6F8FC] overflow-hidden z-10">
+      <!-- Top Section (Image on Mobile) -->
+      <div class="relative w-full h-[40vh] md:w-[400px] md:h-[400px] overflow-hidden">
+        <!-- Image -->
+        <img src="{% static 'imgs/vertor_bg.jpg' %}" alt="Food Image" class="w-full h-full object-cover blur-[1px]" />
+
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black opacity-30"></div>
+
+        <style>
+          .image-container {
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .image-container img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transform: rotateY(90deg) scale(0.8);
+            animation: flipSwap 6s infinite ease-in-out;
+        }
+          
+          /* Different delays for each image */
+          .image-container img:nth-child(1) {
+            animation-delay: 0s;
+          }
+          .image-container img:nth-child(2) {
+            animation-delay: 1s;
+          }
+          .image-container img:nth-child(3) {
+            animation-delay: 2s;
+          }
+          .image-container img:nth-child(4) {
+            animation-delay: 3s;
+          }
+          .image-container img:nth-child(5) {
+            animation-delay: 4s;
+          }
+          
+          /* High-Quality Flip Animation */
+          @keyframes flipSwap {
+            0% {
+              opacity: 0;
+              transform: rotateY(90deg) scale(0.8);
+            }
+            10% {
+              opacity: 1;
+              transform: rotateY(0deg) scale(1.0005);
+            }
+            30% {
+              opacity: 0;
+              transform: rotateY(0deg) scale(1);
+            }
+            40% {
+              opacity: 0;
+              transform: rotateY(-90deg) scale(0.8);
+            }
+            100% {
+              opacity: 0;
+              transform: rotateY(-90deg) scale(0.8);
+            }
+          }
+        </style>
+
+        <div class="absolute top-1/2 left-1/2 w-44 h-44 flex bg-white -translate-x-1/2 -translate-y-1/2 rounded-full">
+            <div class="absolute top-1/2 left-1/2 w-40 h-40 flex bg-white -translate-x-1/2 -translate-y-1/2 p-6 rounded-full border-8">
+                <div class="image-container w-full h-full flex justify-center">
+                    <img src="{% static 'imgs/PR1.png' %}" class="active" />
+                    <img src="{% static 'imgs/PR2.png' %}" />
+                    <img src="{% static 'imgs/PR3.png' %}" />
+                    <img src="{% static 'imgs/PR4.png' %}" />
+                    <img src="{% static 'imgs/PR5.png' %}" />
+                </div>
+            </div>
+        </div>
+
+        <script>
+        </script>
+      </div>
+
+      <!-- Bottom Section (Login Form) -->
+      <div id="form-container" class="w-full h-[60vh] md:w-[400px] md:h-auto bg-[#F6F8FC] p-6 md:p-8 flex flex-col justify-center transition-all duration-300">
+        <h2 id="form-title" class="text-4xl font-bold mb-6 text-center text-[#0A0A0F] transition-all duration-300">Login</h2>
+        <form class="space-y-4">
+          <div>
+            <label id="label-username" for="username" class="block text-sm font-medium mb-1 text-[#0A0A0F] transition-all duration-300">Username:</label>
+            <input type="text" id="username" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#3EB075] transition-all duration-300" placeholder="Enter your username" />
+          </div>
+          <div>
+            <label id="label-password" for="password" class="block text-sm font-medium mb-1 text-[#0A0A0F] transition-all duration-300">Password:</label>
+            <input type="password" id="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#3EB075] transition-all duration-300" placeholder="Enter your password" />
+          </div>
+          <button id="login-button" type="submit" class="w-full bg-[#3EB075] text-white py-3 text-xl rounded-lg hover:bg-[#69BF70] transition focus:outline-none focus:ring-2 focus:ring-[#3EB075]">Login</button>
+        </form>
+        <p id="form-text" class="text-sm text-center mt-6 text-[#0A0A0F] transition-all duration-300">
+          Don't have an account?
+          <a href="#" id="form-link" class="text-[#2F2F2F] underline">Create account</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Dark Mode Script -->
+    <script>
+      const themeToggleBtn = document.getElementById('theme-toggle')
+      const themeIcon = document.getElementById('theme-icon')
+      const formContainer = document.getElementById('form-container')
+      
+      function applyDarkMode() {
+        formContainer.style.backgroundColor = '#2F2F2F'
+        formContainer.querySelectorAll('label, p, h2, a').forEach((el) => el.classList.add('text-white'))
+        themeIcon.innerHTML = `<path d="M12 3.75a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75zm6.364 3.136a.75.75 0 1 1 1.06 1.06l-1.06 1.061a.75.75 0 1 1-1.06-1.06l1.06-1.061zM12 18.75a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75zm-6.364-3.136a.75.75 0 1 1-1.06-1.06l1.06-1.061a.75.75 0 1 1 1.06 1.06l-1.06 1.061zM3.75 12a.75.75 0 0 1-.75-.75v-1.5a.75.75 0 0 1 1.5 0v1.5a.75.75 0 0 1-.75.75zM12 6.75a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5z"/>` // Sun Icon
+        localStorage.setItem('form-theme', 'dark')
+      }
+      
+      function removeDarkMode() {
+        formContainer.style.backgroundColor = ''
+        formContainer.querySelectorAll('label, p, h2, a').forEach((el) => el.classList.remove('text-white'))
+        themeIcon.innerHTML = `<path d="M12 3.25c4.836 0 8.75 3.914 8.75 8.75s-3.914 8.75-8.75 8.75S3.25 16.836 3.25 12 7.164 3.25 12 3.25m0-1.5a10.25 10.25 0 1 0 0 20.5 10.25 10.25 0 0 0 0-20.5z"/>` // Moon Icon
+        localStorage.setItem('form-theme', 'light')
+      }
+      
+      function toggleTheme() {
+        if (localStorage.getItem('form-theme') === 'dark') {
+          removeDarkMode()
+        } else {
+          applyDarkMode()
+        }
+      }
+      
+      // Load theme from localStorage
+      if (localStorage.getItem('form-theme') === 'dark') {
+        applyDarkMode()
+      } else {
+        removeDarkMode()
+      }
+      
+      // Event listener for the button
+      themeToggleBtn.addEventListener('click', toggleTheme)
+    </script>
+  </body>
+</html>
