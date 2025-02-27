@@ -26,11 +26,14 @@
         </div>
         <p class="text-lg font-bold dark:text-textPrimaryDark">SmartPlate</p>
         <span class="text-xs dark:text-textPrimaryDark">Hungry? Let's find a nearby mess with a delicious menu 😋</span>
-        <button class="flex flex-row justify-center items-center w-2/3 p-2 bg-accent hover:bg-accenthover rounded-xl dark:text-textPrimaryDark font-semibold text-sm transition-colors duration-300 ease-in-out">
-          Get Started<svg xmlns="http://www.w3.org/2000/svg" class="mt-[0.05rem] w-6 h-6 dark:fill-textPrimaryDark" viewBox="0 -960 960 960">
-            <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
-          </svg>
-        </button>
+        <form action="/user_login/" method="post" class="flex flex-row justify-center items-center w-full">
+          {% csrf_token %}
+          <button class="flex flex-row justify-center items-center w-2/3 p-2 bg-accent hover:bg-accenthover rounded-xl dark:text-textPrimaryDark font-semibold text-sm transition-colors duration-300 ease-in-out">
+            Get Started<svg xmlns="http://www.w3.org/2000/svg" class="mt-[0.05rem] w-6 h-6 dark:fill-textPrimaryDark" viewBox="0 -960 960 960">
+              <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+            </svg>
+          </button>
+        </form>
       </div>
     </div>
     <footer class="fixed bottom-0 left-0 text-[0.5rem] w-full flex justify-center py-[0.07rem] bg-secbackgroundDark dark:text-textPrimaryDark">

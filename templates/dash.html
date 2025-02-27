@@ -17,10 +17,14 @@
     <main>
       <h2>Dashboard Content</h2>
       <p>This is where the main content of the dashboard will go.</p>
+      <p>{{user}}</p>
       <h2>Welcome, {{ user.first_name }}!</h2>
       <p>Email: {{ user.email }}</p>
       <p>Full Name: {{ user.get_full_name }}</p>
     </main>
+    <form action="/user_logout/">
+      <button>Logout</button>
+    </form>
     <footer>
       <p>&copy; 2023 SmartPlate. All rights reserved.</p>
     </footer>

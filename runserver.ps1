@@ -1,5 +1,3 @@
-# runserver.ps1
-# This script runs the Django development server
 
 # Ensure the script stops if any command fails
 $ErrorActionPreference = "Stop"

@@ -17,10 +17,16 @@ def dashboard(request):
     return render(request, 'dash.html',{'user': user})
 
 def user_logout(request):
-    logout(request)
-    return redirect('/welcome')
+    access_token = request.session.get('access_token')
+    print("Access Token: ", access_token)
+    if access_token:
+        revoke_google_token(access_token)  # Revoke the Google OAuth2 token
+    
+    logout(request)  # Logs out from Django session
+    return redirect('/welcome')  # Redirect after logout
+
 
 
 # GLOBAL ENTRY POINTS
 def user_login(request):
-    return render(request,'U_LOGIN.html')
+    return render(request,'U_TRY_LOGIN.html')
