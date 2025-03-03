@@ -44,7 +44,7 @@
       <!-- Top Section (Image on Mobile) -->
       <div class="relative w-full h-[40vh] md:w-[400px] md:h-[400px] overflow-hidden">
         <!-- Image -->
-        <img src="{% static 'imgs/vertor_bg.jpg' %}" alt="Food Image" class="w-full h-full object-cover blur-[0px]" />
+        <img src="{% static 'imgs/vertor_bg.webp' %}" alt="Food Image" class="w-full h-full object-cover blur-[0px]" />
 
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black opacity-30"></div>
@@ -110,11 +110,11 @@
         <div class="absolute top-1/2 left-1/2 w-44 h-44 flex bg-white -translate-x-1/2 -translate-y-1/2 rounded-full">
           <div class="absolute top-1/2 left-1/2 w-40 h-40 flex bg-white -translate-x-1/2 -translate-y-1/2 p-6 rounded-full border-8">
             <div class="image-container w-full h-full flex justify-center">
-              <img src="{% static 'imgs/PR1.png' %}" class="active" />
-              <img src="{% static 'imgs/PR2.png' %}" />
-              <img src="{% static 'imgs/PR3.png' %}" />
-              <img src="{% static 'imgs/PR4.png' %}" />
-              <img src="{% static 'imgs/PR5.png' %}" />
+              <img src="{% static 'imgs/PR1.webp' %}" class="active" />
+              <img src="{% static 'imgs/PR2.webp' %}" />
+              <img src="{% static 'imgs/PR3.webp' %}" />
+              <img src="{% static 'imgs/PR4.webp' %}" />
+              <img src="{% static 'imgs/PR5.webp' %}" />
             </div>
           </div>
         </div>
@@ -141,7 +141,7 @@
           {% csrf_token %}
           <button onclick="window.location.href='/google-login/'" type="submit" class="w-full bg-[#3EB075] text-white h-14 text-xl rounded-lg hover:bg-[#69BF70] transition focus:outline-none focus:ring-2 focus:ring-[#3EB075] flex">
             <div class="flex justify-center items-center w-16 h-full rounded-s-lg p-5 bg-black dark:bg-white" id="gbtn">
-              <img src="{% static 'imgs/google_icon.png' %}" alt="" />
+              <img src="{% static 'imgs/google_icon.webp' %}" alt="" />
             </div>
             <div class="flex justify-center items-center w-full">Google Login</div>
           </button>
