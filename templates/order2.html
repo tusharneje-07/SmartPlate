@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mess Menu</title>
+    <link rel="stylesheet" href="output.css">
+    
+</head>
+ <body class="dark:bg-backgroundDark">
+
+    <div class="bg-secbackgroundLight dark:bg-secbackgroundDark w-full h-16 flex flex-row justify-between px-3 fixed top-0 z-50">
+  
+        <!-- Hamburger Menu Button -->
+ <button id="menu-btn" class="fixed top-2.5 right-5 z-50 hover:scale-105 transition-transform">
+     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white"
+         class="w-10 h-10 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark">
+         <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
+     </svg>
+ </button>
+ 
+ <div class="flex flex-col justify-start items-start leading-none"> 
+    <h2 id="messName" class="text-lg text-textPrimaryLight dark:text-textPrimaryDark font-bold"></h2>
+    <p id="messAdd" class="text-textPrimaryLight dark:text-textPrimaryDark text-xs"></p>
+ </div>
+ </div>
+  
+ <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity"></div>
+ <div id="sidebar" class="fixed right-0 top-0 z-50 h-full w-64 bg-backgroundLight dark:bg-backgroundDark 
+     text-textPrimary dark:text-textSecondaryDark rounded-l-2xl shadow-2xl border-l border-gray-300 dark:border-gray-700
+     transform translate-x-full transition-transform duration-300 p-5">
+     
+ <!-- Close Button (With Larger X Symbol) -->
+ <button id="close-btn" class="flex justify-center items-center hover:scale-105 transition-transform">
+     <svg xmlns="http://www.w3.org/2000/svg" 
+          class="w-8 h-8 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark"  
+          viewBox="0 0 24 24" stroke-width="2">
+         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+     </svg>
+ </button>
+ 
+  <!-- Sidebar Menu -->
+ <ul class="space-y-2 mt-4">
+     <li id="toggleTheme" class="p-3 flex items-center gap-3 rounded-lg cursor-pointer bg-accent hover:bg-accenthover transition border border-borderLight dark:border-borderDark mb-1">
+         <span class="text-lg">
+             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
+                  class="w-6 h-6 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark">
+                 <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/>
+             </svg>
+         </span> 
+         <span class="text-btnTextDark-">Dark Mode</span>
+     </li>
+ </ul>
+ 
+     <!-- Profile -->
+     <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1">
+         <span class="text-lg">
+             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
+                  class="w-6 h-6 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark">
+                 <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/>
+             </svg>
+         </span> 
+         <span class="text-btnTextLight dark:text-btnTextDark">Profile</span>
+     </li>
+ 
+     <!-- Chatbot -->
+     <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1">
+         <span class="text-lg">
+             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
+                  class="w-6 h-6 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark">
+                 <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/>
+             </svg>
+         </span> 
+         <span class="text-btnTextLight dark:text-btnTextDark">Chatbot</span>
+     </li>
+ 
+     <!-- Settings -->
+     <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1">
+         <span class="text-lg">
+             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
+                  class="w-6 h-6 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark">
+                 <path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"/>
+             </svg>
+         </span> 
+         <span class="text-btnTextLight dark:text-btnTextDark">Settings</span>
+     </li>
+ 
+     <!-- Logout -->
+     <li class="p-3 flex items-center gap-3 bg-logBut text-white rounded-lg cursor-pointer hover:bg-hoverlogBut transition border border-hoverlogBut shadow-md">
+         <span class="text-lg">
+             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
+                  class="w-6 h-6 fill-white stroke-white">
+                 <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/>
+             </svg>
+         </span> 
+         <span>Logout</span>
+     </li>
+ </ul> 
+ </div>
+    <!-- Mess Image -->
+    <div id="imgMess" class="relative w-full mt-16">
+        <img id="messImage" src="" alt="Mess Image" class="w-full h-48 object-cover">
+        <div id="rating" class="absolute top-4 right-4 text-white text-xs font-semibold px-3 py-2 h-8 rounded-full">
+           
+        </div>
+    </div>
+    
+    
+    <!-- Menu Section -->
+    <div class="flex flex-col h-auto mx-auto my-4 bg-setbackgroundLight dark:bg-setbackgroundDark rounded-lg px-4">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Today's Menu</h1>
+            <button class="flex items-center gap-2 bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark px-4 py-2 rounded-lg focus:outline-none">
+                Crowd <div id="crowdStatus" class="w-3 h-3 rounded-full animate-pulse"></div>
+            </button>
+        </div>
+
+        <!-- Menu Items Container -->
+        <div id="menuContainer"></div>
+    </div>
+
+    <!-- Go to Cart Button (Positioned at the bottom right of the screen) -->
+    <div class="flex flex-row">
+        <button id="cartButton" class="fixed bottom-6 right-6 bg-yellow-600 text-white text-10xs font-semibold px-4 py-1 rounded-lg hidden transition-all duration-300 justify-center items-center gap-2">
+            <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
+            </svg> 
+            <span>Go to Cart</span>
+        </button>
+    </div>
+
+
+    <script type="module" >
+        import { displayMessDetails } from 'js/MessDetails.js';
+        document.addEventListener("DOMContentLoaded", () => {
+            if (document.getElementById("menuContainer")) {
+                displayMessDetails();
+            } else {
+                console.warn("menuContainer not found. Skipping displayMessDetails().");
+            }
+        });
+        
+    </script>
+    <script src="js/theme-menu-toggle.js"></script>
+
+</body>
+</html>
