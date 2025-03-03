@@ -10,7 +10,6 @@ def google_login(request):
 def welcome(request):
     return render(request, 'index.html')
 
-@login_required
 def dashboard(request):
     print(request)
     user = request.user
