@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* This elements are used in Dine2.html File*/
+.filter-bar {
+    @apply flex justify-start space-x-4 px-2 py-2 bg-white rounded-lg 
+           overflow-x-auto scrollbar-hide w-full max-w-4xl;
+    white-space: nowrap; /* Prevents buttons from breaking into new lines */
+}
+
+.filter-btn {
+    @apply flex items-center justify-center px-3 py-1 rounded-full transition 
+           min-w-[120px] flex-shrink-0 ml-0; /* Prevent shrinking */
+    background-color: theme('colors.secbackgroundLight'); /* Default for light mode */
+    color: theme('colors.textPrimaryLight'); /* Default text color */
+}
+
+/* Dark Mode */
+.dark .filter-bar {
+    background-color: theme('colors.backgroundDark');
+}
+
+.dark .filter-btn {
+    background-color: theme('colors.accent'); /* Default for dark mode */
+    color: theme('colors.textPrimaryDark'); /* Text color in dark mode */
+}
+
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Hides scrollbar in Webkit browsers */
+}
+
+.scrollbar-hide {
+    scrollbar-width: none; /* Hides scrollbar in Firefox */
+}
