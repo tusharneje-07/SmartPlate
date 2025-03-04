@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "npx tailwindcss -i ./templates/frontend_dependancy/css/input.css -o ./templates/frontend_dependancy/css/output.css --watch"
+    "build:css": "npx tailwindcss -i ./templates/frontend_dependancy/css/input.css -o ./templates/frontend_dependancy/css/output.css --watch",
+    "add": "git add .",
+    "push-dev": "git push origin dev"
   },
   "author": "",
   "license": "ISC",
