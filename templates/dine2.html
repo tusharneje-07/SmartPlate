@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="output.css"> <!-- Ensure this path is correct -->
+    <link rel="stylesheet" href="./frontend_dependancy/css/output.css"> <!-- Ensure this path is correct -->
     
 </head>
 <body class="bg-white dark:bg-backgroundDark m-0 p-0">
@@ -145,13 +145,13 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-4 ml-4 mr-4 z-0" id="messContainer1"></div>
     <script type="module">
-        import { initEventListeners } from 'frontend_Dependency/js/Final.js';
+        import { initEventListeners } from './frontend_dependancy/js/Final.js';
         
         document.addEventListener("DOMContentLoaded", () => {
             initEventListeners(); // Now runs only after the DOM is ready
         });
     </script>
- <script src="frontend_Dependency/js/theme-menu-toggle.js"></script>
+ <script src="./frontend_dependancy/js/theme-menu-toggle.js"></script>
 
 </body>
 </html>

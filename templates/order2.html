@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mess Menu</title>
-    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="./frontend_dependancy/css/output.css">
     
 </head>
  <body class="dark:bg-backgroundDark">
@@ -131,7 +131,7 @@
 
 
     <script type="module" >
-        import { displayMessDetails } from 'js/MessDetails.js';
+        import { displayMessDetails } from './frontend_dependancy/js/MessDetails.js';
         document.addEventListener("DOMContentLoaded", () => {
             if (document.getElementById("menuContainer")) {
                 displayMessDetails();
@@ -141,7 +141,7 @@
         });
         
     </script>
-    <script src="js/theme-menu-toggle.js"></script>
+    <script src="./frontend_dependancy/js/theme-menu-toggle.js"></script>
 
 </body>
 </html>
