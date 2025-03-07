@@ -20,7 +20,7 @@ module.exports = {
         textPrimaryLight: '#181818',
         textPrimaryDark: '#FFFFFF',
         accent: '#3EB075',
-        accenthover: '#69B075',
+        accenthover: '#69B075', 
         btnTextLight: '#181818',
         btnTextDark: '#FFFFFF'
       },

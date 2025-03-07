@@ -1,7 +1,7 @@
 export const search_page = [
     {
         "messId": "1avb3$bng1",
-        "imgs": "./frontend_dependancy/imgs/meal1.webp",
+        "imgs": "./frontend_dependancy/imgs/meal1.webp", // Ensure 'imgs' is used consistently
         "openTime": "09:00 AM to 03:00 PM & 07:00 PM to 10:00 PM",
         "messName": "Mess Name",
         "messAddress": "Lane 10, Sai nagar Kondhawa",
@@ -41,7 +41,7 @@ export const search_page = [
     },
     {
         "messId": "1avb3$bng2",
-        "imgs": "./frontend_dependancy/imgs/Thali.webp",
+        "imgs": "./frontend_dependancy/imgs/Thali.webp", // Ensure 'imgs' is used consistently
         "openTime": "09:00 AM to 03:00 PM & 07:00 PM to 10:00 PM",
         "messName": "Mess Name 2",
         "messAddress": "Mess Address 2",
