@@ -123,7 +123,6 @@ function setupPlaceOrderButton() {
     }
 }
 
-
 const backButton = document.getElementById("backButton");
     if (backButton) {
         backButton.addEventListener("click", function () {
@@ -152,5 +151,3 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("addbtn not found in the DOM");
     }
 });
-
-
