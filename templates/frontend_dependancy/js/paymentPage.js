@@ -48,7 +48,7 @@ function getMenuItemHTML(item) {
                     </ul>
                 </div>
                 <div class="order-card flex-col items-end ml-auto space-y-12 pr-4">
-                    <div class="flex items-center space-y-1 bg-accentHover opacity-80 text-black dark:text-white border-4 border-accent rounded-md">
+                    <div class="flex items-center space-y-1 bg-accenthover opacity-80 text-black dark:text-white border-4 border-accent rounded-md">
                         <button class="minus-btn w-5 h-6 flex items-center justify-center hover:bg-accenthover transition duration-200">-</button>
                         <div class="quantity-display font-bold w-5 h-6 flex items-center justify-center text-10xs">${item.quantity}</div>
                         <button class="plus-btn w-5 h-6 flex items-center justify-center hover:bg-accenthover transition duration-200">+</button>
@@ -122,7 +122,32 @@ function setupPlaceOrderButton() {
         });
     }
 }
+
+const backButton = document.getElementById("backButton");
+    if (backButton) {
+        backButton.addEventListener("click", function () {
+            console.log("Back button clicked");
+            window.location.href = "order2.html";
+        });
+    } else {
+        console.warn("Back button not found in the DOM");
+    }
+    
  
 document.addEventListener("DOMContentLoaded", () => {
     setupPlaceOrderButton();
+
+    const addBtn = document.getElementById("addbtn"); // Removed '#'
+    if (addBtn) {
+        addBtn.addEventListener("click", () => {
+            // Ensure cart is up to date
+            let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+            sessionStorage.setItem("cart", JSON.stringify(cart));
+
+            // Redirect to order2.html
+            window.location.href = "order2.html";
+        });
+    } else {
+        console.error("addbtn not found in the DOM");
+    }
 });

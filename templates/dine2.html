@@ -4,26 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./frontend_dependancy/css/output.css"> <!-- Ensure this path is correct -->
+    <link rel="stylesheet" href="frontend_dependancy/css/output.css"> <!-- Ensure this path is correct -->
     
 </head>
 <body class="bg-white dark:bg-backgroundDark m-0 p-0">
 
-<div class="bg-secbackgroundLight dark:bg-secbackgroundDark w-full h-16 flex flex-row justify-between px-3 fixed top-0 z-50">
-  
-       <!-- Hamburger Menu Button -->
-<button id="menu-btn" class="fixed top-2.5 right-5 z-50 hover:scale-105 transition-transform">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white"
-        class="w-10 h-10 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark">
-        <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
-    </svg>
-</button>
+    <div class="bg-secbackgroundLight dark:bg-secbackgroundDark w-full h-16 flex flex-row items-center justify-between px-2 fixed top-0 z-50 border-b border-gray-300 dark:border-gray-600">
 
-<div class="flex flex-col justify-start items-start leading-none">
-    <span class="text-black dark:text-textPrimaryDark text-lg font-bold">Search Mess</span>
-    <span class="text-xs text-gray-500 dark:text-gray-300">Explore more options to enjoy your meal...!</span>
-</div>
-</div>
+        <!-- Left Section (Back Icon & Title) -->
+        <div class="flex items-center space-x-2">
+            <button id="backButton" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6 fill-black dark:fill-white">
+                    <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z" />
+                </svg>
+            </button>
+            <div class="flex flex-col leading-tight">
+                <span class="text-black dark:text-textPrimaryDark text-lg font-bold">Search Mess</span>
+                <span class="text-xs text-gray-500 dark:text-gray-300">Explore more options to enjoy your meal...!</span>
+            </div>
+        </div>
+        
+    
+        <!-- Hamburger Menu Button (Right Side) -->
+        <button id="menu-btn" class="hover:scale-105 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white">
+                <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
+            </svg>
+        </button>
+    
+    </div>
  
 <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity"></div>
 <div id="sidebar" class="fixed right-0 top-0 z-50 h-full w-64 bg-backgroundLight dark:bg-backgroundDark 
@@ -114,25 +123,25 @@
             <div class="filter-bar">
                 <input type="checkbox" id="category1" class="hidden peer/category1 filter-checkbox" value="Veg">
                    <label for="category1"
-                  class="filter-btn  peer-checked/category1:bg-accentHover dark:peer-checked/category1:bg-secbackgroundDark">
+                  class="filter-btn  peer-checked/category1:bg-accenthover dark:peer-checked/category1:bg-secbackgroundDark">
                   Veg
                  </label> <!-- here to give look same like a button -->
 
                  <input type="checkbox" id="category2" class="hidden peer/category2 filter-checkbox " value="Open">
                  <label for="category2"
-                 class="filter-btn peer-checked/category2:bg-accentHover dark:peer-checked/category2:bg-secbackgroundDark">
+                 class="filter-btn peer-checked/category2:bg-accenthover dark:peer-checked/category2:bg-secbackgroundDark">
                  Open Now
                 </label>
 
                 <input type="checkbox" id="category3" class="hidden peer/category3 filter-checkbox " value="Top Rated">
                  <label for="category3"
-                 class="filter-btn peer-checked/category3:bg-accentHover dark:peer-checked/category3:bg-secbackgroundDark">
+                 class="filter-btn peer-checked/category3:bg-accenthover dark:peer-checked/category3:bg-secbackgroundDark">
                  Top Rated
                 </label>
                 
                 <input type="checkbox" id="category4" class="hidden peer/category4 filter-checkbox " value="Crowd">
                  <label for="category4"
-                 class="filter-btn peer-checked/category4:bg-accentHover dark:peer-checked/category4:bg-secbackgroundDark">
+                 class="filter-btn peer-checked/category4:bg-accenthover dark:peer-checked/category4:bg-secbackgroundDark">
                   Crowd
                 </label>
                 
