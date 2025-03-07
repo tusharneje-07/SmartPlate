@@ -121,7 +121,7 @@ export function displayMessDetails() {
         // Function to update cart button visibility
         function updateCartButtonVisibility() {
             const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartButton.style.display = totalQuantity > 0 ? "block" : "none";
+            cartButton.style.display = totalQuantity > 0 ? "flex" : "none";
         }
 
         cartButton.addEventListener("click", () => {
