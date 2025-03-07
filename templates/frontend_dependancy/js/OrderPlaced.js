@@ -46,3 +46,14 @@ export function OrderPlaced() {
 
     menuContainer.innerHTML = orderHTML + menuContainer.innerHTML;
 }
+
+const backButton = document.getElementById("backButton");
+    if (backButton) {
+        backButton.addEventListener("click", function () {
+            console.log("Back button clicked");
+            window.location.href = "paymentPage.html";
+        });
+    } else {
+        console.warn("Back button not found in the DOM");
+    }
+    

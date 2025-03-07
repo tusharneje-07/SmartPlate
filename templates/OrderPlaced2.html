@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmed</title>
-    <link href="./output.css" rel="stylesheet">
+    <link href="frontend_dependancy/css/output.css" rel="stylesheet">
     
 </head>
 <body class="bg-backgroundLight text-textPrimaryLight dark:bg-backgroundDark dark:text-textPrimaryDark min-h-screen items-center justify-center">
     <div class="bg-secbackgroundLight dark:bg-secbackgroundDark dark:text-textPrimaryDark w-full h-16 flex flex-row justify-between px-3 fixed sticky top-0 text-white p-4 mb-2 z-10">
         <!-- TOP BAR -->
 <div class="flex flex-row justify-center items-center gap-3">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6 fill-black dark:fill-white">
-        <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z" />
-    </svg>
+    <button id="backButton" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6 fill-black dark:fill-white">
+            <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z" />
+        </svg>
+    </button>
 
     <div class="flex flex-col justify-start items-start leading-none text-textPrimaryLight dark:text-textPrimaryDark">
         <span class="text-lg font-bold">Order Confirmed</span>
@@ -119,7 +121,7 @@
 		
 
         <script type="module">
-            import { OrderPlaced } from 'frontend_Dependency/js/OrderPlaced.js';
+            import { OrderPlaced } from './frontend_dependancy/js/OrderPlaced.js';
             
             document.addEventListener("DOMContentLoaded", () => {
                 if (document.getElementById("OrderContainer")) {
@@ -130,7 +132,7 @@
             });
         </script>
 
-        <script src="frontend_Dependency/js/theme-menu-toggle.js"></script>
+        <script src="./frontend_dependancy/js/theme-menu-toggle.js"></script>
          
 </body>
 </html>

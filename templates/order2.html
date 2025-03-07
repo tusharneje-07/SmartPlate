@@ -4,26 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mess Menu</title>
-    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="frontend_dependancy/css/output.css">
     
 </head>
  <body class="dark:bg-backgroundDark">
+    <div class="bg-secbackgroundLight dark:bg-secbackgroundDark w-full h-16 flex flex-row items-center justify-between px-2 fixed top-0 z-50 border-b border-gray-300 dark:border-gray-600">
 
-    <div class="bg-secbackgroundLight dark:bg-secbackgroundDark w-full h-16 flex flex-row justify-between px-3 fixed top-0 z-50">
-  
-        <!-- Hamburger Menu Button -->
- <button id="menu-btn" class="fixed top-2.5 right-5 z-50 hover:scale-105 transition-transform">
-     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white"
-         class="w-10 h-10 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark">
-         <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
-     </svg>
- </button>
- 
- <div class="flex flex-col justify-start items-start leading-none"> 
-    <h2 id="messName" class="text-lg text-textPrimaryLight dark:text-textPrimaryDark font-bold"></h2>
-    <p id="messAdd" class="text-textPrimaryLight dark:text-textPrimaryDark text-xs"></p>
- </div>
- </div>
+        <!-- Left Section (Back Icon & Title) -->
+        <div class="flex items-center space-x-2">
+            <button id="backButton" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6 fill-black dark:fill-white">
+                    <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z" />
+                </svg>
+            </button>
+            <div class="flex flex-col leading-tight"> 
+                <h2 id="messName" class="text-lg text-textPrimaryLight dark:text-textPrimaryDark font-bold"></h2>
+                <p id="messAdd" class="text-textPrimaryLight dark:text-textPrimaryDark text-xs"></p>
+            </div>
+        </div>
+        
+    
+        <!-- Hamburger Menu Button (Right Side) -->
+        <button id="menu-btn" class="hover:scale-105 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white">
+                <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
+            </svg>
+        </button>
+    
+    </div>
   
  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity"></div>
  <div id="sidebar" class="fixed right-0 top-0 z-50 h-full w-64 bg-backgroundLight dark:bg-backgroundDark 
@@ -120,18 +128,16 @@
     </div>
 
     <!-- Go to Cart Button (Positioned at the bottom right of the screen) -->
-    <div class="flex flex-row">
-        <button id="cartButton" class="fixed bottom-6 right-6 bg-yellow-600 text-white text-10xs font-semibold px-4 py-1 rounded-lg hidden transition-all duration-300 justify-center items-center gap-2">
-            <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
-            </svg> 
+    <div class="flex">
+        <button id="cartButton" class="fixed bottom-6 right-6 bg-accent text-white text-sm font-semibold px-4 py-2 rounded-lg hidden transition-all duration-300 flex items-center gap-2 whitespace-nowrap">
             <span>Go to Cart</span>
+           
         </button>
     </div>
-
-
+    
+   
     <script type="module" >
-        import { displayMessDetails } from 'js/MessDetails.js';
+        import { displayMessDetails } from './frontend_dependancy/js/MessDetails.js';
         document.addEventListener("DOMContentLoaded", () => {
             if (document.getElementById("menuContainer")) {
                 displayMessDetails();
@@ -141,7 +147,7 @@
         });
         
     </script>
-    <script src="js/theme-menu-toggle.js"></script>
+    <script src="./frontend_dependancy/js/theme-menu-toggle.js"></script>
 
 </body>
 </html>
