@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mess Recommendation</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./frontend_dependancy/css/output.css">
+    {% comment %} <link rel="stylesheet" href="./frontend_dependancy/css/output.css"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+
 </head>
 <body class="bg-backgroundLight dark:bg-backgroundDark transition-colors duration-300">
 
@@ -18,11 +21,11 @@
 </button>
 
     <header class="bg-bgsecLight dark:bg-bgsecDark p-2 md:w-3/4 mx-auto rounded-b-5xl flex items-center px-4 relative h-40 transition-colors duration-300">
-        <h1 class="md:text-xl font-custom text-3xl font-bold tracking-wide[0_0_15px_rgba(255,255,255,0.9)] absolute left-[4%] top-[65%] transform -translate-y-1/2  text-textPrimaryLight dark:text-textPrimaryDark">
-            Welcome, User
+        <h1 class="md:text-xl font-custom text-2xl font-bold absolute left-[4%] top-[65%] transform -translate-y-1/2  text-textPrimaryLight dark:text-textPrimaryDark">
+            Welcome, {{user}}
         </h1>
-        <h1 class="md:text-xl font-custom text-xs tracking-wide [0_0_15px_rgba(255,255,255,0.9)] absolute left-[5%] top-[85%] transform -translate-y-1/2  text-textPrimaryLight dark:text-textPrimaryDark">
-            Some text.........
+        <h1 class="md:text-xl font-custom text-xs absolute left-[5%] top-[85%] transform -translate-y-1/2  text-textPrimaryLight dark:text-textPrimaryDark">
+            Find your perfect mess, eat smart!
         </h1>
     </header>
  
@@ -87,7 +90,8 @@
     </li>
 
     <!-- Logout -->
-    <li class="p-3 flex items-center gap-3 bg-logBut text-white rounded-lg cursor-pointer hover:bg-hoverlogBut transition border border-hoverlogBut shadow-md">
+    <form id="logout-frm" action="/user_logout/">
+    <li onclick="document.getElementById('logout-frm').submit()" class="p-3 flex items-center gap-3 bg-logBut text-white rounded-lg cursor-pointer hover:bg-hoverlogBut transition border border-hoverlogBut shadow-md">
         <span class="text-lg">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
                  class="w-6 h-6 fill-white stroke-white">
@@ -96,6 +100,7 @@
         </span> 
         <span>Logout</span>
     </li>
+    </form>
 </ul> 
 </div>
 
@@ -103,52 +108,52 @@
 <main class="bg-backgroundLight dark:bg-backgroundDark p-6 md:p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 justify-center items-center">
     <!-- Book Your Order -->
     <button class="bg-bgsecLight dark:bg-bgsecDark w-full max-w-md h-24 rounded-lg flex transition-all hover:scale-105">
-        <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg">
-            <img src="Book.webp" class="w-24 h-24 md:w-20 md:h-20" alt="Order">
+        <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg p-3">
+            <img src="{% static "imgs/F1.webp" %}" class="" alt="Order">
         </div>
         <div class="w-2/3 flex flex-col justify-center items-start p-3 text-left">
             <span class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Book Your Order</span>
             <hr class="w-full border-black dark:border-white my-1 opacity-50">
-            <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Some text...</span>
+            <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Order your favorite meal in just a tap!</span>
         </div>
     </button>
 
     <!-- Meal Recommendation -->
 <button class="bg-bgsecLight dark:bg-bgsecDark w-full max-w-md h-24 rounded-lg flex transition-all hover:scale-105">
-    <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg">
-        <img src="Recom.webp" class="w-20 h-20 md:w-16 md:h-16" alt="Meal">
+    <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg p-3">
+        <img src="{% static "imgs/F2.webp" %}" class="" alt="Meal">
     </div>
     <div class="w-2/3 flex flex-col justify-center items-start p-3 text-left">
-        <span class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark whitespace-nowrap">
-            Meal Recommendation
+        <span class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">
+            Recommendation
         </span>
         <hr class="w-full border-black dark:border-white my-1 opacity-50">
-        <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Some text...</span>
+        <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Personalized meal suggestions for better health!</span>
     </div>
 </button>
 
 
     <!-- Check History -->
     <button class="bg-bgsecLight dark:bg-bgsecDark w-full max-w-md h-24 rounded-lg flex transition-all hover:scale-105">
-        <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg">
-            <img src="History.webp" class="w-24 h-24 md:w-20 md:h-20" alt="History">
+        <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg p-3">
+            <img src="{% static "imgs/F3.webp" %}" class="" alt="History">
         </div>
         <div class="w-2/3 flex flex-col justify-center items-start p-3 text-left">
             <span class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Check History</span>
             <hr class="w-full border-black dark:border-white my-1 opacity-50">
-            <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Some text...</span>
+            <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Track your past orders with ease!</span>
         </div>
     </button>
 
     <!-- Nearby Mess -->
     <button class="bg-bgsecLight dark:bg-bgsecDark w-full max-w-md h-24 rounded-lg flex transition-all hover:scale-105">
-        <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg">
-            <img src="Nearby.webp" class="w-24 h-24 md:w-20 md:h-20" alt="Nearby">
+        <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg p-3">
+            <img src="{% static "imgs/F4.webp" %}" class="" alt="Nearby">
         </div>
         <div class="w-2/3 flex flex-col justify-center items-start p-3 text-left">
             <span class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Nearby Mess</span>
             <hr class="w-full border-black dark:border-white my-1 opacity-50">
-            <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Some text...</span>
+            <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Find the best mess near you instantly!</span>
         </div>
     </button>
 
@@ -157,6 +162,7 @@
 <button id="chatbot-btn" class="fixed bottom-4 right-5 z-60 mt-4 bg-bgsecLight dark:bg-bgsecDark gap-2 p-3 rounded-full border border-gray-200 dark:border-gray-700 hover:scale-105 transition-transform">
     <img src="chatbot.webp" class="w-8 h-8" alt="Chatbot">
 </button>
-<script src="./frontend_dependancy/js/theme-menu-toggle.js"></script>
+{% comment %} <script src="./frontend_dependancy/js/theme-menu-toggle.js"></script> {% endcomment %}
+<script src="{% static 'js/theme-menu-toggle.js' %}"></script>
 </body>
 </html>

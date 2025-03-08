@@ -28,7 +28,5 @@ def user_logout(request):
 
 # GLOBAL ENTRY POINTS
 def user_login(request):
-    return render(request,'U_TRY_LOGIN.html')
+    return render(request,'USR_login.html')
 
-def check_db(request):
-    return JsonResponse({'status': 'success', 'message': 'Database is up and running!'})
