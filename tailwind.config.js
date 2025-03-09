@@ -11,8 +11,6 @@ module.exports = {
         borderDark: '#4b5563',
         logBut: '#f87171',
         hoverlogBut: '#ef4444',
-
-
         backgroundLight: '#FAFCFE',
         backgroundDark: '#2F2F2F',
         secbackgroundLight: '#DBDBDB',
