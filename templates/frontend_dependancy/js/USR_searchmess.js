@@ -1,4 +1,4 @@
-import { search_page } from './search_mess.js';
+import { search_page } from './USR_searchmess_extention.js';
 
 // Function to initialize event listeners
 export function initEventListeners() {
@@ -12,7 +12,6 @@ export function initEventListeners() {
     });
 }
 
-// Function to filter mess cards based on selected checkboxes
 export function filterMessCards() {
     const selectFilters = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
         .map(checkbox => checkbox.value);

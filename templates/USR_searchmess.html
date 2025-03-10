@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mess Recommendation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    {% comment %} <link rel="stylesheet" href="./frontend_dependancy/css/output.css"> {% endcomment %}
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
-
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/output.css' %}"> <!-- Ensure this path is correct -->
+    
 </head>
-<body class="bg-backgroundLight dark:bg-backgroundDark transition-colors duration-300">
+<body class="bg-white dark:bg-backgroundDark m-0 p-0">
 
-    <!-- Hamburger Menu Button -->
-<button id="menu-btn" class="fixed top-2.5 right-5 z-50 hover:scale-105 transition-transform">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white"
-        class="w-10 h-10 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark">
-        <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
-    </svg>
-</button>
+    <div class="bg-secbackgroundLight dark:bg-secbackgroundDark w-full h-16 flex flex-row items-center justify-between px-2 fixed top-0 z-50 border-b border-gray-300 dark:border-gray-600">
 
-    <header class="bg-bgsecLight dark:bg-bgsecDark p-2 md:w-3/4 mx-auto rounded-b-5xl flex items-center px-4 relative h-40 transition-colors duration-300">
-        <h1 class="md:text-xl font-custom text-2xl font-bold absolute left-[4%] top-[65%] transform -translate-y-1/2  text-textPrimaryLight dark:text-textPrimaryDark">
-            Welcome, {{user}}
-        </h1>
-        <h1 class="md:text-xl font-custom text-xs absolute left-[5%] top-[85%] transform -translate-y-1/2  text-textPrimaryLight dark:text-textPrimaryDark">
-            Find your perfect mess, eat smart!
-        </h1>
-    </header>
+        <!-- Left Section (Back Icon & Title) -->
+        <div class="flex items-center space-x-2">
+            <button onclick="window.location.href='/user/'" id="backButton" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6 fill-black dark:fill-white">
+                    <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z" />
+                </svg>
+            </button>
+            <div class="flex flex-col leading-tight">
+                <span class="text-black dark:text-textPrimaryDark text-lg font-bold">Search Mess</span>
+                <span class="text-xs text-gray-500 dark:text-gray-300">Explore more options to enjoy your meal...!</span>
+            </div>
+        </div>
+        
+    
+        <!-- Hamburger Menu Button (Right Side) -->
+        <button id="menu-btn" class="hover:scale-105 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white">
+                <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
+            </svg>
+        </button>
+    
+    </div>
  
 <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity"></div>
 <div id="sidebar" class="fixed right-0 top-0 z-50 h-full w-64 bg-backgroundLight dark:bg-backgroundDark 
@@ -90,8 +96,7 @@
     </li>
 
     <!-- Logout -->
-    <form id="logout-frm" action="/user_logout/">
-    <li onclick="document.getElementById('logout-frm').submit()" class="p-3 flex items-center gap-3 bg-logBut text-white rounded-lg cursor-pointer hover:bg-hoverlogBut transition border border-hoverlogBut shadow-md">
+    <li class="p-3 flex items-center gap-3 bg-logBut text-white rounded-lg cursor-pointer hover:bg-hoverlogBut transition border border-hoverlogBut shadow-md">
         <span class="text-lg">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
                  class="w-6 h-6 fill-white stroke-white">
@@ -100,69 +105,63 @@
         </span> 
         <span>Logout</span>
     </li>
-    </form>
 </ul> 
 </div>
-
-<!-- Main Content -->
-<main class="bg-backgroundLight dark:bg-backgroundDark p-6 md:p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 justify-center items-center">
-    <!-- Book Your Order -->
-    <button onclick="window.location.href='search/'" class="bg-bgsecLight dark:bg-bgsecDark w-full max-w-md h-24 rounded-lg flex transition-all hover:scale-105">
-        <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg p-3">
-            <img src="{% static "imgs/F1.webp" %}" class="" alt="Order">
+    
+    <!-- Search Mess -->
+    <div class="flex justify-center w-full h-15 py-4 mt-[60px]">
+        <div class="flex items-center w-full max-w-lg border border-gray-300 dark:border-secbackgroundDark rounded-full px-4 py-2 mx-4 bg-white dark:bg-backgroundDark">
+            <svg class="w-5 h-5 text-gray-500 dark:text-textPrimaryDark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m1.35-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" placeholder="Search Mess" class="w-full px-2 py-1 text-gray-700 dark:text-textPrimaryDark focus:outline-none bg-transparent" />
         </div>
-        <div class="w-2/3 flex flex-col justify-center items-start p-3 text-left">
-            <span class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Book Your Order</span>
-            <hr class="w-full border-black dark:border-white my-1 opacity-50">
-            <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Order your favorite meal in just a tap!</span>
-        </div>
-    </button>
-
-    <!-- Meal Recommendation -->
-<button class="bg-bgsecLight dark:bg-bgsecDark w-full max-w-md h-24 rounded-lg flex transition-all hover:scale-105">
-    <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg p-3">
-        <img src="{% static "imgs/F2.webp" %}" class="" alt="Meal">
     </div>
-    <div class="w-2/3 flex flex-col justify-center items-start p-3 text-left">
-        <span class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">
-            Recommendation
-        </span>
-        <hr class="w-full border-black dark:border-white my-1 opacity-50">
-        <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Personalized meal suggestions for better health!</span>
+  
+    <!-- Filter Buttons -->
+    <div class="flex justify-center w-full py-0">
+        <div class="w-full max-w-4xl mt-0 flex justify-start">
+            <div class="filter-bar">
+                <input type="checkbox" id="category1" class="hidden peer/category1 filter-checkbox" value="Veg">
+                   <label for="category1"
+                  class="filter-btn  peer-checked/category1:bg-accenthover dark:peer-checked/category1:bg-secbackgroundDark">
+                  Veg
+                 </label> <!-- here to give look same like a button -->
+
+                 <input type="checkbox" id="category2" class="hidden peer/category2 filter-checkbox " value="Open">
+                 <label for="category2"
+                 class="filter-btn peer-checked/category2:bg-accenthover dark:peer-checked/category2:bg-secbackgroundDark">
+                 Open Now
+                </label>
+
+                <input type="checkbox" id="category3" class="hidden peer/category3 filter-checkbox " value="Top Rated">
+                 <label for="category3"
+                 class="filter-btn peer-checked/category3:bg-accenthover dark:peer-checked/category3:bg-secbackgroundDark">
+                 Top Rated
+                </label>
+                
+                <input type="checkbox" id="category4" class="hidden peer/category4 filter-checkbox " value="Crowd">
+                 <label for="category4"
+                 class="filter-btn peer-checked/category4:bg-accenthover dark:peer-checked/category4:bg-secbackgroundDark">
+                  Crowd
+                </label>
+                
+               
+                
+            </div>
+        </div>
     </div>
-</button>
 
 
-    <!-- Check History -->
-    <button class="bg-bgsecLight dark:bg-bgsecDark w-full max-w-md h-24 rounded-lg flex transition-all hover:scale-105">
-        <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg p-3">
-            <img src="{% static "imgs/F3.webp" %}" class="" alt="History">
-        </div>
-        <div class="w-2/3 flex flex-col justify-center items-start p-3 text-left">
-            <span class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Check History</span>
-            <hr class="w-full border-black dark:border-white my-1 opacity-50">
-            <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Track your past orders with ease!</span>
-        </div>
-    </button>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-4 ml-4 mr-4 z-0" id="messContainer1"></div>
+    <script type="module">
+        import { initEventListeners } from '{% static '/js/USR_searchmess.js' %}';
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            initEventListeners(); // Now runs only after the DOM is ready
+        });
+    </script>
+ <script src="{% static '/js/theme-menu-toggle.js' %}"></script>
 
-    <!-- Nearby Mess -->
-    <button class="bg-bgsecLight dark:bg-bgsecDark w-full max-w-md h-24 rounded-lg flex transition-all hover:scale-105">
-        <div class="bg-accent w-1/3 h-full flex justify-center items-center rounded-l-lg p-3">
-            <img src="{% static "imgs/F4.webp" %}" class="" alt="Nearby">
-        </div>
-        <div class="w-2/3 flex flex-col justify-center items-start p-3 text-left">
-            <span class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Nearby Mess</span>
-            <hr class="w-full border-black dark:border-white my-1 opacity-50">
-            <span class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Find the best mess near you instantly!</span>
-        </div>
-    </button>
-
-</main>
-<!-- Chatbot Button -->
-<button id="chatbot-btn" class="fixed bottom-4 right-5 z-60 mt-4 bg-bgsecLight dark:bg-bgsecDark gap-2 p-3 rounded-full border border-gray-200 dark:border-gray-700 hover:scale-105 transition-transform">
-    <img src="chatbot.webp" class="w-8 h-8" alt="Chatbot">
-</button>
-{% comment %} <script src="./frontend_dependancy/js/theme-menu-toggle.js"></script> {% endcomment %}
-<script src="{% static 'js/theme-menu-toggle.js' %}"></script>
 </body>
 </html>
