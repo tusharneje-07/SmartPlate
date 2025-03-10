@@ -129,7 +129,7 @@ export function displayMessDetails() {
             sessionStorage.setItem("cart", JSON.stringify(cart));
 
             // Redirect to the payment page
-            window.location.href = "paymentPage.html";  // Update with your actual payment page URL
+            window.location.href = "paymentPage.html";  
         });
 
         // Ensure cart button visibility is updated on initial load

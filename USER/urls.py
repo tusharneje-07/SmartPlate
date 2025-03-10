@@ -4,4 +4,6 @@ from . import views
 urlpatterns = [
     path('', views.user_dashboard, name="Welcome Endpoint"),
     path('search/', views.seach_mess, name="search/"),
+    path('vendor/<str:mess_id>/', views.select_menu, name="vendor"),
+    path('api-get-nearby-mess/', views.show_nearby_mess, name="search/"),
 ]

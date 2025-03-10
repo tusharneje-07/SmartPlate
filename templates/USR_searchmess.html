@@ -154,13 +154,16 @@
 
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-4 ml-4 mr-4 z-0" id="messContainer1"></div>
+
+    
     <script type="module">
-        import { initEventListeners } from '{% static '/js/USR_searchmess.js' %}';
-        
+        import { initEventListeners } from "{% static '/js/USR_searchmess.js' %}";
+    
         document.addEventListener("DOMContentLoaded", () => {
-            initEventListeners(); // Now runs only after the DOM is ready
+            initEventListeners(); // Now initializes only after the DOM is ready
         });
     </script>
+    
  <script src="{% static '/js/theme-menu-toggle.js' %}"></script>
 
 </body>

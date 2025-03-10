@@ -1,4 +1,30 @@
-import { search_page } from './USR_searchmess_extention.js';
+// Define a global variable for storing mess data
+let search_page = [];
+
+// Function to fetch mess data
+async function updateSearchPage() {
+    try {
+        const baseUrl = window.location.origin;
+        const apiUrl = `${baseUrl}/user/api-get-nearby-mess/`;
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) { 
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error("Received non-JSON response");
+        }
+
+        const data = await response.json();
+        search_page = data.data || [];
+        displayMesses(search_page); // Ensure messes are displayed after fetching
+
+    } catch (error) {
+        console.error("Fetch error:", error);
+    }
+}
 
 // Function to initialize event listeners
 export function initEventListeners() {
@@ -6,39 +32,36 @@ export function initEventListeners() {
         checkbox.addEventListener("change", filterMessCards);
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
-        displayMesses(search_page);
-       
-    });
+    // Wait until data is fetched before displaying messes
+    updateSearchPage();
 }
 
+// Function to filter mess cards based on selected filters
 export function filterMessCards() {
     const selectFilters = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
         .map(checkbox => checkbox.value);
 
     let filteredMesses = selectFilters.length === 0
         ? search_page
-        : search_page.filter(mess => {
-            return (
-                (!selectFilters.includes("Top Rated") || mess.messRating >= 4) &&
-                (!selectFilters.includes("Open") || mess.keyword.includes("Open")) &&
-                (!selectFilters.includes("Veg") || mess.keyword.includes("Veg")) &&
-                (!selectFilters.includes("Crowd") || mess.crowdStatus === 0)
-            );
-        });
+        : search_page.filter(mess => (
+            (!selectFilters.includes("Top Rated") || mess.messRating >= 4) &&
+            (!selectFilters.includes("Open") || mess.keyword.includes("Open")) &&
+            (!selectFilters.includes("Veg") || mess.keyword.includes("Veg")) &&
+            (!selectFilters.includes("Crowd") || mess.crowdStatus === 0)
+        ));
 
-    filteredMesses = filteredMesses.sort((a, b) => parseFloat(b.messRating) - parseFloat(a.messRating));
+    filteredMesses.sort((a, b) => parseFloat(b.messRating) - parseFloat(a.messRating));
     displayMesses(filteredMesses);
 }
 
-// Function to find crowd dot color
-function finddotColor(crowdStatus) {
+// Function to determine crowd dot color
+function findDotColor(crowdStatus) {
     return crowdStatus === -1 ? 'bg-green-600' :
            crowdStatus === 0  ? 'bg-yellow-500' :
                                 'bg-red-500';
 }
 
-// Function to find rating color
+// Function to determine rating color
 function findRatingColor(ratingValue) {
     return ratingValue <= 2   ? 'bg-red-500' :
            ratingValue <= 3.5 ? 'bg-yellow-500' :
@@ -48,17 +71,16 @@ function findRatingColor(ratingValue) {
 // Function to display mess cards dynamically
 export function displayMesses(messes) {
     const messContainer = document.getElementById("messContainer1");
-    
+
     if (!messContainer) { 
         console.error("Element messContainer not found.");
         return; 
     }
 
-   
     messContainer.innerHTML = ""; // Clear previous content
 
     messes.forEach(mess => {
-        let dotColor = finddotColor(mess.crowdStatus);
+        let dotColor = findDotColor(mess.crowdStatus);
         let ratingColor = findRatingColor(parseFloat(mess.messRating));
 
         const cardHTML = `
@@ -107,24 +129,14 @@ export function displayMesses(messes) {
         cardDiv.innerHTML = cardHTML;
         messContainer.appendChild(cardDiv);
 
-
         const viewMenuBtn = cardDiv.querySelector(".view-menu-btn");
         viewMenuBtn.addEventListener("click", () => storeMessAndRedirect(mess));
-        console.log(mess);
-
     });
 }
 
 // Store mess data in sessionStorage and redirect
 export function storeMessAndRedirect(mess) {
-    console.log("Storing mess data:", mess);
     sessionStorage.setItem("selectedMess", JSON.stringify(mess));
-    console.log("Stored data:", sessionStorage.getItem("selectedMess"));  // Debugging
-    window.location.href = "order2.html";
+    const baseUrl = window.location.origin;
+    window.location.href = `${baseUrl}/user/vendor/${mess.messId}/`;
 }
-
-// Function to display the selected mess details
-
-
-// Initialize event listeners when the script loads
-initEventListeners();
