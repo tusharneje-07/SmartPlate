@@ -15,10 +15,25 @@ class MessInfo(models.Model):
     keywords = models.JSONField()
 
     def __str__(self):
-        return self.mess_name
+        return f"{self.mess_id} => {self.mess_name}"
 
     def get_image_url(self):
         static_path = static(f'imgs/{self.mess_id}/{self.mess_id}.webp')
         return static_path
+
+class MenuInfo(models.Model):
+    mess = models.ForeignKey(MessInfo, on_delete=models.CASCADE, to_field='mess_id', db_column='mess_id')
+    date = models.DateField()
+    menu = models.JSONField()
+
+    def __str__(self):
+        return f"Menu for {self.mess.mess_name} on {self.date}"
     
+    def get_image_url(self,imgpath):
+        static_path = static(f'imgs/{imgpath}')
+        return static_path
+
 admin.site.register(MessInfo)
+admin.site.register(MenuInfo)
+
+

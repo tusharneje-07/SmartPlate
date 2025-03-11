@@ -143,9 +143,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // Ensure cart is up to date
             let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
             sessionStorage.setItem("cart", JSON.stringify(cart));
-
-            // Redirect to order2.html
-            window.location.href = "order2.html";
+            const messInfo = JSON.parse(sessionStorage.getItem("selectedMess"));
+            console.log(messInfo)
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/user/vendor/${messInfo.messId}`;
         });
     } else {
         console.error("addbtn not found in the DOM");

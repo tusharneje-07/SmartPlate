@@ -2,37 +2,95 @@
 {% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mess Menu</title>
-    <link rel="stylesheet" href="{% static '/css/output.css' %}">
-    
-</head>
- <body class="dark:bg-backgroundDark">
-    <div class="bg-secbackgroundLight dark:bg-secbackgroundDark w-full h-16 flex flex-row items-center justify-between px-2 fixed top-0 z-50 border-b border-gray-300 dark:border-gray-600">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sticky Containers</title>
+  <link href="{% static '/css/output.css' %}" rel="stylesheet">
+ 
+<style>
+/* Proper margin and padding for buttons in bottom sticky bar */
+.bottom-bar-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+}
 
-        <!-- Left Section (Back Icon & Title) -->
-        <div class="flex items-center space-x-2">
+.bottom-bar-buttons button {
+    margin: 0 8px;
+    padding: 14px 20px;
+}
+
+
+    .toggle-btn {
+    padding: 10px;
+    background-color: #1E293B;
+    border-radius: 9999px;
+	color: white;
+    border: 2px solid #1E293B;
+    cursor: pointer;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    transition: transform 0.3s ease;
+}
+
+.toggle-btn:hover {
+    transform: scale(1.1);
+}
+    .payment-section {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            padding: 8px;
+            color: var(--textPrimaryLight);
+        }
+</style>
+</head>
+<body class="font-basic bg-backgroundLight text-textPrimaryLight dark:bg-backgroundDark dark:text-textPrimaryDark min-h-screen w-full flex flex-col">
+
+    <div class="bg-secbackgroundLight dark:bg-secbackgroundDark w-full h-16 flex flex-row justify-between px-3 fixed top-0 z-50">
+
+        <div class="flex flex-row items-center gap-3">
             <button id="backButton" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6 fill-black dark:fill-white">
                     <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z" />
                 </svg>
             </button>
-            <div class="flex flex-col leading-tight"> 
-                <h2 id="messName" class="text-lg text-textPrimaryLight dark:text-textPrimaryDark font-bold"></h2>
-                <p id="messAdd" class="text-textPrimaryLight dark:text-textPrimaryDark text-xs"></p>
+    
+            <div class="flex flex-col leading-none text-textPrimaryLight dark:text-textPrimaryDark">
+                <span id="messName" class="text-lg font-bold"></span>
+                <span id="messAdd" class="text-xs"></span>
             </div>
         </div>
-        
-    
-        <!-- Hamburger Menu Button (Right Side) -->
-        <button id="menu-btn" class="hover:scale-105 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white">
-                <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
-            </svg>
+
+
+        <div class="flex items-center gap-3">
+            <div id="ratingBox" class="inline-flex items-center px-2 py-1 rounded-lg h-8">
+                <span id="ratingValue" class="text-lg font-bold"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1 fill-current text-white" viewBox="0 0 24 24">
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+            </div>
+  
+        <!-- Hamburger Menu Button -->
+        <button id="menu-btn" class="w-7 h-7 m-3 fill-black dark:fill-white">
+         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white"
+         class="w-10 h-10 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark">
+         <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
+        </svg>
         </button>
-    
-    </div>
+ </div>
+ 
+ 
+ </div>
   
  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity"></div>
  <div id="sidebar" class="fixed right-0 top-0 z-50 h-full w-64 bg-backgroundLight dark:bg-backgroundDark 
@@ -106,51 +164,73 @@
      </li>
  </ul> 
  </div>
-    <!-- Mess Image -->
-    <div id="imgMess" class="relative w-full mt-16">
-        <img id="messImage" src="" alt="Mess Image" class="w-full h-48 object-cover">
-        <div id="rating" class="absolute top-4 right-4 text-white text-xs font-semibold px-3 py-2 h-8 rounded-full">
-           
-        </div>
+
+
+
+
+  <!-- Middle scrollable container -->
+  <div class="flex-1 overflow-y-auto bg-backgroundLight dark:bg-backgroundDark p-8 px-4 pb-20 m-0 min-h-[150vh] mt-[50px]" >
+    <div id="parentContainer"></div>
+    <button id="addbtn" class="btn min-w-[150px] h-10 flex items-center justify-center bg-accent text-white rounded-md z-50 px-6 text-lg gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+        </svg>       
+    Add More
+    </button>
     </div>
-    
-    
-    <!-- Menu Section -->
-    <div class="flex flex-col h-auto mx-auto my-4 bg-setbackgroundLight dark:bg-setbackgroundDark rounded-lg px-4">
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Today's Menu</h1>
-            <button class="flex items-center gap-2 bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark px-4 py-2 rounded-lg focus:outline-none">
-                Crowd <div id="crowdStatus" class="w-3 h-3 rounded-full animate-pulse"></div>
+  </div>
+
+ 
+
+
+    <div class="bg-secbackgroundLight dark:bg-secbackgroundDark fixed bottom-0 text-white w-full h-20 z-20 p-2">
+        <div class="flex justify-between items-center h-18 w-full">
+            <div class="relative">
+                <button id="payButton" class="btn bg-accent text-white rounded-md min-w-[150px] h-14 px-2 text-lg">
+                    Payment Options
+                </button>
+            </div>
+            <button  id="placeOrderBtn" class="btn bg-accent text-white rounded-md min-w-[200px] max-w-[400px] h-14 flex items-center justify-between px-4">
+                <span class="flex flex-col px-2 items-start leading-tight">
+                    <span id="price" class="text-lg font-bold"></span>
+                    <span class="text-lg mt-[-8px]">Total</span>
+                </span>
+                <span class="flex items-center gap-3 px-2">
+                    <span class="border-l border-white px-2 h-8"></span>
+                    <span class="flex flex-col items-start leading-tight">
+                        <span class="text-lg font">Place</span>
+                        <span class="text-lg font mt-[-8px]">Order</span>
+                    </span>
+                </span>
             </button>
         </div>
-
-        <!-- Menu Items Container -->
-        <div id="menuContainer"></div>
+    </div>    
     </div>
 
-    <!-- Go to Cart Button (Positioned at the bottom right of the screen) -->
-    <div class="flex w-full">
-        <button id="cartButton" class="fixed bottom-6 right-6 bg-accent text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 justify-center">
-            <span>Go to Cart</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-5 h-5 fill-textPrimaryDark dark:fill-textPrimaryDark" fill="#fff">
-                <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
-            </svg>
-        </button>
-    </div>
-    
    
-    <script type="module" >
-        import { displayMessDetails } from '{% static '/js/USR_messcart.js' %}';
+
+    
+    <script type="module">
+        import { selectedItems } from '{% static '/js/USR_payment.js' %}';
         document.addEventListener("DOMContentLoaded", () => {
-            if (document.getElementById("menuContainer")) {
-                displayMessDetails();
+            if (document.getElementById("parentContainer")) {
+                selectedItems();
             } else {
-                console.warn("menuContainer not found. Skipping displayMessDetails().");
+                console.warn("menuContainer not found. Skipping selectedItems().");
             }
         });
-        
-    </script>
+    </script>   
     <script src="{% static '/js/theme-menu-toggle.js' %}"></script>
-
 </body>
-</html>
+</html> 
+
+
+    
+    
+    
+
+   
+    
+
+
+     

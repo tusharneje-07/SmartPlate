@@ -1,8 +1,6 @@
 export function displayMessDetails() {
     const selectedMess = JSON.parse(sessionStorage.getItem("selectedMess"));
-    console.log(selectedMess);
 
-    
 
     if (selectedMess) {
         // Update Crowd Status
@@ -125,11 +123,10 @@ export function displayMessDetails() {
         }
 
         cartButton.addEventListener("click", () => {
-            // Store the cart in sessionStorage
             sessionStorage.setItem("cart", JSON.stringify(cart));
-
-            // Redirect to the payment page
-            window.location.href = "paymentPage.html";  
+            // mess_id = selectedMess.messId
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/user/vendor/${selectedMess.messId}/cart`;
         });
 
         // Ensure cart button visibility is updated on initial load

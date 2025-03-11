@@ -3,9 +3,10 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import UserAuth
-from PARTNER.models import MessInfo
+from PARTNER.models import MessInfo, MenuInfo
 from django.db import connection
 from math import radians
+from datetime import datetime
 
 @login_required
 def user_dashboard(request):
@@ -33,10 +34,17 @@ def seach_mess(request):
         return redirect('logout')
 
 def select_menu(request,mess_id):
-    print("MessID -------------------- ",mess_id)
     username = request.COOKIES.get('smartplate_auth_user_log')
     if request.session.get(f'{username}_auth'):
         return render(request,'USR_selectmenue.html')
+    else:
+        return redirect('logout')
+    
+def go_to_cart(request,mess_id):
+    print("hey ------------------------------------------------ ")
+    username = request.COOKIES.get('smartplate_auth_user_log')
+    if request.session.get(f'{username}_auth'):
+        return render(request,'USR_payment.html')
     else:
         return redirect('logout')
 # --------------------------------------------- Order Food 
@@ -48,7 +56,6 @@ def show_nearby_mess(request):
     if request.session.get(f'{username}_auth'):
         lat,lng = 18.458455, 73.866446
         
-        print("-----------------------------------")
         nearby = get_nearby_messes(lat, lng)
         nearby_mess_ids = []
         nearby_mess_distace = []
@@ -70,7 +77,13 @@ def show_nearby_mess(request):
             mess_info['messRating'] = mess.mess_rating
             mess_info['geocodes'] = [mess.geo_lat,mess.geo_lng]
             mess_info['keyword'] = mess.keywords.get('keyword', [])
-            mess_info['menuItems'] = []
+            
+            # Fetching Menu
+            formatted_date = datetime.now().strftime("%Y-%m-%d")
+            item = MenuInfo.objects.filter(mess_id=mess.mess_id,date=formatted_date).first()
+            
+            mess_info['menuItems'] = item.menu
+            
             data.append(mess_info)
         
         return JsonResponse({"data":data})
