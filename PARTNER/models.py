@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from django.templatetags.static import static
+from django.contrib.auth.models import User
 
 class MessInfo(models.Model):
     mess_id = models.CharField(max_length=50, unique=True)
@@ -32,8 +33,21 @@ class MenuInfo(models.Model):
     def get_image_url(self,imgpath):
         static_path = static(f'imgs/{imgpath}')
         return static_path
+    
+class OrderInformation(models.Model):
+    mess_id = models.CharField(max_length=100) 
+    order_id = models.CharField(max_length=5,default="00000") 
+    date = models.DateField(auto_now_add=True) 
+    time = models.TimeField(auto_now_add=True) 
+    ordered_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    ordered_by_name = models.CharField(max_length=255)
+    order_details = models.JSONField() 
+    
+    def __str__(self):
+        return f"Order {self.id} by {self.ordered_by_name} on {self.date} at {self.time}"
 
 admin.site.register(MessInfo)
 admin.site.register(MenuInfo)
+admin.site.register(OrderInformation)
 
 

@@ -113,12 +113,50 @@ function updateTotalPrice(cart) {
     document.getElementById("price").innerText = `₹${totalPrice}`;
 }
 
+
+async function proceed_to_payment(url) {
+    try {
+        let button = document.getElementById('placeOrderBtn')
+        button.innerHTML = ''
+        button.innerHTML = "Processing...."
+        
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        if(data.status){
+            const messInfo = JSON.parse(sessionStorage.getItem("selectedMess"));
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/user/vendor/${messInfo.messId}/payment`;
+        }
+        else{
+            console.error("api-payment => fails to process payment! Status False.")
+            button.innerHTML = 'Payment Failed'
+            button.style.backgroundColor = '#ff5252'
+            button.classList.add('hover:bg-gray-500')
+            button.disabled = true
+
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
 // Adds event listener to the Place Order button
 function setupPlaceOrderButton() {
     const placeOrderBtn = document.getElementById("placeOrderBtn");
     if (placeOrderBtn) {
         placeOrderBtn.addEventListener("click", () => {
-            window.location.href = "OrderPlaced2.html";
+            let totalPrice = JSON.parse(sessionStorage.getItem("cart")).reduce((sum, item) => sum + item.quantity * item.price, 0);
+            
+            document.cookie = `temp_user_cart=${sessionStorage.getItem("cart")}; path=/; max-age=300;`;
+
+
+            const messInfo = JSON.parse(sessionStorage.getItem("selectedMess"));
+            const baseUrl = window.location.origin;
+            let url_to_payment = `${baseUrl}/user/api-payment/${messInfo.messId}/${totalPrice}`
+            proceed_to_payment(url_to_payment)
         });
     }
 }
@@ -127,7 +165,9 @@ const backButton = document.getElementById("backButton");
     if (backButton) {
         backButton.addEventListener("click", function () {
             console.log("Back button clicked");
-            window.location.href = "order2.html";
+            const messInfo = JSON.parse(sessionStorage.getItem("selectedMess"));
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/user/vendor/${messInfo.messId}`;
         });
     } else {
         console.warn("Back button not found in the DOM");
@@ -137,14 +177,13 @@ const backButton = document.getElementById("backButton");
 document.addEventListener("DOMContentLoaded", () => {
     setupPlaceOrderButton();
 
-    const addBtn = document.getElementById("addbtn"); // Removed '#'
+    const addBtn = document.getElementById("addbtn");
     if (addBtn) {
         addBtn.addEventListener("click", () => {
             // Ensure cart is up to date
             let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
             sessionStorage.setItem("cart", JSON.stringify(cart));
             const messInfo = JSON.parse(sessionStorage.getItem("selectedMess"));
-            console.log(messInfo)
             const baseUrl = window.location.origin;
             window.location.href = `${baseUrl}/user/vendor/${messInfo.messId}`;
         });

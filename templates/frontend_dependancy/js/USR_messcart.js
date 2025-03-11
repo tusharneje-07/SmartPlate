@@ -137,7 +137,8 @@ export function displayMessDetails() {
     if (backButton) {
         backButton.addEventListener("click", function () {
             console.log("Back button clicked");
-            window.location.href = "dine2.html";
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/user/search/`;
         });
     } else {
         console.warn("Back button not found in the DOM");

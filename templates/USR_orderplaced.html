@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmed</title>
-    <link href="frontend_dependancy/css/output.css" rel="stylesheet">
+    <link href="{% static '/css/output.css' %}" rel="stylesheet">
     
 </head>
 <body class="bg-backgroundLight text-textPrimaryLight dark:bg-backgroundDark dark:text-textPrimaryDark min-h-screen items-center justify-center">
@@ -110,9 +111,9 @@
       <div class="flex items-center justify-center p-12">
         <div class="rounded-xl w-full h-full text-center bg-secbackgroundLight dark:bg-secbackgroundDark dark:text-textPrimaryDark" id="OrderContainer">
 
-            <div class="flex justify-center">
-                <button class="btn px-4 w-auto bg-accent py-2 rounded-lg mb-6">
-                    Placed 
+            <div class="flex justify-center animate-ping">
+                <button class="btn px-4 w-auto bg-accent py-2 rounded-lg mb-6 animate-ping">
+                    Payment Sucessful! 
                 </button>
             </div>
         </div> 
@@ -121,7 +122,7 @@
 		
 
         <script type="module">
-            import { OrderPlaced } from './frontend_dependancy/js/OrderPlaced.js';
+            import { OrderPlaced } from '{% static './js/USR_orderplaced.js' %}';
 
             
             document.addEventListener("DOMContentLoaded", () => {
@@ -133,7 +134,7 @@
             });
         </script>
 
-        <script src="./frontend_dependancy/js/theme-menu-toggle.js"></script>
+        <script src="{% static './js/theme-menu-toggle.js' %}"></script>
 
          
 </body>

@@ -65,13 +65,14 @@
                 </svg>
             </button>
     
-            <div class="flex flex-col leading-none text-textPrimaryLight dark:text-textPrimaryDark">
-                <span id="messName" class="text-lg font-bold"></span>
-                <span id="messAdd" class="text-xs"></span>
+            <div class="flex flex-col leading-none text-textPrimaryLight dark:text-textPrimaryDark max-w-[220px]">
+                <span id="messName" class="text-lg font-bold overflow-hidden text-ellipsis whitespace-nowrap block"></span>
+                <span id="messAdd" class="text-xs overflow-hidden text-ellipsis whitespace-nowrap block"></span>
             </div>
+            
+            
         </div>
-
-
+    
         <div class="flex items-center gap-3">
             <div id="ratingBox" class="inline-flex items-center px-2 py-1 rounded-lg h-8">
                 <span id="ratingValue" class="text-lg font-bold"></span>
@@ -79,18 +80,17 @@
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                 </svg>
             </div>
-  
-        <!-- Hamburger Menu Button -->
-        <button id="menu-btn" class="w-7 h-7 m-3 fill-black dark:fill-white">
-         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white"
-         class="w-10 h-10 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark">
-         <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
-        </svg>
-        </button>
- </div>
+    
+            <!-- Hamburger Menu Button -->
+            <button id="menu-btn" class="w-7 h-7 m-3 fill-black dark:fill-white">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-7 h-7 fill-black dark:fill-white stroke-btnTextLight dark:stroke-btnTextDark">
+                    <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    
  
- 
- </div>
   
  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden transition-opacity"></div>
  <div id="sidebar" class="fixed right-0 top-0 z-50 h-full w-64 bg-backgroundLight dark:bg-backgroundDark 
@@ -117,7 +117,7 @@
          </span> 
          <span class="text-btnTextDark-">Dark Mode</span>
      </li>
- </ul>
+
  
      <!-- Profile -->
      <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1">
@@ -162,7 +162,7 @@
          </span> 
          <span>Logout</span>
      </li>
- </ul> 
+</ul> 
  </div>
 
 
@@ -211,7 +211,7 @@
 
     
     <script type="module">
-        import { selectedItems } from '{% static '/js/USR_payment.js' %}';
+        import { selectedItems } from '{% static '/js/USR_to-payment.js' %}';
         document.addEventListener("DOMContentLoaded", () => {
             if (document.getElementById("parentContainer")) {
                 selectedItems();
