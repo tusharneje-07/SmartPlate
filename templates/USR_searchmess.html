@@ -160,7 +160,10 @@
         import { initEventListeners } from "{% static '/js/USR_searchmess.js' %}";
     
         document.addEventListener("DOMContentLoaded", () => {
-            initEventListeners(); // Now initializes only after the DOM is ready
+            initEventListeners();
+            setInterval(()=>{
+                initEventListeners();
+            },1000)
         });
     </script>
     

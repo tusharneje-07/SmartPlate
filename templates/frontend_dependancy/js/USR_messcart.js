@@ -1,9 +1,7 @@
 export function displayMessDetails() {
     const selectedMess = JSON.parse(sessionStorage.getItem("selectedMess"));
 
-
     if (selectedMess) {
-        // Update Crowd Status
         const crowdStatusEl = document.getElementById("crowdStatus");
         crowdStatusEl.style.backgroundColor =
             selectedMess.crowdStatus === -1 ? "green" :
@@ -27,7 +25,6 @@ export function displayMessDetails() {
 
         // Load existing cart from sessionStorage
         let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-        console.log("Loaded Cart:", cart);
 
         // Generate Menu Items
         const menuContainer = document.getElementById("menuContainer");
@@ -131,6 +128,8 @@ export function displayMessDetails() {
 
         // Ensure cart button visibility is updated on initial load
         updateCartButtonVisibility();
+        updateCrowdStatus();
+        
     }
 
     const backButton = document.getElementById("backButton");
@@ -146,3 +145,30 @@ export function displayMessDetails() {
     
     
 }
+
+const crowdStatusEl = document.getElementById("crowdStatus");
+
+function updateCrowdStatus() {
+    const selectedMess = JSON.parse(sessionStorage.getItem("selectedMess"));
+    if (!selectedMess) return;
+    const baseUrl = window.location.origin;
+    fetch(`${baseUrl}/user/api-get-crowd-status/${selectedMess.messId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                const crowdValue = data.crowd;
+
+                // Update background color based on crowd status
+                crowdStatusEl.style.backgroundColor =
+                    crowdValue === -1 ? "green" :
+                    crowdValue === 0 ? "yellow" : "red";
+            } else {
+                console.error("Error: Invalid crowd status response");
+            }
+        })
+        .catch(error => console.error("Failed to fetch crowd status:", error));
+}
+
+setInterval(updateCrowdStatus, 1000);
+
+

@@ -16,10 +16,18 @@ def user_dashboard(request):
         user = User.objects.get(id=user_id)
         exitsUser = UserAuth.objects.filter(username=user.username).first()
         if not exitsUser:
-            # That means He is New User.
-            # Attach Flow to Take All Personal info and Store data.
+            inuser = User.objects.filter(username=user.username).first()
+            if inuser:
+                new_user = UserAuth.objects.create(
+                    username=user.username,
+                    password='pass',
+                    type='#00'
+                )
+                if new_user:
+                    print("New User Created in User Auth!")
+                    request.session[f'{user.username}_auth'] = True
             print("User is Not Existing in UserAuth")
-            return redirect('logout')
+            # return redirect('/user_logout/')
         else:
             request.session[f'{user.username}_auth'] = True
             print("User Authenticated")
@@ -161,6 +169,18 @@ def payment_api(request,mess_id,payment_amount):
 def get_current_payment(request):
     username = request.COOKIES.get('smartplate_auth_user_log')
     return JsonResponse(request.session.get(f"{username}_payment"))
+
+def getCrowdStatus(request,mess_id):
+    if not mess_id:
+        return JsonResponse({'status': False})
+    data = MessInfo.objects.filter(mess_id=mess_id).values('crowd_status')
+    data = data[0]
+    print(data)
+    ret_data = {
+        'status' : True,
+        'crowd' : data['crowd_status']
+    }
+    return JsonResponse(ret_data)
 # ----------------------------------------------------- API
 
 # -------------------------------------------- Common Functions
