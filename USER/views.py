@@ -62,6 +62,8 @@ def process_payment(request,mess_id):
         if not request.session.get(f"{username}_payment") and request.session.get(f"{username}_payment")['status']:
             return JsonResponse({"msg":"Error Occured!"})
         
+        #  ADD PAYMENT GETWAY ITHE =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        time.sleep(3)
         
         order_details_data = request.session.get(f"{username}_payment")
         print(order_details_data)
