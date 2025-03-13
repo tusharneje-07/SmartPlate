@@ -1,9 +1,7 @@
 export function displayMessDetails() {
     const selectedMess = JSON.parse(sessionStorage.getItem("selectedMess"));
-    console.log(selectedMess);
 
     if (selectedMess) {
-        // Update Crowd Status
         const crowdStatusEl = document.getElementById("crowdStatus");
         crowdStatusEl.style.backgroundColor =
             selectedMess.crowdStatus === -1 ? "green" :
@@ -14,6 +12,7 @@ export function displayMessDetails() {
         let ratingColor = ratingValue <= 2 ? 'bg-red-500' :
                           ratingValue <= 3.5 ? 'bg-yellow-500' :
                                               'bg-green-500';
+
         // Set Rating Element Content and Color
         const ratingEl = document.getElementById("rating");
         ratingEl.classList.add(ratingColor);  // Add dynamic background color class
@@ -24,9 +23,17 @@ export function displayMessDetails() {
         document.getElementById("messAdd").textContent = selectedMess.messAddress;
         document.getElementById("messImage").src = selectedMess.imgs; // Set image
 
+        // Load existing cart from sessionStorage
+        let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
         // Generate Menu Items
         const menuContainer = document.getElementById("menuContainer");
+        menuContainer.innerHTML = ""; // Clear existing content
+
         selectedMess.menuItems.forEach((item, index) => {
+            const cartItem = cart.find(cartItem => cartItem.name === item.name);
+            const itemQuantity = cartItem ? cartItem.quantity : 0; // Get quantity from cart or default to 0
+
             const menuItem = document.createElement("div");
             menuItem.classList.add("flex-1", "justify-between", "items-start", "mt-2", "pb-1");
 
@@ -37,19 +44,19 @@ export function displayMessDetails() {
                         <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover">
                     </div>
 
-                    <div class="flex-1 pl-4  text-black dark:text-white">
+                    <div class="flex-1 pl-4 text-black dark:text-white">
                         <h3 class="text-10xs font-bold">${item.name}</h3>
                         <ul class="text-xs list-none">${item.details.map(food => `<li>${food}</li>`).join("")}</ul>
                     </div>
 
                     <div class="order-card flex flex-col items-center gap-2">
-                        <div class="flex items-center justify-between bg-accentHover opacity-80 text-black dark:text-white border-4 border-accent rounded-md w-24 py-1 min-h-[40px]">
+                        <div class="flex items-center justify-between bg-accenthover opacity-80 text-black dark:text-white border-4 border-accent rounded-md w-24 py-1 min-h-[40px]">
                             <button class="decrease w-5 h-6 flex items-center justify-center hover:bg-accenthover transition duration-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M19 13H5v-2h14v2z" />
                                 </svg>
                             </button>
-                            <span class="quantity text-light-text dark:text-dark-text text-10xs font-bold w-6 h-6 flex items-center justify-center">0</span>
+                            <span class="quantity text-light-text dark:text-dark-text text-10xs font-bold w-6 h-6 flex items-center justify-center">${itemQuantity}</span>
                             <button class="increase w-5 h-6 flex items-center justify-center hover:bg-accenthover transition duration-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
@@ -69,8 +76,9 @@ export function displayMessDetails() {
             // Attach the event listeners for increase and decrease buttons
             menuItem.querySelector(".increase").addEventListener("click", () => handleQuantityChange(item, 1, index));
             menuItem.querySelector(".decrease").addEventListener("click", () => handleQuantityChange(item, -1, index));
+        
         });
-        let cart = []; // Cart to store menu items and quantities
+
         const cartButton = document.getElementById("cartButton");
 
         // Function to handle the quantity change
@@ -96,6 +104,7 @@ export function displayMessDetails() {
             }
 
             console.log("Updated Cart:", cart);
+            sessionStorage.setItem("cart", JSON.stringify(cart)); // Update cart in sessionStorage
             updateCartDisplay();
         }
 
@@ -107,16 +116,59 @@ export function displayMessDetails() {
         // Function to update cart button visibility
         function updateCartButtonVisibility() {
             const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartButton.style.display = totalQuantity > 0 ? "block" : "none";
+            cartButton.style.display = totalQuantity > 0 ? "flex" : "none";
         }
 
         cartButton.addEventListener("click", () => {
-            // Store the cart in sessionStorage
             sessionStorage.setItem("cart", JSON.stringify(cart));
-
-            // Redirect to the payment page
-            window.location.href = "paymentPage.html";  // Update with your actual payment page URL
+            // mess_id = selectedMess.messId
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/user/vendor/${selectedMess.messId}/cart`;
         });
+
+        // Ensure cart button visibility is updated on initial load
+        updateCartButtonVisibility();
+        updateCrowdStatus();
+        
     }
-}
+
+    const backButton = document.getElementById("backButton");
+    if (backButton) {
+        backButton.addEventListener("click", function () {
+            console.log("Back button clicked");
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/user/search/`;
+        });
+    } else {
+        console.warn("Back button not found in the DOM");
+    }
     
+    
+}
+
+const crowdStatusEl = document.getElementById("crowdStatus");
+
+function updateCrowdStatus() {
+    const selectedMess = JSON.parse(sessionStorage.getItem("selectedMess"));
+    if (!selectedMess) return;
+    const baseUrl = window.location.origin;
+    fetch(`${baseUrl}/user/api-get-crowd-status/${selectedMess.messId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                const crowdValue = data.crowd;
+
+                // Update background color based on crowd status
+                crowdStatusEl.style.backgroundColor =
+                    crowdValue === -1 ? "green" :
+                    crowdValue === 0 ? "yellow" : "red";
+            } else {
+                console.error("Error: Invalid crowd status response");
+            }
+        })
+        .catch(error => console.error("Failed to fetch crowd status:", error));
+}
+
+setInterval(updateCrowdStatus, 1000);
+
+

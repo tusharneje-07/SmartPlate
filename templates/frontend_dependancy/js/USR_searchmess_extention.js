@@ -5,7 +5,7 @@ export const search_page = [
         "openTime": "09:00 AM to 03:00 PM & 07:00 PM to 10:00 PM",
         "messName": "Mess Name",
         "messAddress": "Lane 10, Sai nagar Kondhawa",
-        "crowdStatus": -1, // Value Meaning => -1 = Green, 0 = Orange/Yellow, 1 = Red
+        "crowdStatus": -1,
         "messRating": 4.2,
         "geoCord": [18.459874, 73.884223],
         "keyword": ["Non-Veg", "Open"],
@@ -41,7 +41,7 @@ export const search_page = [
     },
     {
         "messId": "1avb3$bng2",
-        "imgs": "./frontend_dependancy/imgs/Thali.webp",
+        "imgs": "./frontend_dependancy/imgs/Thali.webp", // Ensure 'imgs' is used consistently
         "openTime": "09:00 AM to 03:00 PM & 07:00 PM to 10:00 PM",
         "messName": "Mess Name 2",
         "messAddress": "Mess Address 2",

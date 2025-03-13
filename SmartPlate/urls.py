@@ -20,7 +20,10 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('welcome/', views.welcome, name="Welcome Endpoint"),
-    path('', views.dashboard, name="Dashboard"),
+    path('user/',include('USER.urls'), name="USER_ENTRY_POINT"),
+    
+    path('user_login/', views.user_login, name="login"),
+    path('',views.auth_pass, name="auth_pass"),
     path('google-login/', views.google_login, name='google-login'),
     path('oauth/', include('social_django.urls', namespace='social')), 
     path('user_logout/', views.user_logout, name="Logout"), 

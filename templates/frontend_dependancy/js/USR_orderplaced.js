@@ -1,6 +1,6 @@
-export function OrderPlaced() {
-    const menuContainer = document.getElementById("OrderContainer");
+export async function OrderPlaced() {
 
+    const menuContainer = document.getElementById("OrderContainer");
     if (!menuContainer) {
         console.error("OrderContainer not found.");
         return;
@@ -9,15 +9,17 @@ export function OrderPlaced() {
     // Retrieve mess info and cart data from session storage
     const messInfo = JSON.parse(sessionStorage.getItem("selectedMess")) || {};
     const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-    // document.getElementById("messName").textContent = messInfo.messName;
-    // Generate order details dynamically
+
+    // Fetch UID asynchronously
+    let data = await fetchOrderUID();
+
     let orderHTML = `
         <div class="rounded-t-xl bg-accent border-black p-10">
-            <h1 class="text-4xl font-extrabold">${messInfo.id || "A001"}</h1>
+            <h1 class="text-4xl font-extrabold">${data.UID}</h1>
         </div>
         <div class="p-8 justify-center">
             <h2 class="text-2xl font-bold mb-10">Order Confirmed!</h2>
-            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-6" id="messname">${messInfo.messName}</h3>
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-6">${messInfo.messName || "Mess Name Not Available"}</h3>
             <ul class="text-lg mb-10">
     `;
 
@@ -46,3 +48,29 @@ export function OrderPlaced() {
 
     menuContainer.innerHTML = orderHTML + menuContainer.innerHTML;
 }
+
+// Async function to fetch UID
+async function fetchOrderUID() {
+    try {
+        let response = await fetch("/user/api-get-payment-data");
+        if (!response.ok) throw new Error("Failed to fetch UID");
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching UID:", error);
+        return { UID: "N/A" }; // Default UID in case of failure
+    }
+}
+
+// Ensure back button functionality
+document.addEventListener("DOMContentLoaded", () => {
+    const backButton = document.getElementById("backButton");
+    if (backButton) {
+        backButton.addEventListener("click", function () {
+            console.log("Back button clicked");
+            sessionStorage.clear()
+            window.location.href = '/user'
+        });
+    } else {
+        console.warn("Back button not found in the DOM");
+    }
+});
