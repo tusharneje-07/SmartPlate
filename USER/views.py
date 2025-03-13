@@ -105,7 +105,6 @@ def show_nearby_mess(request):
             # Fetching Menu
             formatted_date = datetime.now().strftime("%Y-%m-%d")
             item = MenuInfo.objects.filter(mess_id=mess.mess_id,date=formatted_date).first()
-            
             mess_info['menuItems'] = item.menu
             
             data.append(mess_info)

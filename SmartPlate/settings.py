@@ -87,12 +87,24 @@ WSGI_APPLICATION = 'SmartPlate.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'smartplate',       
-        'USER': 'root',            
-        'PASSWORD': '',   
-        'HOST': '127.0.0.1',                 
-        'PORT': '3306',
+        'NAME': os.getenv('DB_NAME'),       
+        'USER': os.getenv('DB_USERNAME'),            
+        'PASSWORD': os.getenv('DB_PASSWORD'),   
+        'HOST': os.getenv('DB_HOST'),                 
+        'PORT': os.getenv('DB_PORT'),
+        'OPTIONS': {
+            'sql_mode': 'STRICT_TRANS_TABLES',
+            'init_command': "SET NAMES 'utf8mb4'"
+        }
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql', 
+    #     'NAME': 'smartplate',       
+    #     'USER': 'root',            
+    #     'PASSWORD': '',   
+    #     'HOST': '127.0.0.1',                 
+    #     'PORT': '',
+    # }
 }
 
 

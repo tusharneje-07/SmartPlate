@@ -21,6 +21,9 @@ class MessInfo(models.Model):
     def get_image_url(self):
         static_path = static(f'imgs/{self.mess_id}/{self.mess_id}.webp')
         return static_path
+    
+    class Meta:
+        db_table = "partner_messinfo"
 
 class MenuInfo(models.Model):
     mess = models.ForeignKey(MessInfo, on_delete=models.CASCADE, to_field='mess_id', db_column='mess_id')
@@ -34,6 +37,9 @@ class MenuInfo(models.Model):
         static_path = static(f'imgs/{imgpath}')
         return static_path
     
+    class Meta:
+        db_table = "partner_menuinfo"
+    
 class OrderInformation(models.Model):
     mess_id = models.CharField(max_length=100) 
     order_id = models.CharField(max_length=5,default="00000") 
@@ -45,6 +51,9 @@ class OrderInformation(models.Model):
     
     def __str__(self):
         return f"Order {self.id} by {self.ordered_by_name} on {self.date} at {self.time}"
+    
+    class Meta:
+        db_table = "partner_orderinformation"
 
 admin.site.register(MessInfo)
 admin.site.register(MenuInfo)
