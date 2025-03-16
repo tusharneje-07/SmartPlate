@@ -9,6 +9,7 @@ import hashlib
 import requests
 from datetime import datetime, timedelta
 
+# Authentication Routes ------------------------------------------------------
 def revoke_google_token(access_token):
     try:
         requests.post('https://oauth2.googleapis.com/revoke',
@@ -25,42 +26,43 @@ def partner_google_login(request, type):
         request.session['partner_login'] = True
     return redirect('social:begin', 'google-oauth2')
 
-def welcome(request):
-    return render(request, 'index.html')
-
 @login_required
 def auth_pass(request):
     
-    # Login as Partner
-    if request.session.get('partner_login'):
-        user = request.user
-        partner_info = PartnerInfo.objects.get(username=user.username)
-        if not partner_info:
-            pass # TODO: Add New Account Creation info
-            error = {
-                'error': 'User is Not Registered Yet | Partner Login Failure'
-            }
-            return JsonResponse(error)
+    try:
+        # Login as Partner
+        if request.session.get('partner_login'):
+            user = request.user
+            partner_info = PartnerInfo.objects.get(username=user.username)
+            if not partner_info:
+                pass # TODO: Add New Account Creation info
+                error = {
+                    'error': 'User is Not Registered Yet | Partner Login Failure'
+                }
+                return JsonResponse(error)
+            else:
+                respo = redirect(f'/partner/{user.username}')
+                expires = datetime.utcnow() + timedelta(days=365 * 10)
+                respo.set_cookie('smartplate_auth_partner_log', user.username, expires=expires, httponly=True)
+                return respo
         else:
-            respo = redirect(f'/partner/{user.username}')
+            # Login as User
+            user = request.user
+            request.session['user_id'] = user.id
+            respo = redirect('/user')
             expires = datetime.utcnow() + timedelta(days=365 * 10)
-            respo.set_cookie('smartplate_auth_partner_log', user.username, expires=expires, httponly=True)
+            respo.set_cookie('smartplate_auth_user_log', user.username, expires=expires, httponly=True)
             return respo
-            
-        # Error Failure  
+    except Exception as e:
         error = {
-            'error': 'Invalid Credentials | Partner Login Failure'
+            'error': 'Invalid Credentials | Login Failure',
+            'backend_error': str(e)
         }
         return JsonResponse(error)
-    
-    # Login as User
-    user = request.user
-    request.session['user_id'] = user.id
-    respo = redirect('/user')
-    expires = datetime.utcnow() + timedelta(days=365 * 10)
-    respo.set_cookie('smartplate_auth_user_log', user.username, expires=expires, httponly=True)
-    return respo
+# Authentication Routes ------------------------------------------------------
 
+
+# User and Partner Login and Logout Routes ------------------------------------
 def user_logout(request):
     access_token = request.session.get('access_token')
     print("Access Token: ", access_token)
@@ -83,10 +85,15 @@ def partner_logout(request):
     respo.delete_cookie('smartplate_auth_partner_log')
     return respo
 
-
-# GLOBAL ENTRY POINTS
 def user_login(request):
     return render(request,'USR_login.html')
 
 def partner_login(request):
     return render(request,'PARTNER/PRT_login.html')
+# User and Partner Login and Logout Routes ------------------------------------
+
+
+# Overview Routes --------------------------------------------------------------
+def welcome(request):
+    return render(request, 'index.html')
+# Overview Routes --------------------------------------------------------------
