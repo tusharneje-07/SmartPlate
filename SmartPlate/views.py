@@ -6,7 +6,13 @@ from django.shortcuts import redirect
 import json
 import hashlib
 from datetime import datetime, timedelta
+
 def google_login(request):
+    return redirect('social:begin', 'google-oauth2')
+
+def partner_google_login(request, type):
+    if type == '1':
+        request.session['partner_login'] = True
     return redirect('social:begin', 'google-oauth2')
 
 def welcome(request):
@@ -14,6 +20,8 @@ def welcome(request):
 
 @login_required
 def auth_pass(request):
+    if request.session.get('partner_login'):
+        return redirect('/partner')
     user = request.user
     request.session['user_id'] = user.id
     respo = redirect('/user')
@@ -35,3 +43,5 @@ def user_logout(request):
 def user_login(request):
     return render(request,'USR_login.html')
 
+def partner_login(request):
+    return render(request,'PARTNER/PRT_login.html')
