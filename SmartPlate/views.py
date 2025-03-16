@@ -21,7 +21,9 @@ def welcome(request):
 @login_required
 def auth_pass(request):
     if request.session.get('partner_login'):
-        return redirect('/partner')
+        user = request.user
+        print(user.username)
+        return redirect(f'/partner/{user.username}')
     user = request.user
     request.session['user_id'] = user.id
     respo = redirect('/user')
