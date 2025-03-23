@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Details</title>
     <link rel="stylesheet" href="./frontend_dependancy/css/output.css">
-    <script src="node_modules/chart.js/dist/chart.umd.js"></script>
 </head>
 <body class="bg-backgroundLight dark:bg-backgroundDark text-textPrimaryLight dark:text-textPrimaryDark min-h-screen">
-    <header class="p-4 border-b border-borderDark flex items-center">
-        <a href="./History.html" class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <header class="fixed top-0 left-0 w-full z-50 bg-backgroundLight dark:bg-backgroundDark p-4 border-b border-borderDark flex items-center">
+        <a href="./History.html" class="flex items-center w-[calc(100%-4rem)]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
-            <div>
-                <h1 id="header-mess-name" class="text-lg font-medium text-textPrimaryLight dark:text-textPrimaryDark">Mess Name</h1>
-                <p id="header-mess-address" class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Address</p>
+            <div class="min-w-0">
+                <h1 id="header-mess-name" class="text-lg font-medium text-textPrimaryLight dark:text-textPrimaryDark whitespace-nowrap overflow-hidden">Mess Name</h1>
+                <p id="header-mess-address" class="text-xs text-textPrimaryLight dark:text-textPrimaryDark truncate">Address</p>
             </div>
         </a>
         <button id="menu-btn" class="fixed top-2.5 right-5 z-50 hover:scale-105 transition-transform">
@@ -26,13 +25,13 @@
         </button>
     </header>
     
-    <main class="p-4">
+    <main class="p-4 mt-16">
         <div class="mb-4 flex justify-between items-start">
-            <div>
-                <h2 id="mess-name" class="text-xl font-medium text-textPrimaryLight dark:text-textPrimaryDark">Mess Name</h2>
-                <p id="mess-address" class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Address</p>
+            <div class="min-w-0 flex-1 mr-4">
+                <h2 id="mess-name" class="text-xl font-medium text-textPrimaryLight dark:text-textPrimaryDark whitespace-nowrap overflow-hidden">Mess Name</h2>
+                <p id="mess-address" class="text-xs text-textPrimaryLight dark:text-textPrimaryDark truncate" title="">Address</p>
             </div>
-            <div class="text-right">
+            <div class="text-right flex-shrink-0">
                 <p class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Date</p>
                 <p id="order-date" class="text-xs text-textbtnLight dark:text-textbtnDark bg-secbackgroundLight dark:bg-secbackgroundDark px-2 py-1 rounded">Date</p>
             </div>
@@ -40,14 +39,6 @@
 
         <div id="orders-container" class="space-y-4">
             <!-- Order items will be injected here -->
-        </div>
-
-        <!-- Nutrition Chart Section -->
-        <div class="mt-8 bg-secbackgroundLight dark:bg-secbackgroundDark p-4 rounded-lg">
-            <h3 class="text-lg font-medium mb-4 text-textPrimaryLight dark:text-textPrimaryDark">Nutrition Distribution</h3>
-            <div class="w-full h-64 max-w-md mx-auto">
-                <canvas id="intakeChart"></canvas>
-            </div>
         </div>
 
         <div class="mt-4">
@@ -69,7 +60,6 @@
     <div id="sidebar" class="fixed right-0 top-0 h-full w-64 bg-backgroundLight dark:bg-backgroundDark 
         text-textPrimaryDark dark:text-textPrimaryLight rounded-l-2xl shadow-2xl border-l border-gray-300 dark:border-gray-700 
         transform translate-x-full transition-transform duration-300 p-5 z-50">
-
         <button id="close-btn" class="flex justify-center items-center hover:scale-105 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark"
                 viewBox="0 0 24 24" stroke-width="2">
@@ -78,7 +68,6 @@
         </button>
         
         <ul class="space-y-2 mt-4">
-            <!-- Dark Mode Toggle -->
             <li id="toggleTheme" class="p-3 flex items-center gap-3 rounded-lg cursor-pointer bg-accent hover:bg-accenthover transition border border-borderLight dark:border-borderDark mb-1">
                 <span class="text-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
@@ -88,7 +77,6 @@
                 </span> 
                 <span class="text-textPrimaryLight dark:text-textPrimaryDark">Dark Mode</span>
             </li>
-        
             <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1 text-btnTextLight dark:text-btnTextDark">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" class="fill-btnTextLight dark:fill-btnTextDark">
                     <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/>
@@ -120,8 +108,9 @@
     </div>
 
     <script type="module">
-        import { history_of_user } from './frontend_dependancy/js/history_of_user.js';
-
+        import { history_of_user } from './frontend_dependancy/js/history_of_user.js'; 
+        import { renderNutritionChart } from './frontend_dependancy/js/Nutrition_chart.js';
+    
         // Get order ID from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const orderId = urlParams.get('orderId');
@@ -135,77 +124,45 @@
         } else {
             // Update header information
             document.getElementById('header-mess-name').textContent = order.messName;
-            document.getElementById('header-mess-address').textContent = order.messAddress;
+            const headerAddress = document.getElementById('header-mess-address');
+            headerAddress.textContent = order.messAddress;
+            headerAddress.title = order.messAddress; // Add tooltip for full address
             
             // Update mess details
             document.getElementById('mess-name').textContent = order.messName;
-            document.getElementById('mess-address').textContent = order.messAddress;
+            const messAddress = document.getElementById('mess-address');
+            messAddress.textContent = order.messAddress;
+            messAddress.title = order.messAddress; // Add tooltip for full address
             
-            // Format date
-            const dateObj = new Date(order.datetime.split(' ')[0].split('/').reverse().join('-'));
+            // Format the order date
+            const [datePart, timePart] = order.datetime.split(' ');
+            const [day, month, year] = datePart.split('/').map(Number);
+            const [hours, minutes] = timePart.split(':').map(Number);
+            const dateObj = new Date(year, month - 1, day, hours, minutes);
+    
             const formattedDate = dateObj.toLocaleDateString('en-US', { 
                 weekday: 'long', 
                 year: 'numeric', 
                 month: 'long', 
-                day: 'numeric' 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true 
             });
+    
             document.getElementById('order-date').textContent = formattedDate;
             
-            // Update order ID and total
+            // Update order ID and total amount
             document.getElementById('order-id').textContent = order.historyId;
             document.getElementById('total-amount').textContent = `₹${order.totalAmountPaid}`;
             
-            // Calculate total nutrition values
-            let totalProtein = 0;
-            let totalCarbs = 0;
-            let totalCalories = 0;
-
-            order.orders.forEach(item => {
-                totalProtein += item.nutritionData.protein;
-                totalCarbs += item.nutritionData.carbs;
-                totalCalories += item.nutritionData.calories;
-            });
-
-            // Create the chart
-            const ctx = document.getElementById('intakeChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Protein', 'Carbs', 'Calories'],
-                    datasets: [{
-                        data: [totalProtein, totalCarbs, totalCalories],
-                        backgroundColor: [
-                            '#15803D', // Dark Green (Green-700)
-                            '#16A34A', // Green-600
-                            '#22C55E', // Green-500
-                        ],
-                        borderColor: '#000',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: document.documentElement.classList.contains('dark') ? '#FFFFFF' : '#000000',
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            
             // Generate order items
             const ordersContainer = document.getElementById('orders-container');
-            
+            ordersContainer.innerHTML = ""; // Clear existing content
+    
             order.orders.forEach((item, index) => {
                 const orderDiv = document.createElement('div');
-                orderDiv.className = 'bg-secbackgroundLight dark:bg-secbackgroundDark rounded-lg overflow-hidden border border-borderLight dark:border-borderDark';
+                orderDiv.className = 'bg-secbackgroundLight dark:bg-secbackgroundDark rounded-lg overflow-hidden border border-borderLight dark:border-borderDark mb-8';
                 
                 // Create order header
                 const orderHeader = document.createElement('div');
@@ -217,12 +174,20 @@
                 const orderContent = document.createElement('div');
                 orderContent.className = 'p-4';
                 
-                // Item name and price
+                // Star rating conversion
+                const rating = item.rating ? '⭐'.repeat(item.rating) : 'N/A';
+    
+                // Item name, quantity, price, and rating
                 const itemHeader = document.createElement('div');
                 itemHeader.className = 'flex justify-between items-center mb-3';
                 itemHeader.innerHTML = `
-                    <h4 class="text-lg font-medium text-textPrimaryLight dark:text-textPrimaryDark">${item.quntity} × ${item.plateName}</h4>
-                    <span class="text-lg text-textPrimaryLight dark:text-textPrimaryDark">₹${item.amountPaid}</span>
+                    <h4 class="text-lg font-medium text-textPrimaryLight dark:text-textPrimaryDark">
+                        ${item.quntity} × ${item.plateName}
+                    </h4>
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg text-textPrimaryLight dark:text-textPrimaryDark">₹${item.amountPaid}</span>
+                        <span class="text-yellow-500 text-sm">${rating}</span>
+                    </div>
                 `;
                 orderContent.appendChild(itemHeader);
                 
@@ -239,24 +204,48 @@
                 
                 orderContent.appendChild(menuList);
                 
-                // Nutrition data
+                // Create nutrition section with flex layout
+                const nutritionSection = document.createElement('div');
+                nutritionSection.className = 'flex items-center gap-6 mt-4';
+                
+                // Nutrition data text in a single line
                 const nutritionInfo = document.createElement('div');
-                nutritionInfo.className = 'space-y-2 text-sm';
+                nutritionInfo.className = 'flex-1';
                 nutritionInfo.innerHTML = `
-                    <p class="text-xs text-textbtnLight dark:text-textbtnDark">Nutrition Data (For Quantity ${item.quntity})</p>
-                    <div class="space-y-1">
-                        <p class="text-textbtnLight dark:text-textbtnDark">Calories: ${item.nutritionData.calories} kcal</p>
-                        <p class="text-textbtnLight dark:text-textbtnDark">Protein: ${item.nutritionData.protein}g</p>
-                        <p class="text-textbtnLight dark:text-textbtnDark">Carbs: ${item.nutritionData.carbs}g</p>
+                    <p class="text-xs text-textbtnLight dark:text-textbtnDark mb-2">Nutrition Data (For Quantity ${item.quntity})</p>
+                    <div class="flex gap-4 text-sm text-textbtnLight dark:text-textbtnDark">
+                        <span>Calories: ${item.nutritionData.calories} kcal</span>
+                        <span>Protein: ${item.nutritionData.protein}g</span>
+                        <span>Carbs: ${item.nutritionData.carbs}g</span>
                     </div>
                 `;
                 
-                orderContent.appendChild(nutritionInfo);
+                // Chart container
+                const chartContainer = document.createElement('div');
+                chartContainer.className = 'w-40 h-[140px] flex-shrink-0';
+                const canvas = document.createElement('canvas');
+                canvas.id = `chart-${index}`;
+                chartContainer.appendChild(canvas);
+                
+                // Add both to nutrition section
+                nutritionSection.appendChild(nutritionInfo);
+                nutritionSection.appendChild(chartContainer);
+                orderContent.appendChild(nutritionSection);
+                
                 orderDiv.appendChild(orderContent);
                 ordersContainer.appendChild(orderDiv);
+    
+                // Render chart for this order
+                renderNutritionChart(
+                    `chart-${index}`,
+                    item.nutritionData.protein,
+                    item.nutritionData.carbs,
+                    item.nutritionData.calories
+                );
             });
         }
     </script>
+    
     <script src="./frontend_dependancy/js/theme-menu-toggle.js"></script>
 </body>
 </html>

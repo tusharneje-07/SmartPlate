@@ -8,9 +8,7 @@
 </head>
 <body class="bg-backgroundLight dark:bg-backgroundDark text-textPrimaryDark dark:text-textPrimaryLight transition-colors duration-300">
    <!-- TOP BAR -->
-<!-- TOP BAR -->
 <div class="bg-bgsecLight dark:bg-bgsecDark w-full h-16 flex flex-row justify-between px-3 fixed top-0 left-0 z-50">
-
     <div class="flex flex-row justify-center items-center">
         <button class="hover:scale-105 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
@@ -33,7 +31,6 @@
         </button>
     </div>
 </div>
-
 
 <!-- Overlay -->
 <div id="overlay" class="fixed inset-0 bg-backgroundDark bg-opacity-50 hidden transition-opacity"></div>
@@ -90,63 +87,82 @@
         <span>Logout</span>
     </li>
 </ul>
-
-</ul>
 </div>
 
-
-     <!-- Order History Container -->
-     <div class="pt-20 p-5 max-w-5xl mx-auto">
-        <div id="orderHistory" class="space-y-5 max-w-3xl mx-auto">
-            <!-- Order cards will be injected here -->
-        </div>
+<!-- Order History Container -->
+<div class="pt-20 p-5 max-w-5xl mx-auto">
+    <div id="orderHistory" class="space-y-5 max-w-3xl mx-auto">
+        <!-- Order cards will be injected here -->
     </div>
+</div>
 
-    <script type="module">
-        import { history_of_user } from './frontend_dependancy/js/history_of_user.js';
-        const orderHistoryContainer = document.getElementById('orderHistory');
+<script type="module">
+    import { history_of_user } from './frontend_dependancy/js/history_of_user.js';
+    const orderHistoryContainer = document.getElementById('orderHistory');
 
-        history_of_user.forEach(order => {
-            // Calculate total number of items
-            const totalItems = order.orders.reduce((sum, item) => sum + item.quntity, 0);
-            
-            const orderDiv = document.createElement('div');
-            orderDiv.className = 'p-5 rounded-xl shadow-md bg-secbackgroundLight dark:bg-secbackgroundDark transition-colors duration-300 rounded-xl shadow-md';
-            
-            orderDiv.className = 'p-3 bg-secbackgroundLight dark:bg-secbackgroundDark rounded-lg border border-borderLight dark:border-borderDark shadow-md';
+    function generateRatingStars(rating) {
+        if (!rating) return 'N/A';
+        
+        const filledStar = '⭐';
+        const emptyStar = '☆';
+        const maxRating = 5;
+        
+        const filledStars = filledStar.repeat(rating);
+        const emptyStars = emptyStar.repeat(Math.max(0, maxRating - rating));
+        
+        return filledStars + emptyStars;
+    }
 
+    history_of_user.forEach(order => {
+        const totalItems = order.orders.reduce((sum, item) => sum + item.quntity, 0);
+        
+        const orderDiv = document.createElement('div');
+        orderDiv.className = 'p-3 bg-secbackgroundLight dark:bg-secbackgroundDark rounded-lg border border-borderLight dark:border-borderDark shadow-md';
+        
+        // Create the mess name and address display with proper truncation
+        const fullAddress = `${order.messName} - ${order.messAddress}`;
+        const displayAddress = fullAddress.length > 40 ? fullAddress.substring(0, 40) + '...' : fullAddress;
 
-            orderDiv.innerHTML = `
-    <div class="flex justify-between items-center mb-1">
-        <h2 class="text-lg font-medium text-textPrimaryLight dark:text-textPrimaryDark">
-            ${order.messName} 
-            <span class="text-textbtnLight dark:text-textbtnDark text-sm font-normal">
-                (${order.messAddress})
-            </span>
-        </h2>
-        <div class="w-8 h-5 border border-borderDark dark:border-borderLight rounded-md"></div>
+        orderDiv.innerHTML = `
+  <div class="flex items-center justify-between mb-1 w-full">
+    <!-- Address Section with ellipsis -->
+    <h2 class="text-lg font-medium text-textPrimaryLight dark:text-textPrimaryDark flex-1 overflow-hidden">
+      <span class="inline-block w-full overflow-hidden text-ellipsis whitespace-nowrap" title="${fullAddress}">
+        ${displayAddress}
+      </span>
+    </h2>
+
+    <!-- Rating Box with fixed size -->
+    <div class="min-w-[50px] h-6 border border-borderDark dark:border-borderLight rounded-md flex items-center justify-center text-sm font-semibold bg-gray-100 dark:bg-gray-700 px-2 shrink-0">
+      <span class="text-textPrimaryLight dark:text-textPrimaryDark">${order.givenRating}</span>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 fill-textPrimaryLight dark:fill-textPrimaryDark" viewBox="0 0 24 24">
+        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+      </svg>
     </div>
-    <p class="text-sm text-textPrimaryLight dark:text-textPrimaryDark">${order.datetime}</p>
-    <p class="text-sm text-textPrimaryLight dark:text-textPrimaryDark mt-1">
-        ${totalItems} orders of ₹${order.totalAmountPaid}
-    </p>
-    <div class="mt-2 flex justify-end items-center gap-2">
-        <button onclick="window.location.href='order_details.html?orderId=${order.historyId}'" 
-            class="text-sm text-accent dark:text-accent hover:underline">
-            View Details
-        </button>
-        <a href="order_details.html?orderId=${order.historyId}">
-            <svg xmlns="http://www.w3.org/2000/svg" 
-                 class="h-6 w-6 fill-textPrimaryLight dark:fill-textPrimaryDark" 
-                 viewBox="0 -960 960 960">
-                <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
-            </svg>
-        </a>
-    </div>
+  </div>
+
+  <p class="text-sm text-textPrimaryLight dark:text-textPrimaryDark">${order.datetime}</p>
+  <p class="text-sm text-textPrimaryLight dark:text-textPrimaryDark mt-1">
+    ${totalItems} orders of ₹${order.totalAmountPaid}
+  </p>
+  <div class="mt-2 flex justify-end items-center gap-2">
+    <button onclick="window.location.href='order_details.html?orderId=${order.historyId}'" 
+      class="text-sm text-accent dark:text-accent hover:underline">
+      View Details
+    </button>
+    <a href="order_details.html?orderId=${order.historyId}">
+      <svg xmlns="http://www.w3.org/2000/svg" 
+        class="h-6 w-6 fill-textPrimaryLight dark:fill-textPrimaryDark" 
+        viewBox="0 -960 960 960">
+        <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
+      </svg>
+    </a>
+  </div>
 `;
-            orderHistoryContainer.appendChild(orderDiv);
-        });
-    </script>
-    <script src="./frontend_dependancy/js/theme-menu-toggle.js"></script>
+ 
+        orderHistoryContainer.appendChild(orderDiv);
+    });
+</script>
+<script src="./frontend_dependancy/js/theme-menu-toggle.js"></script>
 </body>
 </html>
