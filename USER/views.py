@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .models import UserAuth
 from PARTNER.models import MessInfo, MenuInfo, OrderInformation
 from django.db import connection
-from math import radians
+from math import cos, radians
 from datetime import datetime
 import string,random, time, json
 
@@ -43,6 +43,7 @@ def seach_mess(request):
         return redirect('logout')
 
 def select_menu(request,mess_id):
+    print("--------------------------------",mess_id)
     username = request.COOKIES.get('smartplate_auth_user_log')
     if request.session.get(f'{username}_auth'):
         return render(request,'USR_selectmenue.html')
@@ -186,26 +187,46 @@ def getCrowdStatus(request,mess_id):
 
 # -------------------------------------------- Common Functions
 def get_nearby_messes(user_lat, user_lng):
-    radius_km = 10 
+    radius_km = 10
     earth_radius = 6371
 
-    query = f"""
+    # Use parameterized query to prevent SQL injection and improve performance
+    query = """
     SELECT mess_id, (
-        {earth_radius} * ACOS(
-            COS(RADIANS({user_lat})) * COS(RADIANS(geo_lat)) *
-            COS(RADIANS(geo_lng) - RADIANS({user_lng})) +
-            SIN(RADIANS({user_lat})) * SIN(RADIANS(geo_lat))
+        %(earth_radius)s * acos(
+            GREATEST(
+                LEAST(
+                    cos(radians(%(user_lat)s)) * cos(radians(geo_lat)) *
+                    cos(radians(geo_lng) - radians(%(user_lng)s)) +
+                    sin(radians(%(user_lat)s)) * sin(radians(geo_lat)),
+                    1
+                ),
+                -1
+            )
         )
     ) AS distance
     FROM partner_messinfo
-    HAVING distance <= {radius_km}
+    WHERE 
+        geo_lat BETWEEN %(user_lat)s - %(lat_range)s AND %(user_lat)s + %(lat_range)s
+        AND geo_lng BETWEEN %(user_lng)s - %(lng_range)s AND %(user_lng)s + %(lng_range)s
+    HAVING distance <= %(radius)s
     ORDER BY distance ASC;
     """
 
+    lat_range = radius_km / 111.0 
+    lng_range = radius_km / (111.0 * cos(radians(user_lat)))
+
+    params = {
+        'earth_radius': earth_radius,
+        'user_lat': user_lat,
+        'user_lng': user_lng,
+        'radius': radius_km,
+        'lat_range': lat_range,
+        'lng_range': lng_range
+    }
+
     with connection.cursor() as cursor:
-        cursor.execute(query)
-        columns = [col[0] for col in cursor.description]
-        results = [dict(zip(columns, row)) for row in cursor.fetchall()]
-    
-    return results
+        cursor.execute(query, params)
+        # Use list comprehension instead of dict for better performance
+        return [{'mess_id': row[0], 'distance': row[1]} for row in cursor.fetchall()]
 # -------------------------------------------- Common Functions
