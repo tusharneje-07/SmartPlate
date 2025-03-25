@@ -4,9 +4,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Signup Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{% static '/imgs/output.css' %}" />
+    <title>SmartPlate | User Login</title>
+    <link rel="stylesheet" href="{% static '/css/output.css' %}" />
     <style>
       .toggle-btn {
         padding: 12px;
@@ -34,9 +33,7 @@
   <body class="bg-backgroundLight font-basic transition-colors duration-300 flex flex-col items-center justify-center min-h-screen relative">
     <!-- Theme Toggle Button -->
     <button id="theme-toggle" class="toggle-btn">
-      <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-6 h-6">
-        <path d="M12 3.75a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75zm6.364 3.136a.75.75 0 1 1 1.06 1.06l-1.06 1.061a.75.75 0 1 1-1.06-1.06l1.06-1.061zM12 18.75a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75zm-6.364-3.136a.75.75 0 1 1-1.06-1.06l1.06-1.061a.75.75 0 1 1 1.06 1.06l-1.06 1.061zM3.75 12a.75.75 0 0 1-.75-.75v-1.5a.75.75 0 0 1 1.5 0v1.5a.75.75 0 0 1-.75.75zM12 6.75a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5z" />
-      </svg>
+
     </button>
 
     <!-- Main Container -->
@@ -148,7 +145,7 @@
         </form>
         <p id="form-text" class="text-sm text-center mt-6 text-[#0A0A0F] transition-all duration-300">
           Are You a Partner?
-          <a href="{% url 'ptr_login_view' %}" id="form-link" class="text-[#2F2F2F] underline">Go to Partner Login</a>
+          <a href="{% url 'partner_login' %}" id="form-link" class="text-[#2F2F2F] underline">Go to Partner Login</a>
         </p>
       </div>
     </div>
@@ -164,7 +161,7 @@
         formContainer.style.backgroundColor = '#2F2F2F'
         gbtn.style.backgroundColor = '#fff'
         formContainer.querySelectorAll('label, p, h2, a').forEach((el) => el.classList.add('text-white'))
-        themeIcon.innerHTML = `<path d="M12 3.75a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75zm6.364 3.136a.75.75 0 1 1 1.06 1.06l-1.06 1.061a.75.75 0 1 1-1.06-1.06l1.06-1.061zM12 18.75a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5a.75.75 0 0 1 .75-.75zm-6.364-3.136a.75.75 0 1 1-1.06-1.06l1.06-1.061a.75.75 0 1 1 1.06 1.06l-1.06 1.061zM3.75 12a.75.75 0 0 1-.75-.75v-1.5a.75.75 0 0 1 1.5 0v1.5a.75.75 0 0 1-.75.75zM12 6.75a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5z"/>` // Sun Icon
+        themeToggleBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z"/></svg>`
         localStorage.setItem('form-theme', 'dark')
       }
       
@@ -172,7 +169,8 @@
         formContainer.style.backgroundColor = ''
         gbtn.style.backgroundColor = '#000'
         formContainer.querySelectorAll('label, p, h2, a').forEach((el) => el.classList.remove('text-white'))
-        themeIcon.innerHTML = `<path d="M12 3.25c4.836 0 8.75 3.914 8.75 8.75s-3.914 8.75-8.75 8.75S3.25 16.836 3.25 12 7.164 3.25 12 3.25m0-1.5a10.25 10.25 0 1 0 0 20.5 10.25 10.25 0 0 0 0-20.5z"/>` // Moon Icon
+        themeToggleBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/></svg>`
+
         localStorage.setItem('form-theme', 'light')
       }
       

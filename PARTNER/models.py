@@ -55,8 +55,21 @@ class OrderInformation(models.Model):
     class Meta:
         db_table = "partner_orderinformation"
 
+class PartnerInfo(models.Model):
+    mess_id = models.CharField(max_length=100, unique=True)
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    account_type = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return f"{self.mess_id} => {self.username}"
+    
+    class Meta:
+        db_table = "partner_partnerinfo"
+
 admin.site.register(MessInfo)
 admin.site.register(MenuInfo)
 admin.site.register(OrderInformation)
+admin.site.register(PartnerInfo)
 
 
