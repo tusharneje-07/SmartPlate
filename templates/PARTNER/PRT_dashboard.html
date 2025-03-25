@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Dashboard - SmartPlate</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <script defer src="{% static '/js/theme-menu-toggle.js' %}"></script>
+</head>
+<body class="bg-backgroundLight dark:bg-backgroundDark min-h-screen font-lato">
+    <div class="min-h-screen">
+        <!-- Top Navigation Bar -->
+        <nav class="bg-white dark:bg-secbackgroundDark shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex items-center">
+                        <h1 class="text-2xl font-bold text-textPrimaryLight dark:text-textPrimaryDark">Partner Dashboard</h1>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <!-- Dark Mode Toggle -->
+                        <button id="toggleTheme" class="p-2 rounded-lg bg-bgsecLight dark:bg-bgsecDark flex items-center gap-2 hover:bg-secbackgroundLight dark:hover:bg-secbackgroundDark transition-colors duration-200">
+                            <span class="text-textPrimaryLight dark:text-textPrimaryDark">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" class="fill-current">
+                                    <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/>
+                                </svg>
+                            </span>
+                        </button>
+                        <!-- Profile Menu -->
+                        <div class="relative">
+                            <button class="flex items-center space-x-2 text-textPrimaryLight dark:text-textPrimaryDark hover:opacity-80">
+                                <span class="text-sm font-medium">{{ user.email }}</span>
+                                <img src="{{ user.picture }}" alt="Profile" class="h-8 w-8 rounded-full">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <!-- Welcome Section -->
+            <div class="bg-white dark:bg-secbackgroundDark rounded-lg shadow-sm p-6 mb-6">
+                <h2 class="text-xl font-semibold text-textPrimaryLight dark:text-textPrimaryDark mb-2">
+                    Welcome, {{ user.name }}!
+                </h2>
+                <p class="text-textPrimaryLight/70 dark:text-textPrimaryDark/70">
+                    Manage your restaurant profile and orders from here.
+                </p>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Add your dashboard widgets here -->
+            </div>
+        </main>
+    </div>
+</body>
+</html> 

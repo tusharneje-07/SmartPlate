@@ -1,32 +1,49 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+import json
+import hashlib
+from datetime import datetime, timedelta
 
 def google_login(request):
+    return redirect('social:begin', 'google-oauth2')
+
+def partner_google_login(request, type):
+    if type == '1':
+        request.session['partner_login'] = True
     return redirect('social:begin', 'google-oauth2')
 
 def welcome(request):
     return render(request, 'index.html')
 
 @login_required
-def dashboard(request):
-    print(request)
+def auth_pass(request):
+    if request.session.get('partner_login'):
+        user = request.user
+        print(user.username)
+        return redirect(f'/partner/{user.username}')
     user = request.user
-    return render(request, 'dash.html',{'user': user})
+    request.session['user_id'] = user.id
+    respo = redirect('/user')
+    expires = datetime.utcnow() + timedelta(days=365 * 10)
+    respo.set_cookie('smartplate_auth_user_log', user.username, expires=expires, httponly=True)
+    return respo
 
 def user_logout(request):
     access_token = request.session.get('access_token')
     print("Access Token: ", access_token)
     if access_token:
-        revoke_google_token(access_token)  # Revoke the Google OAuth2 token
+        revoke_google_token(access_token)
     
-    logout(request)  # Logs out from Django session
-    return redirect('/welcome')  # Redirect after logout
-
+    logout(request) 
+    return redirect('/welcome') 
 
 
 # GLOBAL ENTRY POINTS
 def user_login(request):
-    return render(request,'U_TRY_LOGIN.html')
+    return render(request,'USR_login.html')
+
+def partner_login(request):
+    return render(request,'PARTNER/PRT_login.html')

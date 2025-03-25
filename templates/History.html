@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <link rel="stylesheet" href="./frontend_dependancy/css/output.css">
+</head>
+<body class="bg-backgroundLight dark:bg-backgroundDark text-textPrimaryDark dark:text-textPrimaryLight transition-colors duration-300">
+   <!-- TOP BAR -->
+<!-- TOP BAR -->
+<div class="bg-bgsecLight dark:bg-bgsecDark w-full h-16 flex flex-row justify-between px-3 fixed top-0 left-0 z-50">
+
+    <div class="flex flex-row justify-center items-center">
+        <button class="hover:scale-105 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+                class="w-7 h-7 mr-1 fill-btnTextLight dark:fill-btnTextDark">
+                <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z" />
+            </svg>
+        </button>
+    
+        <div class="flex flex-col justify-start items-start leading-none">
+            <span class="text-textPrimaryLight dark:text-textPrimaryDark text-2xl font-bold">History</span>
+        </div>
+    </div>
+
+    <div class="w-min h-full flex justify-end items-center">
+        <button id="menu-btn" class="hover:scale-105 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
+                class="w-7 h-7 m-3 fill-btnTextLight dark:fill-btnTextDark">
+                <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z" />
+            </svg>
+        </button>
+    </div>
+</div>
+
+
+<!-- Overlay -->
+<div id="overlay" class="fixed inset-0 bg-backgroundDark bg-opacity-50 hidden transition-opacity"></div>
+
+<!-- Sidebar Menu -->
+<div id="sidebar" class="fixed right-0 top-0 z-50 h-full w-64 bg-backgroundLight dark:bg-backgroundDark 
+    text-textPrimaryDark dark:text-textPrimaryLight rounded-l-2xl shadow-2xl border-l border-gray-300 dark:border-gray-700 
+    transform translate-x-full transition-transform duration-300 p-5">
+
+    <!-- Close Button -->
+    <button id="close-btn" class="flex justify-center items-center hover:scale-105 transition-transform">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-textbtnLight dark:fill-textbtnDark stroke-textbtnLight dark:stroke-textbtnDark"
+            viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+    </button>
+
+    <ul class="space-y-2 mt-4">
+        <li id="toggleTheme" class="p-3 flex items-center gap-3 rounded-lg cursor-pointer bg-accent hover:bg-accenthover transition border border-borderLight dark:border-borderDark mb-1">
+            <span class="text-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
+                     class="w-6 h-6 fill-textbtnLight dark:fill-textbtnDark stroke-textbtnLight dark:stroke-textbtnDark">
+                    <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/>
+                </svg>
+            </span> 
+            <span class="fill-textbtnLight dark:fill-textbtnDark text-textbtnLight dark:text-textbtnDark">Dark Mode</span>
+        </li>
+
+        <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1">
+            <span class="text-lg">Profile</span>
+        </li>
+
+        <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1">
+            <span class="text-lg">Chatbot</span>
+        </li>
+
+        <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1">
+            <span class="text-lg">Settings</span>
+        </li>
+
+        <li class="p-3 flex items-center gap-3 bg-logBut text-textPrimaryLight dark:text-textPrimaryDark rounded-lg cursor-pointer hover:bg-hoverlogBut transition border border-hoverlogBut shadow-md">
+            <span>Logout</span>
+        </li>
+    </ul>
+</div>
+
+     <!-- Order History Container -->
+     <div class="pt-20 p-5 max-w-5xl mx-auto">
+        <div id="orderHistory" class="space-y-5 max-w-3xl mx-auto">
+            <!-- Order cards will be injected here -->
+        </div>
+    </div>
+
+    <script type="module">
+        import { history_of_user } from './frontend_dependancy/js/history_of_user.js';
+        const orderHistoryContainer = document.getElementById('orderHistory');
+
+        history_of_user.forEach(order => {
+            // Calculate total number of items
+            const totalItems = order.orders.reduce((sum, item) => sum + item.quntity, 0);
+            
+            const orderDiv = document.createElement('div');
+            orderDiv.className = 'p-5 rounded-xl shadow-md bg-secbackgroundLight dark:bg-secbackgroundDark transition-colors duration-300 rounded-xl shadow-md';
+            
+            orderDiv.className = 'p-3 bg-secbackgroundLight dark:bg-secbackgroundDark rounded-lg border border-borderLight dark:border-borderDark shadow-md';
+
+
+            orderDiv.innerHTML = `
+                <h2 class="text-xl font-semibold text-textPrimaryLight dark:text-textPrimaryDark mb-2">
+                    ${order.messName} <span class="text-textbtnLight dark:text-textbtnDark text-base font-normal text-xs">(${order.messAddress})</span>
+                </h2>
+                <p class="text-textPrimaryLight dark:text-textPrimaryDark">${order.datetime}</p>
+                <p class="text-textPrimaryLight dark:text-textPrimaryDark mt-2">${totalItems} orders of ₹${order.totalAmountPaid}</p>
+                <div class="mt-3 flex">
+                    <span class="text-yellow-500">${'⭐'.repeat(order.givenRating)}</span>
+                </div>
+                <button onclick="window.location.href='order_details.html?orderId=${order.historyId}'" 
+                    class="mt-3 text-accent dark:text-accent hover:underline">
+                    View Details
+                </button>
+            `;
+            orderHistoryContainer.appendChild(orderDiv);
+        });
+    </script>
+    <script src="./frontend_dependancy/js/theme-menu-toggle.js"></script>
+</body>
+</html>

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django',
+    'USER',
+    'PARTNER',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -84,9 +86,25 @@ WSGI_APPLICATION = 'SmartPlate.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': os.getenv('DB_NAME'),       
+        'USER': os.getenv('DB_USERNAME'),            
+        'PASSWORD': os.getenv('DB_PASSWORD'),   
+        'HOST': os.getenv('DB_HOST'),                 
+        'PORT': os.getenv('DB_PORT'),
+        'OPTIONS': {
+            'sql_mode': 'STRICT_TRANS_TABLES',
+            'init_command': "SET NAMES 'utf8mb4'"
+        }
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql', 
+    #     'NAME': 'smartplate',       
+    #     'USER': 'root',            
+    #     'PASSWORD': '',   
+    #     'HOST': '127.0.0.1',                 
+    #     'PORT': '',
+    # }
 }
 
 
@@ -114,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
