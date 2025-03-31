@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="output.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="./frontend_dependancy/css/output.css">
+    <style>
+        /* Hide scrollbar */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        
+    </style>
+    <script>
+        function toggleFullScreen() {
+            const elementsToHide = document.querySelectorAll('.hide-on-fullscreen');
+            elementsToHide.forEach(el => el.classList.toggle('hidden'));
+        }
+    </script>
+</head>
+<body class="bg-backgroundLight text-textPrimaryLight dark:bg-backgroundDark dark:text-textPrimaryDark">
+    <div class="w-full mx-auto p-6">
+        <!-- Navbar -->
+        <div class="flex justify-between items-center mb-6 hide-on-fullscreen">
+            <button class="bg-secbackgroundLight dark:bg-secbackgroundDark px-6 py-2 rounded">Logo</button>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">Home</a>
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">About Us</a>
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">Profile</a>
+                <button id="toggleTheme" class="flex items-center justify-center w-10 h-10 bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark focus:outline-none p-2 rounded">
+                    <span id="toggleIcon" class="w-6 h-6 block"></span>
+                </button>
+            </div>
+        </div>
+
+    <div class="flex justify-between items-center px-4 py-2 w-1/2">
+        <div>
+            <h2 class="text-2xl font-bold text-textPrimaryLight dark:text-textPrimaryDark">Setup Today's Menu</h2>
+            <p class="text-md text-gray-500">Add today's menu easily - let people see wht's cooking!</p>
+        </div>
+        <div id="dateTime" class="bg-secbackgroundLight  dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark px-4 py-2 rounded-md text-sm font-medium"></div>
+    </div>
+    <div class="w-full max-w-xl mx-auto bg-backgroundLight dark:bg-backgroundDark rounded-lg p-6 mt-6 mb-8 border border-gray-500 shadow-md">
+        <h2 class="text-2xl font-semibold text-green-600 mb-4 text-center">Add New Menu</h2>
+        
+        <form id="menuForm">
+            <div class="text-center mb-4">
+                <label class="block text-textPrimaryLight dark:text-textPrimaryDark text-md font-bold mb-2">Menu Name</label>
+                <input type="text" id="menuName" class="w-full p-2 border rounded-md dark:bg-secbackgroundDark  dark:border-gray-700 " placeholder="Enter menu name" required>
+            </div>
+            
+            <div class="flex gap-4">
+                <div class="w-1/2">
+                    <label class="block text-textPrimaryLight dark:text-textPrimaryDark text-md font-bold mb-2">Chapati Quantity</label>
+                    <input type="number" id="chapatiQty" class="w-full p-2 dark:bg-secbackgroundDark  dark:border-gray-700 border rounded-md" placeholder="Enter quantity" required>
+                </div>
+                <div class="w-1/2">
+                    <label class="block text-textPrimaryLight dark:text-textPrimaryDark text-md font-bold mb-2">Number of Sabji's</label>
+                    <input type="number" id="numSabjis" class="w-full p-2 border rounded-md dark:bg-secbackgroundDark  dark:border-gray-700" placeholder="Enter number of sabjis" required>
+                </div>
+            </div>
+            
+            <div id="sabjiContainer" class="mt-4"></div>
+            
+            <!-- Dal Rice Toggle -->
+            <div class="flex gap-4 justify-center items-center mt-6 mb-4">
+                <label  class="block text-textPrimaryLight dark:text-textPrimaryDark text-md font-bold">Dal Rice</label>
+                <input type="checkbox" id="dalRiceToggle" class="hidden">
+                <label for="dalRiceToggle" id="dalRiceLabel" class="w-12 h-6 bg-gray-300 rounded-full flex items-center p-1 cursor-pointer relative transition-colors duration-300">
+                    <span class="toggle-dot w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300"></span>
+                </label>
+            </div>
+            
+            <div class="flex gap-4 mt-4">
+                <div class="w-1/2">
+                    <label class="block text-textPrimaryLight dark:text-textPrimaryDark text-md font-bold mb-2">Other Items</label>
+                    <input type="text" id="otherItems" class="w-full p-2 border rounded-md dark:bg-secbackgroundDark  dark:border-gray-700" placeholder="Enter other items (optional)">
+                </div>
+                <div class="w-1/2">
+                    <label class="block text-textPrimaryLight dark:text-textPrimaryDark text-md font-bold mb-2">Upload Image</label>
+                    <input type="file" id="menuImage" class="w-full p-2 border rounded-md dark:bg-secbackgroundDark  dark:border-gray-700" accept="image/*" required>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <label class="block text-textPrimaryLight dark:text-textPrimaryDark text-md font-bold mb-2">Price</label>
+                <input type="number" id="price" class="w-1/2 p-2 border rounded-md dark:bg-secbackgroundDark  dark:border-gray-700" placeholder="Enter price" required>
+            </div>
+            
+            <div class="flex justify-center mt-4">
+                <button type="submit" id="addMenuBtn" class="w-full text-md font-semibold bg-green-500 text-white py-2 rounded-md hover:bg-green-600">
+                    Add Menu
+                </button>
+            </div>
+            
+        </form>
+    </div>
+    <script type="module">
+        import { menuData, addOrUpdateMenu } from './frontend_dependancy/js/menu.js';
+
+    // Function to update real-time date and time
+    function updateDateTime() {
+        document.getElementById("dateTime").textContent = new Date().toLocaleString();
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime(); // Initial call
+    
+    // Function to dynamically add Sabji input fields
+    document.getElementById('numSabjis').addEventListener('input', function () {
+        const count = parseInt(this.value) || 0;
+        const container = document.getElementById('sabjiContainer');
+        container.innerHTML = '';
+    
+        for (let i = 0; i < count; i++) {
+            const wrapper = document.createElement('div');
+            wrapper.className = "mb-2";
+    
+            const label = document.createElement('label');
+            label.className = "block text-gray-700 text-md font-bold mb-1 text-textPrimaryLight dark:text-textPrimaryDark";
+            label.textContent = `Sabji Name ${i + 1}`;
+    
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = "w-full p-2 border rounded-md  dark:bg-secbackgroundDark  dark:border-gray-700";
+            input.placeholder = `Enter name of sabji ${i + 1}`;
+            input.required = true;
+    
+            wrapper.appendChild(label);
+            wrapper.appendChild(input);
+            container.appendChild(wrapper);
+        }
+    });
+    
+    // Function to handle Dal Rice toggle animation
+    document.getElementById('dalRiceToggle').addEventListener('change', function () {
+        const toggleDot = document.querySelector('.toggle-dot');
+        const toggleLabel = document.getElementById('dalRiceLabel');
+        toggleDot.classList.toggle('translate-x-6', this.checked);
+        toggleLabel.classList.toggle('bg-green-600', this.checked);
+        toggleLabel.classList.toggle('bg-gray-300', !this.checked);
+    });
+    
+    // Event Listener for Form Submission
+    document.getElementById('menuForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+    
+        // Get form values
+        const menuName = document.getElementById('menuName').value;
+        const chapatiQty = document.getElementById('chapatiQty').value;
+        const numSabjis = document.getElementById('numSabjis').value;
+        const otherItems = document.getElementById('otherItems').value;
+        const price = document.getElementById('price').value;
+        const dalRice = document.getElementById('dalRiceToggle').checked;
+        const menuImage = document.getElementById('menuImage').files[0];
+    
+        // Get Sabji Names
+        let sabjiNames = [];
+        document.querySelectorAll('#sabjiContainer input').forEach(input => {
+            sabjiNames.push(input.value);
+        });
+    
+        // Validate required fields
+        if (!menuName || !chapatiQty || !numSabjis || !price) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+    
+        // Create menu object
+        const newMenu = {
+            menuName,
+            chapatiQty: parseInt(chapatiQty),
+            numSabjis: parseInt(numSabjis),
+            sabjiNames,
+            otherItems,
+            price: parseFloat(price),
+            dalRice,
+            menuImage: menuImage ? URL.createObjectURL(menuImage) : null // Store image URL
+        };
+    
+        // Add or update menu
+        addOrUpdateMenu(newMenu);
+        
+        console.log("New Menu Added:", newMenu);
+        alert("Menu successfully added!");
+    
+        // Reset the form after submission
+        document.getElementById("menuForm").reset();
+    });
+    
+</script>
+<script src="./frontend_dependancy/js/admin_toggle.js"></script>
+    
+</body>
+</html>

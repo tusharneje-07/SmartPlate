@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./frontend_dependancy/css/output.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Hide scrollbar */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        
+    </style>
+    <script>
+        function toggleFullScreen() {
+            const elementsToHide = document.querySelectorAll('.hide-on-fullscreen');
+            elementsToHide.forEach(el => el.classList.toggle('hidden'));
+        }
+    </script>
+</head>
+<body class="bg-backgroundLight text-textPrimaryLight dark:bg-backgroundDark dark:text-textPrimaryDark">
+    <div class="w-full mx-auto p-6">
+        <!-- Navbar -->
+        <div class="flex justify-between items-center mb-6 hide-on-fullscreen">
+            <button class="bg-secbackgroundLight dark:bg-secbackgroundDark px-6 py-2 rounded">Logo</button>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">Home</a>
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">About Us</a>
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">Profile</a>
+                <button id="toggleTheme" class="flex items-center justify-center w-10 h-10 bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark focus:outline-none p-2 rounded">
+                    <span id="toggleIcon" class="w-6 h-6 block"></span>
+                </button>
+            </div>
+        </div>
+
+    <div class="flex justify-between items-center px-4 py-2">
+        <div>
+            <h2 class="text-xl font-semibold text-textPrimaryLight dark:text-textPrimaryDark">Welcome Back, User!</h2>
+            <p class="text-sm text-gray-500">Your Organized Digital Workspace</p>
+        </div>
+        <div id="dateTime" class="bg-secbackgroundLight  dark:bg-secbackgroundDark px-4 py-2 rounded-md text-sm font-medium"></div>
+    </div>
+    <div class="relative">
+        <!-- Scrollable Container -->
+        <div class="flex gap-4 overflow-x-auto hide-scrollbar scroll-smooth p-2 whitespace-nowrap">
+            <!-- Box 1 -->
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block">
+                <img src="./frontend_dependancy/imgs/Menu.webp" alt="Image" class="w-full h-full object-cover">
+                <span class="absolute bottom-0 w-full  bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2">
+                   Set Menu
+                </span>
+            </a>
+
+            <!-- Box 2 -->
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block">
+                <img src="./frontend_dependancy/imgs/Order.webp" alt="Image" class="w-full h-full object-cover">
+                <span class="absolute bottom-0 w-full  bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2">
+                    Accept Orders
+                </span>
+            </a>
+
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block">
+                <img src="./frontend_dependancy/imgs/Transcations.webp" alt="Image" class="w-full h-full object-cover">
+                <span class="absolute bottom-0 w-full  bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2">
+                    Transcations
+                </span>
+            </a>
+
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block">
+                <img src="./frontend_dependancy/imgs/report.webp" alt="Image" class="w-full h-full object-cover">
+                <span class="absolute bottom-0 w-full  bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2">
+                    AI Report
+                </span>
+            </a>
+            <!-- Box 5 -->
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block">
+                <img src="./frontend_dependancy/imgs/Dal.webp" alt="Image" class="w-full h-full object-cover">
+                <span class="absolute bottom-0 w-full  bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2">
+                    Statastics
+                </span>
+            </a>
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block">
+                <img src="./frontend_dependancy/imgs/Nutri.webp" alt="Image" class="w-full h-full object-cover">
+                <span class="absolute bottom-0 w-full bg-secbackgroundLight dark:bg-secbackgroundDark  text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2">
+                   NutriBot
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="w-full h-screen flex flex-row">
+        <!-- Left Section (Graph) - Takes 2/3 Width -->
+        <div class="w-2/3 bg-backgroundLight dark:bg-backgroundDark py-6 px-4 mb-4 flex flex-col">
+            <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">Graph Section</h2>
+            <!-- Canvas for Graph -->
+            <canvas id="myChart" class="w-full h-72 bg-secbackgroundLight dark:bg-secbackgroundDark"></canvas>
+        </div>
+    
+        <!-- Right Section (Buttons and Image) -->
+        <div class="w-1/3 pt-6 pb-0 pr-4 flex flex-row justify-between gap-4 h-72 mt-10"> 
+            <!-- Left Section (Buttons) -->
+            <div class="flex flex-col gap-4 w-1/2 h-full">
+                <div class="w-full py-4 bg-accent text-white font-semibold rounded-md text-center flex-1 flex flex-col justify-center">
+                    <span class="text-lg font-semibold">500 Orders</span>
+                    <span class="text-sm font-medium">Total In Day</span>
+                </div>
+    
+                <div class="w-full py-4 bg-accent text-white font-semibold rounded-md text-center flex-1 flex flex-col justify-center">
+                    <span class="text-lg font-semibold">200 Quantity</span>
+                    <span class="text-sm font-medium">Total In Day</span>
+                </div>
+    
+                <div class="w-full py-4 bg-accent text-white font-semibold rounded-md text-center flex-1 flex flex-col justify-center">
+                    <span class="text-lg font-semibold">50 Quantity</span>
+                    <span class="text-sm font-medium">Total In Hour</span>
+                </div>
+            </div>
+    
+            <!-- Right Section (Rating + Crowd Status) -->
+            <div class="flex flex-col gap-4 w-1/2 h-full justify-between ">
+                <!-- Rating Box -->
+                <div class="w-full py-1 px-4 bg-green-500 text-white font-semibold rounded-xl text-center flex-1 flex flex-col justify-center">
+                    <div class="flex flex-row text-center justify-center items-center">
+                        <span class="text-xs">⭐</span>
+                        <span class="text-lg font-bold">4.3</span>
+                    </div>
+                    <div class="text-xs">(in Total)</div>
+                </div>
+                
+    
+                <!-- Crowd Status Section -->
+                <div class="w-full flex flex-col bg-secbackgroundLight dark:bg-secbackgroundDark rounded-md shadow-md flex-1 py-2 px-4 justify-between">
+                    <!-- Button Section -->
+                    <div class="flex flex-row justify-center items-center gap-4 mt-auto">
+                        <button class="w-6 h-6 bg-yellow-500 rounded-full hover:bg-yellow-800 transition"></button>
+                        <button class="w-6 h-6 bg-green-500 rounded-full hover:bg-green-800 transition"></button>
+                        <button class="w-6 h-6 bg-red-500 rounded-full hover:bg-red-800 transition"></button>
+                    </div>
+    
+                    <!-- Text Section -->
+                    <div class="text-sm font-semibold text-center mt-2 text-textPrimaryLight dark:text-textPrimaryDark">
+                        <span>Crowd Status</span>
+                        <div class="text-sm text-gray-700 dark:text-gray-300 font-normal leading-relaxed text-justify">
+                            <span class="font-normal">Please select the appropriate crowd status.</span>
+                            <p>Your selection will be visible to users.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { Adminchart } from './frontend_dependancy/js/AdminChart.js';
+        window.onload = Adminchart;
+    </script>
+        
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const formattedDateTime = now.toLocaleString();
+            document.getElementById("dateTime").textContent = formattedDateTime;
+        }
+        
+        updateDateTime(); // Initial call
+        setInterval(updateDateTime, 1000); // Update every second
+    </script>
+
+    <script src="./frontend_dependancy/js/admin_toggle.js"></script>
+</body>
+</html>
