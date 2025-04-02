@@ -13,36 +13,38 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
             <div class="min-w-0">
-                <h1 id="header-mess-name" class="text-lg font-medium text-textPrimaryLight dark:text-textPrimaryDark whitespace-nowrap overflow-hidden">Mess Name</h1>
+                <h1 id="header-mess-name" class="text-lg font-medium text-textPrimaryLight dark:text-textPrimaryDark block w-full truncate">Mess Name</h1>
                 <p id="header-mess-address" class="text-xs text-textPrimaryLight dark:text-textPrimaryDark truncate">Address</p>
             </div>
         </a>
-        <button id="menu-btn" class="fixed top-2.5 right-5 z-50 hover:scale-105 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px"
-                class="w-10 h-10 fill-textPrimaryLight dark:fill-textPrimaryDark stroke-textPrimaryLight dark:stroke-textPrimaryDark">
+        <button id="menu-btn" class="fixed top-4 right-4 z-50 hover:scale-105 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="40px"
+                class="w-8 h-8 fill-textPrimaryLight dark:fill-textPrimaryDark stroke-textPrimaryLight dark:stroke-textPrimaryDark">
                 <path d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z"/>
             </svg>
         </button>
     </header>
     
-    <main class="p-4 mt-16">
-        <div class="mb-4 flex justify-between items-start">
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8 mt-8">
+        <div class="mb-6 flex flex-col justify-between items-start gap-2">
             <div class="min-w-0 flex-1 mr-4">
-                <h2 id="mess-name" class="text-xl font-medium text-textPrimaryLight dark:text-textPrimaryDark whitespace-nowrap overflow-hidden">Mess Name</h2>
-                <p id="mess-address" class="text-xs text-textPrimaryLight dark:text-textPrimaryDark truncate" title="">Address</p>
+                <h2 id="mess-name" class="text-xl font-medium text-textPrimaryLight dark:text-textPrimaryDark text-wrap">Mess Name</h2>
+                <p id="mess-address" class="text-xs text-textPrimaryLight dark:text-textPrimaryDark mt-2" title="">Address</p>
             </div>
-            <div class="text-right flex-shrink-0">
-                <p class="text-xs text-textPrimaryLight dark:text-textPrimaryDark">Date</p>
-                <p id="order-date" class="text-xs text-textbtnLight dark:text-textbtnDark bg-secbackgroundLight dark:bg-secbackgroundDark px-2 py-1 rounded">Date</p>
+            <p class="w-full text-end text-sm pb-0 leading-none">
+                Date
+            </p>
+            <div class="w-full flex justify-end leading-none">
+                <p id="order-date" class="text-xs text-textbtnLight dark:text-textbtnDark bg-secbackgroundLight dark:bg-secbackgroundDark px-3 py-1.5 rounded">Date</p>
             </div>
         </div>
 
-        <div id="orders-container" class="space-y-4">
+        <div id="orders-container" class="space-y-6">
             <!-- Order items will be injected here -->
         </div>
 
-        <div class="mt-4">
-            <div class="bg-secbackgroundLight dark:bg-secbackgroundDark p-4 rounded-lg flex justify-between items-center">
+        <div class="mt-6">
+            <div class="bg-secbackgroundLight dark:bg-secbackgroundDark p-4 sm:p-6 rounded-lg flex justify-between items-center">
                 <div>
                     <p id="order-id" class="text-lg font-medium text-textPrimaryLight dark:text-textPrimaryDark">AC001</p>
                     <p class="text-xs text-textbtnLight dark:text-textbtnDark">Amount Paid</p>
@@ -57,9 +59,9 @@
 
     <div id="overlay" class="fixed inset-0 bg-bgsecDark bg-opacity-50 hidden transition-opacity z-40"></div>
 
-    <div id="sidebar" class="fixed right-0 top-0 h-full w-64 bg-backgroundLight dark:bg-backgroundDark 
+    <div id="sidebar" class="fixed right-0 top-0 h-full w-72 sm:w-80 bg-backgroundLight dark:bg-backgroundDark 
         text-textPrimaryDark dark:text-textPrimaryLight rounded-l-2xl shadow-2xl border-l border-gray-300 dark:border-gray-700 
-        transform translate-x-full transition-transform duration-300 p-5 z-50">
+        transform translate-x-full transition-transform duration-300 p-6 z-50">
         <button id="close-btn" class="flex justify-center items-center hover:scale-105 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 fill-btnTextLight dark:fill-btnTextDark stroke-btnTextLight dark:stroke-btnTextDark"
                 viewBox="0 0 24 24" stroke-width="2">
@@ -67,39 +69,39 @@
             </svg>
         </button>
         
-        <ul class="space-y-2 mt-4">
-            <li id="toggleTheme" class="p-3 flex items-center gap-3 rounded-lg cursor-pointer bg-accent hover:bg-accenthover transition border border-borderLight dark:border-borderDark mb-1">
+        <ul class="space-y-4 mt-6">
+            <li id="toggleTheme" class="p-3 flex items-center gap-3 rounded-lg cursor-pointer bg-accent hover:bg-accenthover transition border border-borderLight dark:border-borderDark">
                 <span class="text-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" 
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" 
                         class="w-6 h-6 fill-textPrimaryLight dark:fill-textPrimaryDark stroke-textPrimaryLight dark:stroke-textPrimaryDark">
                         <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/>
                     </svg>
                 </span> 
                 <span class="text-textPrimaryLight dark:text-textPrimaryDark">Dark Mode</span>
             </li>
-            <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1 text-btnTextLight dark:text-btnTextDark">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" class="fill-btnTextLight dark:fill-btnTextDark">
+            <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark text-btnTextLight dark:text-btnTextDark">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" class="w-6 h-6 fill-btnTextLight dark:fill-btnTextDark">
                     <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/>
                 </svg>
                 <span class="text-lg">Profile</span>
             </li>
         
-            <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1 text-btnTextLight dark:text-btnTextDark">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" class="fill-btnTextLight dark:fill-btnTextDark">
+            <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark text-btnTextLight dark:text-btnTextDark">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" class="w-6 h-6 fill-btnTextLight dark:fill-btnTextDark">
                     <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z"/>
                 </svg>
                 <span class="text-lg">Chatbot</span>
             </li>
         
-            <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark mb-1 text-btnTextLight dark:text-btnTextDark">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" class="fill-btnTextLight dark:fill-btnTextDark">
+            <li class="p-3 flex items-center gap-3 rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-600 transition border border-borderLight dark:border-borderDark text-btnTextLight dark:text-btnTextDark">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" class="w-6 h-6 fill-btnTextLight dark:fill-btnTextDark">
                     <path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z"/>
                 </svg>
                 <span class="text-lg">Settings</span>
             </li>
         
             <li class="p-3 flex items-center gap-3 bg-logBut text-btnTextLight dark:text-btnTextDark rounded-lg cursor-pointer hover:bg-hoverlogBut transition border border-hoverlogBut shadow-md">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" class="fill-btnTextLight dark:fill-btnTextDark">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24px" class="w-6 h-6 fill-btnTextLight dark:fill-btnTextDark">
                     <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/>
                 </svg>
                 <span>Logout</span>
@@ -108,7 +110,7 @@
     </div>
 
     <script type="module">
-        import { history_of_user } from './frontend_dependancy/js/history_of_user.js'; 
+        import { history_of_user } from './frontend_dependancy/js/history_of_user.js';
         import { renderNutritionChart } from './frontend_dependancy/js/Nutrition_chart.js';
     
         // Get order ID from URL parameters
@@ -126,13 +128,13 @@
             document.getElementById('header-mess-name').textContent = order.messName;
             const headerAddress = document.getElementById('header-mess-address');
             headerAddress.textContent = order.messAddress;
-            headerAddress.title = order.messAddress; // Add tooltip for full address
+            headerAddress.title = order.messAddress;
             
             // Update mess details
             document.getElementById('mess-name').textContent = order.messName;
             const messAddress = document.getElementById('mess-address');
             messAddress.textContent = order.messAddress;
-            messAddress.title = order.messAddress; // Add tooltip for full address
+            messAddress.title = order.messAddress;
             
             // Format the order date
             const [datePart, timePart] = order.datetime.split(' ');
@@ -158,11 +160,11 @@
             
             // Generate order items
             const ordersContainer = document.getElementById('orders-container');
-            ordersContainer.innerHTML = ""; // Clear existing content
+            ordersContainer.innerHTML = "";
     
             order.orders.forEach((item, index) => {
                 const orderDiv = document.createElement('div');
-                orderDiv.className = 'bg-secbackgroundLight dark:bg-secbackgroundDark rounded-lg overflow-hidden border border-borderLight dark:border-borderDark mb-8';
+                orderDiv.className = 'bg-secbackgroundLight dark:bg-secbackgroundDark rounded-lg overflow-hidden border border-borderLight dark:border-borderDark';
                 
                 // Create order header
                 const orderHeader = document.createElement('div');
@@ -172,14 +174,14 @@
                 
                 // Create order content
                 const orderContent = document.createElement('div');
-                orderContent.className = 'p-4';
+                orderContent.className = 'p-4 sm:p-6';
                 
                 // Star rating conversion
                 const rating = item.rating ? '⭐'.repeat(item.rating) : 'N/A';
     
                 // Item name, quantity, price, and rating
                 const itemHeader = document.createElement('div');
-                itemHeader.className = 'flex justify-between items-center mb-3';
+                itemHeader.className = 'flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4 mb-4';
                 itemHeader.innerHTML = `
                     <h4 class="text-lg font-medium text-textPrimaryLight dark:text-textPrimaryDark">
                         ${item.quntity} × ${item.plateName}
@@ -193,7 +195,7 @@
                 
                 // Menu items
                 const menuList = document.createElement('div');
-                menuList.className = 'space-y-1 mb-3';
+                menuList.className = 'space-y-2 mb-6';
                 
                 item.menue.forEach(menuItem => {
                     const menuElement = document.createElement('p');
@@ -204,30 +206,31 @@
                 
                 orderContent.appendChild(menuList);
                 
-                // Create nutrition section with flex layout
+                // Create nutrition section with responsive layout
                 const nutritionSection = document.createElement('div');
-                nutritionSection.className = 'flex items-center gap-6 mt-4';
-                
-                // Nutrition data text in a single line
+                nutritionSection.className = 'grid grid-cols-1 lg:grid-cols-2 gap-6 items-start';
+
+                // Nutrition data
                 const nutritionInfo = document.createElement('div');
-                nutritionInfo.className = 'flex-1';
+                nutritionInfo.className = 'space-y-2';
                 nutritionInfo.innerHTML = `
-                    <p class="text-xs text-textbtnLight dark:text-textbtnDark mb-2">Nutrition Data (For Quantity ${item.quntity})</p>
-                    <div class="flex gap-4 text-sm text-textbtnLight dark:text-textbtnDark">
-                        <span>Calories: ${item.nutritionData.calories} kcal</span>
-                        <span>Protein: ${item.nutritionData.protein}g</span>
-                        <span>Carbs: ${item.nutritionData.carbs}g</span>
+                    <p class="text-xs text-textbtnLight dark:text-textbtnDark">Nutrition Data (For Quantity ${item.quntity})</p>
+                    <div class="text-sm text-textbtnLight dark:text-textbtnDark space-y-1">
+                        <p>Calories: ${item.nutritionData.calories} kcal</p>
+                        <p>Protein: ${item.nutritionData.protein}g</p>
+                        <p>Carbs: ${item.nutritionData.carbs}g</p>
                     </div>
                 `;
-                
-                // Chart container
+
+                // Chart container with responsive sizing
                 const chartContainer = document.createElement('div');
-                chartContainer.className = 'w-40 h-[140px] flex-shrink-0';
+                chartContainer.className = 'relative w-full aspect-square max-w-sm mx-auto lg:mx-0';
                 const canvas = document.createElement('canvas');
                 canvas.id = `chart-${index}`;
+                canvas.className = 'w-min h-min'; 
                 chartContainer.appendChild(canvas);
-                
-                // Add both to nutrition section
+
+                // Append both sections
                 nutritionSection.appendChild(nutritionInfo);
                 nutritionSection.appendChild(chartContainer);
                 orderContent.appendChild(nutritionSection);

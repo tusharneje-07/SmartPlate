@@ -2,9 +2,9 @@ const history_of_user = [
     {   
         "historyId" : "1bsdjs",
         "topDate" : "Friday, 21 Feb.",
-        "messName": "Renuka Mess",
+        "messName": "Renuka Mess  jhsdgfhjsgdfjgdsjhg fdjkyfsjkh hesuifsgufg dfujsdfgj",
         "messId": "1avb3$bng1",
-        "messAddress": "Behind VIIT",
+        "messAddress": "Behind VIIT djksvhdsiuhfvkdsghvkdfhgjkvgdfkjvgdfkjvg sgvuhedfgv eg vughervger vegrvk geru ivegrguvevrev egveirv ierg",
         "datetime": "21/02/25 08:15",
         "orders": [
             {

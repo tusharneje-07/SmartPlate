@@ -1,4 +1,3 @@
-// Create a simple donut chart implementation
 class DonutChart {
   constructor(ctx, config) {
     this.ctx = ctx;
@@ -11,10 +10,10 @@ class DonutChart {
     const centerX = width / 2;
     const centerY = height / 2;
 
-    // Increase chart size
-    const outerRadius = Math.min(width, height) / 2.1; 
-    const innerRadius = outerRadius * 0.65;
-    const fontSize = Math.min(width, height) / 12; // Larger text size
+    // Adjusting chart size dynamically
+    const outerRadius = Math.min(width, height) / 2.3; 
+    const innerRadius = outerRadius * 0.6;
+    const fontSize = Math.min(width, height) / 14; // Better text size balance
 
     // Clear canvas
     this.ctx.clearRect(0, 0, width, height);
@@ -22,7 +21,7 @@ class DonutChart {
     let startAngle = -Math.PI / 2;
     const total = this.config.data.datasets[0].data.reduce((a, b) => a + b, 0);
 
-    // Draw donut segments using shades of green
+    // Draw donut segments with improved shading
     this.config.data.datasets[0].data.forEach((value, index) => {
       const sliceAngle = (2 * Math.PI * value) / total;
 
@@ -37,32 +36,31 @@ class DonutChart {
       startAngle += sliceAngle;
     });
 
-    // Draw labels
+    // Draw labels with better positioning
     startAngle = -Math.PI / 2;
     this.config.data.datasets[0].data.forEach((value, index) => {
       const sliceAngle = (2 * Math.PI * value) / total;
       const midAngle = startAngle + sliceAngle / 2;
-      const labelRadius = outerRadius * 1.3; // Push labels further out
+      const labelRadius = outerRadius * 1.35; // Adjusted for better visibility
       const x = centerX + Math.cos(midAngle) * labelRadius;
       const y = centerY + Math.sin(midAngle) * labelRadius;
 
-      // Draw value with larger text
       this.ctx.fillStyle = this.config.data.datasets[0].backgroundColor[index];
-      this.ctx.font = `bold ${fontSize * 0.9}px Inter, Arial, sans-serif`;
+      this.ctx.font = `bold ${fontSize * 0.8}px Inter, Arial, sans-serif`;
       this.ctx.textAlign = "center";
       this.ctx.textBaseline = "middle";
       this.ctx.fillText(`${value}${this.config.data.units[index]}`, x, y);
 
-      // Draw label with increased size
-      this.ctx.font = `${fontSize * 0.5}px Inter, Arial, sans-serif`;
-      this.ctx.fillText(this.config.data.labels[index], x, y + fontSize * 0.7);
+      // Add label below the value
+      this.ctx.font = `${fontSize * 0.6}px Inter, Arial, sans-serif`;
+      this.ctx.fillText(this.config.data.labels[index], x, y + fontSize * 0.6);
 
       startAngle += sliceAngle;
     });
 
-    // Draw center text
+    // Center text with dynamic sizing
     this.ctx.fillStyle = '#1a202c';
-    this.ctx.font = `${fontSize * 1.5}px Inter, Arial, sans-serif`; // Larger center text
+    this.ctx.font = `${fontSize * 1.3}px Inter, Arial, sans-serif`;
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
     this.ctx.fillText("Nutrition", centerX, centerY);
@@ -79,9 +77,9 @@ export function renderNutritionChart(canvasId, protein, carbs, calories) {
 
   const container = canvas.parentElement;
   
-  // Increase canvas size for a larger chart
+  // Dynamically adjust canvas size for a better experience
   canvas.width = container.clientWidth;
-  canvas.height = 350; // Increased height
+  canvas.height = Math.max(350, container.clientWidth * 0.7); 
 
   const ctx = canvas.getContext("2d");
   if (!ctx) {
