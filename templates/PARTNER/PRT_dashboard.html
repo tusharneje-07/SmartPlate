@@ -46,7 +46,7 @@
 
     <div class="flex justify-between items-center px-4 py-2">
         <div>
-            <h2 class="text-xl font-semibold text-textPrimaryLight dark:text-textPrimaryDark">Welcome Back, User!</h2>
+            <h2 class="text-xl font-semibold text-textPrimaryLight dark:text-textPrimaryDark">Welcome Back, {{user}}!</h2>
             <p class="text-sm text-gray-500">Your Organized Digital Workspace</p>
         </div>
         <div id="dateTime" class="bg-secbackgroundLight dark:bg-secbackgroundDark px-4 py-2 rounded-md text-sm font-medium"></div>
@@ -121,28 +121,28 @@
             <!-- Left Section (Buttons) -->
             <div class="flex flex-col gap-4 w-1/2 h-full">
                 <div class="w-full py-4 bg-accent text-white font-semibold rounded-md text-center flex-1 flex flex-col justify-center">
-                    <span class="text-lg font-semibold">500 Orders</span>
+                    <span class="text-lg font-semibold" id="total_orders">... Orders</span>
                     <span class="text-sm font-medium">Total In Day</span>
                 </div>
     
                 <div class="w-full py-4 bg-accent text-white font-semibold rounded-md text-center flex-1 flex flex-col justify-center">
-                    <span class="text-lg font-semibold">200 Quantity</span>
+                    <span class="text-lg font-semibold" id="total_quantity">... Quantity</span>
                     <span class="text-sm font-medium">Total In Day</span>
                 </div>
     
                 <div class="w-full py-4 bg-accent text-white font-semibold rounded-md text-center flex-1 flex flex-col justify-center">
-                    <span class="text-lg font-semibold">50 Quantity</span>
+                    <span class="text-lg font-semibold" id="total_quantity_hour">... Quantity</span>
                     <span class="text-sm font-medium">Total In Hour</span>
                 </div>
             </div>
-    
+            
             <!-- Right Section (Rating + Crowd Status) -->
             <div class="flex flex-col gap-4 w-1/2 h-full justify-between ">
                 <!-- Rating Box -->
                 <div class="w-full py-1 px-4 bg-green-500 text-white font-semibold rounded-xl text-center flex-1 flex flex-col justify-center">
                     <div class="flex flex-row text-center justify-center items-center">
                         <span class="text-xs">⭐</span>
-                        <span class="text-lg font-bold">4.3</span>
+                        <span class="text-lg font-bold" id="total_rating">...</span>
                     </div>
                     <div class="text-xs">(in Total)</div>
                 </div>
@@ -225,6 +225,45 @@
     }
 
     window.addEventListener('load', fetchAndSetCrowdStatus);
+
+
+    async function fetchDashboardData() {
+        document.getElementById("total_rating").classList.add("animate-pulse");
+            document.getElementById("total_quantity").classList.add("animate-pulse");
+            document.getElementById("total_quantity_hour").classList.add("animate-pulse");
+            document.getElementById("total_orders").classList.add("animate-pulse");
+        try {
+            const baseUrl = window.location.origin;
+            var id = document.getElementById("mess_user_id").value;
+            const apiUrl = `${baseUrl}/partner/${id}/api-get-dashboard-data/`;
+            const response = await fetch(apiUrl);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new Error("Received non-JSON response");
+            }
+
+            const data = await response.json();
+            document.getElementById("total_orders").innerHTML = data.total_orders + " Orders";
+            document.getElementById("total_quantity").innerHTML = data.total_quantity + " Quantity";
+            document.getElementById("total_quantity_hour").innerHTML = data.total_quantity_hour + " Quantity";
+            document.getElementById("total_rating").innerHTML = data.total_rating;
+
+            document.getElementById("total_rating").classList.remove("animate-pulse");
+            document.getElementById("total_quantity").classList.remove("animate-pulse");
+            document.getElementById("total_quantity_hour").classList.remove("animate-pulse");
+            document.getElementById("total_orders").classList.remove("animate-pulse");
+            
+
+        } catch (error) {
+            console.error("Fetch error:", error);
+        }
+    }
+    fetchDashboardData();
     </script>
 
     <script src="{% static '/js/admin_toggle.js' %}"></script>

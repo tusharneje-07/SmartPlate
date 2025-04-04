@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import MessInfo, PartnerInfo, OrderInformation
+from django.db.models import Sum
+from datetime import datetime
 
 @login_required
 def prt_dashboard(request,id):
@@ -71,3 +73,22 @@ def get_order_time_distribution(request, id):
         'labels': labels,
         'values': values
     })
+
+def api_get_dashboard_data(request,id):
+    mess_user = PartnerInfo.objects.filter(username=id).first()
+    mess_info = MessInfo.objects.filter(mess_id=mess_user.mess_id).first()
+    total_orders = OrderInformation.objects.filter(mess_id=mess_info.mess_id, date=date.today()).count()
+    
+    total_quantity = OrderInformation.objects.filter(mess_id=mess_info.mess_id, date=date.today()).values()
+    quantity = 0
+    for i in total_quantity:
+        quantity += len(i.get('order_details'))
+        
+    total_quantity_hour = OrderInformation.objects.filter(mess_id=mess_info.mess_id, date=date.today(), time__hour=datetime.now().hour).values()
+    quantity_hour = 0
+    for i in total_quantity_hour:
+        quantity_hour += len(i.get('order_details'))
+    
+    total_rating = MessInfo.objects.filter(mess_id=mess_info.mess_id).first().mess_rating
+    
+    return JsonResponse({"mess_info":mess_info.mess_id, "total_orders":total_orders, "total_quantity":quantity, "total_quantity_hour":quantity_hour, "total_rating":total_rating})

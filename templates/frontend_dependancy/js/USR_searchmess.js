@@ -34,6 +34,7 @@ export function initEventListeners() {
 
     // Wait until data is fetched before displaying messes
     updateSearchPage();
+    
 }
 
 // Function to filter mess cards based on selected filters
@@ -100,8 +101,8 @@ export function displayMesses(messes) {
 
                <div class="bg-secbackgroundLight dark:bg-secbackgroundDark p-2 flex flex-col justify-between h-[100px]">
                    <div class="text-white flex flex-col space-y-0">
-                       <h3 class="font-semibold text-textPrimaryLight dark:text-textPrimaryDark text-lg">${mess.messName}</h3>
-                       <p class="text-sm text-textPrimaryLight dark:text-textPrimaryDark">${mess.messAddress}</p>
+                       <h3 class="font-semibold text-textPrimaryLight dark:text-textPrimaryDark text-lg whitespace-nowrap overflow-hidden text-ellipsis">${mess.messName}</h3>
+                       <p class="text-sm text-textPrimaryLight dark:text-textPrimaryDark whitespace-nowrap overflow-hidden text-ellipsis">${mess.messAddress}</p>
                    </div>
 
                    <div class="flex justify-between items-center mt-0 flex-row">
