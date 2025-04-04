@@ -27,10 +27,7 @@ export function displayMessDetails() {
 
         // Load existing cart from sessionStorage
         let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-<<<<<<< HEAD:templates/frontend_dependancy/js/MessDetails.js
         console.log("Loaded Cart:", cart);
-=======
->>>>>>> 1810063a93868f754b9ca0438399bf78bc5dfc6e:templates/frontend_dependancy/js/USR_messcart.js
 
         // Generate Menu Items
         const menuContainer = document.getElementById("menuContainer");
@@ -134,23 +131,13 @@ export function displayMessDetails() {
 
         // Ensure cart button visibility is updated on initial load
         updateCartButtonVisibility();
-<<<<<<< HEAD:templates/frontend_dependancy/js/MessDetails.js
-=======
-        updateCrowdStatus();
-        
->>>>>>> 1810063a93868f754b9ca0438399bf78bc5dfc6e:templates/frontend_dependancy/js/USR_messcart.js
     }
 
     const backButton = document.getElementById("backButton");
     if (backButton) {
         backButton.addEventListener("click", function () {
             console.log("Back button clicked");
-<<<<<<< HEAD:templates/frontend_dependancy/js/MessDetails.js
             window.location.href = "dine2.html";
-=======
-            const baseUrl = window.location.origin;
-            window.location.href = `${baseUrl}/user/search/`;
->>>>>>> 1810063a93868f754b9ca0438399bf78bc5dfc6e:templates/frontend_dependancy/js/USR_messcart.js
         });
     } else {
         console.warn("Back button not found in the DOM");
@@ -158,33 +145,3 @@ export function displayMessDetails() {
     
     
 }
-<<<<<<< HEAD:templates/frontend_dependancy/js/MessDetails.js
-=======
-
-const crowdStatusEl = document.getElementById("crowdStatus");
-
-function updateCrowdStatus() {
-    const selectedMess = JSON.parse(sessionStorage.getItem("selectedMess"));
-    if (!selectedMess) return;
-    const baseUrl = window.location.origin;
-    fetch(`${baseUrl}/user/api-get-crowd-status/${selectedMess.messId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status) {
-                const crowdValue = data.crowd;
-
-                // Update background color based on crowd status
-                crowdStatusEl.style.backgroundColor =
-                    crowdValue === -1 ? "green" :
-                    crowdValue === 0 ? "yellow" : "red";
-            } else {
-                console.error("Error: Invalid crowd status response");
-            }
-        })
-        .catch(error => console.error("Failed to fetch crowd status:", error));
-}
-
-setInterval(updateCrowdStatus, 1000);
-
-
->>>>>>> 1810063a93868f754b9ca0438399bf78bc5dfc6e:templates/frontend_dependancy/js/USR_messcart.js

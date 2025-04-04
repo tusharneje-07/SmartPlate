@@ -1,65 +1,232 @@
 <!DOCTYPE html>
+{% load static%}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partner Dashboard - SmartPlate</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
-    <script defer src="{% static '/js/theme-menu-toggle.js' %}"></script>
+    <title>SmartPlate | {{id}}</title>
+    <link rel="stylesheet" href="{% static '/css/output.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+
+    <style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none; 
+        }
+
+        
+    </style>
+    <script>
+        function toggleFullScreen() {
+            const elementsToHide = document.querySelectorAll('.hide-on-fullscreen');
+            elementsToHide.forEach(el => el.classList.toggle('hidden'));
+        }
+    </script>
 </head>
-<body class="bg-backgroundLight dark:bg-backgroundDark min-h-screen font-lato">
-    <div class="min-h-screen">
-        <!-- Top Navigation Bar -->
-        <nav class="bg-white dark:bg-secbackgroundDark shadow-sm">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex items-center">
-                        <h1 class="text-2xl font-bold text-textPrimaryLight dark:text-textPrimaryDark">Partner Dashboard</h1>
+<body class="bg-backgroundLight text-textPrimaryLight dark:bg-backgroundDark dark:text-textPrimaryDark">
+    <input type="hidden" id="mess_user_id" value="{{id}}">
+    <div class="w-full mx-auto p-6">
+        <!-- Navbar -->
+        <div class="flex justify-between items-center mb-6 hide-on-fullscreen">
+            <button class="bg-secbackgroundLight dark:bg-secbackgroundDark px-6 py-2 rounded">Logo</button>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">Home</a>
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">About Us</a>
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">Profile</a>
+                <a href="/partner_logout" class="text-textPrimaryLight dark:text-textPrimaryDark">Logout</a>
+                <button id="toggleTheme" class="flex items-center justify-center w-10 h-10 bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark focus:outline-none p-2 rounded">
+                    <span id="toggleIcon" class="w-6 h-6 block"></span>
+                </button>
+            </div>
+        </div>
+
+    <div class="flex justify-between items-center px-4 py-2">
+        <div>
+            <h2 class="text-xl font-semibold text-textPrimaryLight dark:text-textPrimaryDark">Welcome Back, User!</h2>
+            <p class="text-sm text-gray-500">Your Organized Digital Workspace</p>
+        </div>
+        <div id="dateTime" class="bg-secbackgroundLight dark:bg-secbackgroundDark px-4 py-2 rounded-md text-sm font-medium"></div>
+    </div>
+    <div class="relative">
+        <!-- Scrollable Container -->
+        <div class="flex gap-4 overflow-x-auto hide-scrollbar scroll-smooth p-2 whitespace-nowrap">
+            <!-- Box 1 -->
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block bg-secbackgroundLight_light dark:bg-secbackgroundDark_light">
+                <div class="flex flex-col justify-center items-center">
+                    <img src="{% static '/icons/set_menue.gif' %}" alt="Image" class="object-cover h-36 w-36 mt-5">
+                </div>
+                    <span class="absolute bottom-0 w-full  bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2 border-t border-black/20 dark:border-white">
+                   Set Menu
+                </span>
+            </a>
+
+            <!-- Box 2 -->
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block bg-secbackgroundLight_light dark:bg-secbackgroundDark_light">
+                <div class="flex flex-col justify-center items-center">
+                    <img src="{% static '/icons/set_menue.gif' %}" alt="Image" class="object-cover h-36 w-36 mt-5">
+                </div>
+                <span class="absolute bottom-0 w-full  bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2 border-t border-black/20 dark:border-white">
+                    Accept Orders
+                </span>
+            </a>
+
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block bg-secbackgroundLight_light dark:bg-secbackgroundDark_light">
+                <div class="flex flex-col justify-center items-center">
+                    <img src="{% static '/icons/set_menue.gif' %}" alt="Image" class="object-cover h-36 w-36 mt-5">
+                </div>
+                <span class="absolute bottom-0 w-full  bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2 border-t border-black/20 dark:border-white">
+                    Transcations
+                </span>
+            </a>
+
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block bg-secbackgroundLight_light dark:bg-secbackgroundDark_light">
+                <div class="flex flex-col justify-center items-center">
+                    <img src="{% static '/icons/set_menue.gif' %}" alt="Image" class="object-cover h-36 w-36 mt-5">
+                </div>
+                <span class="absolute bottom-0 w-full  bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2 border-t border-black/20 dark:border-white">
+                    AI Report
+                </span>
+            </a>
+            <!-- Box 5 -->
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block bg-secbackgroundLight_light dark:bg-secbackgroundDark_light">
+                <div class="flex flex-col justify-center items-center">
+                    <img src="{% static '/icons/set_menue.gif' %}" alt="Image" class="object-cover h-36 w-36 mt-5">
+                </div>
+                <span class="absolute bottom-0 w-full  bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2 border-t border-black/20 dark:border-white">
+                    Statastics
+                </span>
+            </a>
+            <a href="#" class="relative w-40 h-56 flex-shrink-0 rounded-md overflow-hidden shadow-md hover:scale-105 transition inline-block bg-secbackgroundLight_light dark:bg-secbackgroundDark_light">
+                <div class="flex flex-col justify-center items-center">
+                    <img src="{% static '/icons/set_menue.gif' %}" alt="Image" class="object-cover h-36 w-36 mt-5">
+                </div>
+                <span class="absolute bottom-0 w-full bg-secbackgroundLight dark:bg-secbackgroundDark  text-textPrimaryLight dark:text-textPrimaryDark text-start text-md font-semibold py-2 px-2 border-t border-black/20 dark:border-white">
+                   NutriBot
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="w-full h-screen flex flex-row">
+        <div class="w-2/3 bg-backgroundLight dark:bg-backgroundDark py-6 px-4 mb-4 flex flex-col">
+            <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-4">Graph Section</h2>
+            <canvas id="myChart" class="w-full h-72 bg-secbackgroundLight dark:bg-secbackgroundDark p-4 rounded"></canvas>
+        </div>
+    
+        <!-- Right Section (Buttons and Image) -->
+        <div class="w-1/3 pt-6 pb-0 pr-4 flex flex-row justify-between gap-4 h-72 mt-10"> 
+            <!-- Left Section (Buttons) -->
+            <div class="flex flex-col gap-4 w-1/2 h-full">
+                <div class="w-full py-4 bg-accent text-white font-semibold rounded-md text-center flex-1 flex flex-col justify-center">
+                    <span class="text-lg font-semibold">500 Orders</span>
+                    <span class="text-sm font-medium">Total In Day</span>
+                </div>
+    
+                <div class="w-full py-4 bg-accent text-white font-semibold rounded-md text-center flex-1 flex flex-col justify-center">
+                    <span class="text-lg font-semibold">200 Quantity</span>
+                    <span class="text-sm font-medium">Total In Day</span>
+                </div>
+    
+                <div class="w-full py-4 bg-accent text-white font-semibold rounded-md text-center flex-1 flex flex-col justify-center">
+                    <span class="text-lg font-semibold">50 Quantity</span>
+                    <span class="text-sm font-medium">Total In Hour</span>
+                </div>
+            </div>
+    
+            <!-- Right Section (Rating + Crowd Status) -->
+            <div class="flex flex-col gap-4 w-1/2 h-full justify-between ">
+                <!-- Rating Box -->
+                <div class="w-full py-1 px-4 bg-green-500 text-white font-semibold rounded-xl text-center flex-1 flex flex-col justify-center">
+                    <div class="flex flex-row text-center justify-center items-center">
+                        <span class="text-xs">⭐</span>
+                        <span class="text-lg font-bold">4.3</span>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <!-- Dark Mode Toggle -->
-                        <button id="toggleTheme" class="p-2 rounded-lg bg-bgsecLight dark:bg-bgsecDark flex items-center gap-2 hover:bg-secbackgroundLight dark:hover:bg-secbackgroundDark transition-colors duration-200">
-                            <span class="text-textPrimaryLight dark:text-textPrimaryDark">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" class="fill-current">
-                                    <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Z"/>
-                                </svg>
-                            </span>
-                        </button>
-                        <!-- Profile Menu -->
-                        <div class="relative">
-                            <button class="flex items-center space-x-2 text-textPrimaryLight dark:text-textPrimaryDark hover:opacity-80">
-                                <span class="text-sm font-medium">{{ user.email }}</span>
-                                <img src="{{ user.picture }}" alt="Profile" class="h-8 w-8 rounded-full">
-                            </button>
+                    <div class="text-xs">(in Total)</div>
+                </div>
+                
+    
+                <!-- Crowd Status Section -->
+                <div class="w-full flex flex-col bg-secbackgroundLight dark:bg-secbackgroundDark rounded-md shadow-md flex-1 py-2 px-4 justify-between">
+                    <!-- Button Section -->
+                    <div class="flex flex-row justify-center items-center gap-4 mt-auto">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="color" value="-1" class="hidden peer">
+                            <div class="w-6 h-6 bg-green-500 rounded-full peer-checked:ring-2 peer-checked:bg-green-800 transition"></div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="color" value="0" class="hidden peer">
+                            <div class="w-6 h-6 bg-yellow-500 rounded-full peer-checked:ring-2 peer-checked:bg-yellow-800 transition"></div>
+                        </label>
+                    
+                        <label class="cursor-pointer">
+                            <input type="radio" name="color" value="1" class="hidden peer">
+                            <div class="w-6 h-6 bg-red-500 rounded-full peer-checked:ring-2 peer-checked:bg-red-800 transition"></div>
+                        </label>
+                    </div>
+                    
+    
+                    <!-- Text Section -->
+                    <div class="text-sm font-semibold text-center mt-2 text-textPrimaryLight dark:text-textPrimaryDark">
+                        <span>Crowd Status</span>
+                        <div class="text-sm text-gray-700 dark:text-gray-300 font-normal leading-relaxed text-justify">
+                            <span class="font-normal">Please select the appropriate crowd status.</span>
+                            <p>Your selection will be visible to users.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </nav>
-
-        <!-- Main Content -->
-        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            <!-- Welcome Section -->
-            <div class="bg-white dark:bg-secbackgroundDark rounded-lg shadow-sm p-6 mb-6">
-                <h2 class="text-xl font-semibold text-textPrimaryLight dark:text-textPrimaryDark mb-2">
-                    Welcome, {{ user.name }}!
-                </h2>
-                <p class="text-textPrimaryLight/70 dark:text-textPrimaryDark/70">
-                    Manage your restaurant profile and orders from here.
-                </p>
-            </div>
-
-            <!-- Dashboard Content -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Add your dashboard widgets here -->
-            </div>
-        </main>
-
-
-        <button onclick="window.location.href='/partner_logout/'" class="bg-red-500 text-white px-4 py-2 rounded-md">
-            Logout
-        </button>
+        </div>
     </div>
+    
+    <script type="module">
+        import { Adminchart } from '{% static 'js/AdminChart.js' %}';
+        window.onload = Adminchart;
+    </script>
+        
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const formattedDateTime = now.toLocaleString();
+            document.getElementById("dateTime").textContent = formattedDateTime;
+        }
+        
+        updateDateTime(); // Initial call
+        setInterval(updateDateTime, 1000); // Update every second
+    </script>
+    <script>
+        document.querySelectorAll('input[name="color"]').forEach((radio) => {
+            radio.addEventListener("change", function () {
+                var id = document.getElementById("mess_user_id").value;
+                var url = id + "/update_crowd_count_data/?crowd_status=" + this.value;
+                fetch(url, {
+                    method: "GET",
+                })
+            });
+        });
+
+    function fetchAndSetCrowdStatus() {
+        var id = document.getElementById("mess_user_id").value;
+        fetch(id + "/get_crowd_count_data/", {
+            method: "GET",
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.querySelectorAll('input[name="color"]').forEach((radio) => {
+                if (radio.value == data.crowd_status) {
+                    radio.checked = true;
+                }
+            });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    window.addEventListener('load', fetchAndSetCrowdStatus);
+    </script>
+
+    <script src="{% static '/js/admin_toggle.js' %}"></script>
 </body>
-</html> 
+</html>

@@ -3,4 +3,7 @@ from . import views
 
 urlpatterns = [
     path('<str:id>', views.prt_dashboard, name='prt_dashboard'),
+    path('<str:id>/update_crowd_count_data/', views.update_crowd_count, name='update_crowd_count_data'),
+    path('<str:id>/get_crowd_count_data/', views.get_crowd_count_data, name='get_crowd_count_data'),
+    path('<str:id>/get_order_time_distribution/', views.get_order_time_distribution, name='get_order_time_distribution'),
 ] 

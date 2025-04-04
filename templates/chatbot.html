@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Assistant</title>
+    <link rel="stylesheet" href="./frontend_dependancy/css/output.css">
+</head>
+<body class="bg-white dark:bg-backgroundDark m-0 p-0 h-screen flex flex-col">
+
+    <div class="bg-secbackgroundLight dark:bg-secbackgroundDark w-full h-16 flex flex-row items-center justify-between px-2 fixed top-0 z-50 border-b border-gray-300 dark:border-gray-600">
+
+        
+        <div class="flex items-center space-x-2">
+            <button id="backButton" class="rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="w-6 h-6 fill-black dark:fill-white">
+                    <path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z" />
+                </svg>
+            </button>
+            <div class="flex flex-col leading-tight">
+                <span class="text-black dark:text-textPrimaryDark text-lg font-bold">AI Chat Assistant</span>
+                <span class="text-xs text-gray-500 dark:text-gray-300">Need Help? Let's Chat!</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="flex-1 flex flex-col justify-center items-center">
+        <iframe 
+            src="https://www.chatbase.co/chatbot-iframe/eVhm25kLDADzUzIVjxo04" 
+            class="w-full h-full min-h-[calc(100vh-4rem)]"
+            frameborder="0">
+        </iframe>
+    </div>
+
+</body>
+</html>
