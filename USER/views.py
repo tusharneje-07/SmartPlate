@@ -113,7 +113,6 @@ def show_nearby_mess(request):
         return JsonResponse({"data":data})
 
 def payment_api(request,mess_id,payment_amount):
-    print("----------------------------",mess_id)
     if not request.COOKIES.get('temp_user_cart'):
         data = {
         'payment_amount' : payment_amount,
@@ -148,7 +147,8 @@ def payment_api(request,mess_id,payment_amount):
             order_id=UID,
             ordered_by=user,
             ordered_by_name=user_full_name,
-            order_details=order_details
+            order_details=order_details,
+            order_status=0
         )
         
         data = {

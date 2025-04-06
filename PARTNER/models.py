@@ -41,6 +41,11 @@ class MenuInfo(models.Model):
         db_table = "partner_menuinfo"
     
 class OrderInformation(models.Model):
+    data = {
+        "pending": -1,
+        "confirmed": 0,
+        "delivered": 1,
+    }
     mess_id = models.CharField(max_length=100) 
     order_id = models.CharField(max_length=5,default="00000") 
     date = models.DateField(auto_now_add=True) 
@@ -48,7 +53,7 @@ class OrderInformation(models.Model):
     ordered_by = models.ForeignKey(User, on_delete=models.CASCADE)
     ordered_by_name = models.CharField(max_length=255)
     order_details = models.JSONField() 
-    
+    order_status = models.CharField(max_length=100,choices=data.items(),default=-1)
     def __str__(self):
         return f"Order {self.id} by {self.ordered_by_name} on {self.date} at {self.time}"
     

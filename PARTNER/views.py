@@ -92,3 +92,7 @@ def api_get_dashboard_data(request,id):
     total_rating = MessInfo.objects.filter(mess_id=mess_info.mess_id).first().mess_rating
     
     return JsonResponse({"mess_info":mess_info.mess_id, "total_orders":total_orders, "total_quantity":quantity, "total_quantity_hour":quantity_hour, "total_rating":total_rating})
+
+
+def accept_order(request,id):
+    return render(request, 'PARTNER/PTR_acceptorder.html')

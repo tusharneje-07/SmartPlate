@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accept Orders</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <script>
+        function toggleFullScreen() {
+            const elementsToHide = document.querySelectorAll('.hide-on-fullscreen');
+            elementsToHide.forEach(el => el.classList.toggle('hidden'));
+        }
+    </script>
+</head>
+<body class="bg-backgroundLight text-textPrimaryLight dark:bg-backgroundDark dark:text-textPrimaryDark">
+    <div class="w-full mx-auto p-6">
+        <!-- Navbar -->
+        <div class="flex justify-between items-center mb-6 hide-on-fullscreen">
+            <button class="bg-secbackgroundLight dark:bg-secbackgroundDark px-6 py-2 rounded">Logo</button>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">Home</a>
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">About Us</a>
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">Profile</a>
+                <button id="toggleTheme" class="flex items-center justify-center w-10 h-10 bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark focus:outline-none p-2 rounded">
+                    <span id="toggleIcon" class="w-6 h-6 block"></span>
+                </button>
+            </div>
+        </div>
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-4 hide-on-fullscreen">
+            <div>
+                <h1 class="text-textPrimaryLight dark:text-textPrimaryDark text-4xl mb-2 font-bold">Accept Orders</h1>
+                <p class="text-textPrimaryLight dark:text-textPrimaryDark">Accept orders seamlessly and serve with speed—delight your customers with every meal!</p>
+            </div>
+            <div class="bg-secbackgroundLight dark:bg-secbackgroundDark rounded-md px-4 py-2">
+                <div class="text-textPrimaryLight dark:text-textPrimaryDark">17 Mar 2025 | 12:00:50 PM</div>
+            </div>
+        </div>
+        <hr class="border-t border-borderLight dark:border-borderDark mb-4">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleFullScreen()" class="bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark px-4 py-2 rounded-lg flex items-center space-x-2">
+                    <span class="text-lg">&lt;&gt;</span>
+                    <span>Full Screen</span>
+                </button>
+                <button class="bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark px-4 py-2 rounded-lg flex items-center space-x-2">
+                    <span class="text-lg">&lt;&gt;</span>
+                    <span>Clear all</span>
+                </button>
+                <button class="bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark px-4 py-2 rounded-lg flex items-center space-x-2">
+                    <span class="text-lg">&lt;&gt;</span>
+                    <span>Change Menu</span>
+                </button>
+                <div class="flex space-x-2">
+                    <input type="radio" id="green" name="status" value="green" class="hidden peer/green" checked>
+                    <label for="green" class="bg-green-300 peer-checked/green:bg-green-600 h-8 w-10 px-4 py-2 rounded-md transition"></label>
+                    <input type="radio" id="yellow" name="status" value="yellow" class="hidden peer/yellow">
+                    <label for="yellow" class="bg-yellow-300 peer-checked/yellow:bg-yellow-300 h-8 w-10 px-4 py-2 rounded-md transition"></label>
+                    <input type="radio" id="red" name="status" value="red" class="hidden peer/red">
+                    <label for="red" class="bg-red-300 peer-checked/red:bg-red-600 h-8 w-10 px-4 py-2 rounded-md transition"></label>
+                </div>
+            </div>
+            <button class="bg-secbackgroundLight dark:bg-secbackgroundDark text-textPrimaryLight dark:text-textPrimaryDark px-4 py-2 rounded-lg flex items-center space-x-2">
+                <span class="text-lg">&lt;&gt;</span>
+                <span>(NOT) Accepting Orders</span>
+            </button>
+        </div>
+        <div id="order-container" class="space-y-2">
+            <!-- Orders will be dynamically added here -->
+        </div>
+    </div>
+    <script src="{% static 'js/PARTNER/PRT_acceptOrder.js' %}"></script>
+    <script src="{% static 'js/PARTNER/PRT_themetoggle.js' %}"></script>
+</body>
+</html>

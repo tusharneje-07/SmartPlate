@@ -7,4 +7,8 @@ urlpatterns = [
     path('<str:id>/get_crowd_count_data/', views.get_crowd_count_data, name='get_crowd_count_data'),
     path('<str:id>/get_order_time_distribution/', views.get_order_time_distribution, name='get_order_time_distribution'),
     path('<str:id>/api-get-dashboard-data/', views.api_get_dashboard_data, name='api_get_dashboard_data'),
+    
+    
+    # Accept Order
+    path('<str:id>/accept_order/', views.accept_order, name='accept_order'),
 ] 
