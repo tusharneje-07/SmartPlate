@@ -7,6 +7,7 @@ urlpatterns = [
     path('vendor/<str:mess_id>/', views.select_menu, name="vendor"),
     path('vendor/<str:mess_id>/cart', views.go_to_cart, name="cart"),
     path('vendor/<str:mess_id>/payment', views.process_payment, name="payment"),
+    path('vendor/<str:mess_id>/user_razorpay_payment', views.razorpay_payment, name="user_razorpay_payment"),
     
     
     path('api-get-nearby-mess/', views.show_nearby_mess, name="api-get-nearby-mess/"),

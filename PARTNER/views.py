@@ -95,4 +95,8 @@ def api_get_dashboard_data(request,id):
 
 
 def accept_order(request,id):
-    return render(request, 'PARTNER/PTR_acceptorder.html')
+    return render(request, 'PARTNER/PRT_acceptorder.html')
+
+def transaction(request,id):
+    return render(request, 'PARTNER/PRT_transaction.html')
+

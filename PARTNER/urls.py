@@ -11,4 +11,7 @@ urlpatterns = [
     
     # Accept Order
     path('<str:id>/accept_order/', views.accept_order, name='accept_order'),
+    
+    # Transaction
+    path('<str:id>/transaction/', views.transaction, name='transaction'),
 ] 

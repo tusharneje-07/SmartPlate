@@ -63,16 +63,28 @@ def process_payment(request,mess_id):
         if not request.session.get(f"{username}_payment") and request.session.get(f"{username}_payment")['status']:
             return JsonResponse({"msg":"Error Occured!"})
         
-        #  ADD PAYMENT GETWAY ITHE =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        time.sleep(3)
-        
         order_details_data = request.session.get(f"{username}_payment")
-        print(order_details_data)
-        return render(request,'USR_orderplaced.html',order_details_data)
-
+        response = redirect(f'/user/vendor/{mess_id}/user_razorpay_payment')
+        response.set_cookie('order_details_data_for_payment', json.dumps(order_details_data))
+        return response
+    
     else:
         return redirect('logout')
+    
+def razorpay_payment(request,mess_id):
+    # ADD PAYMENT GATEWAY HERE
+    
+
+    order_details_data = request.COOKIES.get('order_details_data_for_payment')
+    if order_details_data:
+        send_data = json.loads(order_details_data)
+    else:
+        return JsonResponse({"error": "Order details not found"}, status=400)
+    response = render(request,'USR_orderplaced.html',send_data)
+    return response
+
 # --------------------------------------------- Order Food 
+
 
 
 # ----------------------------------------------------- API

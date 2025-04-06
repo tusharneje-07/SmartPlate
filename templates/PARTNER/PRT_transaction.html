@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body class="bg-backgroundLight dark:bg-backgroundDark min-h-screen">
+    <div class="max-w-full px-8">
+        <nav class="py-4 px-6 bg-backgroundLight dark:bg-backgroundDark">
+            <div class="flex flex-wrap justify-between items-center">
+                <button class="bg-secbackgroundLight dark:bg-secbackgroundDark px-6 py-2 rounded text-textPrimaryLight dark:text-textPrimaryDark">
+                    Logo
+                </button>
+                <div class="flex flex-wrap items-center gap-6">
+                    <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark hover:opacity-80">Home</a>
+                    <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark hover:opacity-80">About Us</a>
+                    <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark hover:opacity-80">Profile</a>
+                    <button id="toggleTheme" class="flex items-center justify-center w-10 h-10 bg-secbackgroundLight dark:bg-secbackgroundDark focus:outline-none p-2 rounded">
+                        <span id="lightIcon" class="w-6 h-6 block">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="secbackgroundDark">
+                                <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z" />
+                            </svg>
+                        </span>
+                        <span id="toggleIcon" class="w-6 h-6 hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="secbackgroundLight">
+                                <path d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Zm326-268Z" />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <main class="py-8 px-1 sm:px-4 md:px-6 lg:px-8">
+            <div class="w-full">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-textPrimaryLight dark:text-textPrimaryDark">Transactions</h1>
+                        <p class="text-sm sm:text-base text-textPrimaryLight dark:text-textPrimaryDark">Keep track of your transactions effortlessly—stay organized and in control!</p>
+                    </div>
+                    <div class="bg-secbackgroundLight dark:bg-secbackgroundDark px-4 py-2 rounded-lg text-textPrimaryLight dark:text-textPrimaryDark text-sm sm:text-base whitespace-nowrap" id="currentTime">
+                        17 Mar 2025 | 12:00:50 PM
+                    </div>
+                </div>
+                <hr class="border-t mb-4 border-gray-300 dark:border-gray-600 mt-4 w-full" />
+            </div>
+
+            <!-- Filters section with added clear button -->
+            <div class="flex flex-wrap gap-4 mb-6">
+                <div class="bg-secbackgroundLight dark:bg-secbackgroundDark p-4 rounded-lg">
+                    <label class="block text-textPrimaryLight dark:text-textPrimaryDark mb-2">Date Filter</label>
+                    <input type="date" id="dateFilter" class="bg-backgroundLight dark:bg-backgroundDark text-textPrimaryLight dark:text-textPrimaryDark p-2 rounded">
+                </div>
+                <div class="bg-secbackgroundLight dark:bg-secbackgroundDark p-4 rounded-lg">
+                    <label class="block text-textPrimaryLight dark:text-textPrimaryDark mb-2">Time Filter (24hr)</label>
+                    <input type="time" id="timeFilter" class="bg-backgroundLight dark:bg-backgroundDark text-textPrimaryLight dark:text-textPrimaryDark p-2 rounded">
+                </div>
+                <div class="bg-secbackgroundLight dark:bg-secbackgroundDark p-4 rounded-lg">
+                    <label class="block text-textPrimaryLight dark:text-textPrimaryDark mb-2">Amount Filter</label>
+                    <div class="flex gap-2">
+                        <select id="amountOperator" class="bg-backgroundLight dark:bg-backgroundDark text-textPrimaryLight dark:text-textPrimaryDark p-2 rounded">
+                            <option value="=">=</option>
+                            <option value="<">&lt;</option>
+                            <option value=">">&gt;</option>
+                        </select>
+                        <input type="number" id="amountFilter" placeholder="Enter amount" class="bg-backgroundLight dark:bg-backgroundDark text-textPrimaryLight dark:text-textPrimaryDark p-2 rounded">
+                    </div>
+                </div>    
+                <button id="clearFilters" class="bg-secbackgroundLight dark:bg-secbackgroundDark px-6 py-1 rounded text-textPrimaryLight dark:text-textPrimaryDark hover:bg-opacity-90">
+                    Clear Filters
+                  </button>
+                   
+            </div>
+
+            <div class="bg-secbackgroundLight dark:bg-secbackgroundDark rounded-lg p-4 sm:p-6 mb-6">
+                <div class="overflow-x-auto">
+                    <div class="overflow-y-auto" style="max-height: fit-content;">
+                        <div id="tableContainer" class="w-full"></div>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="text-sm text-textPrimaryLight dark:text-textPrimaryDark">
+                        Showing <span id="startRecord">1</span> to <span id="endRecord">10</span> of <span id="totalRecords">0</span> entries
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="prevPage" class="bg-accenthover dark:bg-accent px-3 py-1 rounded text-textPrimaryLight dark:text-textPrimaryDark disabled:opacity-50">Previous</button>
+                        <button id="nextPage" class="bg-accenthover dark:bg-accent px-3 py-1 rounded text-textPrimaryLight dark:text-textPrimaryDark disabled:opacity-50">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 sm:gap-4">
+                <button id="downloadPdf" class="bg-accenthover dark:bg-accent px-4 sm:px-6 py-2 rounded-lg text-textPrimaryLight dark:text-textPrimaryDark hover:bg-opacity-90 text-sm sm:text-base w-full sm:w-auto">Extract PDF</button>
+                <button id="downloadExcel" class="bg-accenthover dark:bg-accent px-4 sm:px-6 py-2 rounded-lg text-textPrimaryLight dark:text-textPrimaryDark hover:bg-opacity-90 text-sm sm:text-base w-full sm:w-auto">Download Excel</button>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById("downloadExcel").addEventListener("click", function() {
+                const headers = Array.from(document.querySelector("#tableContainer table thead tr").children)
+                    .map(th => th.textContent);
+                
+                const allData = window.getAllFilteredData();
+                
+                const ws = XLSX.utils.aoa_to_sheet([
+                    headers,
+                    ...allData.map(row => Object.values(row))
+                ]);
+                
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Transactions");
+                XLSX.writeFile(wb, "Transactions.xlsx");
+            });
+
+            document.getElementById("downloadPdf").addEventListener("click", function() {
+                const headers = Array.from(document.querySelector("#tableContainer table thead tr").children)
+                    .map(th => th.textContent);
+                
+                const allData = window.getAllFilteredData();
+                
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                doc.text("Transactions Report", 14, 15);
+                
+                doc.autoTable({
+                    head: [headers],
+                    body: allData.map(row => Object.values(row)),
+                    startY: 25,
+                    theme: 'grid',
+                    styles: {
+                        fontSize: 8,
+                        cellPadding: 3
+                    },
+                    headStyles: {
+                        fillColor: [66, 66, 66],
+                        textColor: [250, 250, 250]
+                    }
+                });
+                
+                doc.save("Transactions_Report.pdf");
+            });
+        });
+    </script>
+    <script type="module" src="{% static 'js/PARTNER/PRT_transaction.js' %}"></script>
+    <script src="{% static 'js/PARTNER/PRT_themetoggle.js' %}"></script>
+</body>
+</html>
