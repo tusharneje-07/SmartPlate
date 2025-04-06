@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SP | Payment Options</title>
   <link href="{% static '/css/output.css' %}" rel="stylesheet">
- 
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <style>
 /* Proper margin and padding for buttons in bottom sticky bar */
 .bottom-bar-buttons {
@@ -190,7 +190,7 @@
                     Payment Options
                 </button>
             </div>
-            <button  id="placeOrderBtn" class="btn bg-accent text-white rounded-md min-w-[200px] max-w-[400px] h-14 flex items-center justify-between px-4">
+            <button type="button" id="placeOrderBtn" class="btn bg-accent text-white rounded-md min-w-[200px] max-w-[400px] h-14 flex items-center justify-between px-4">
                 <span class="flex flex-col px-2 items-start leading-tight">
                     <span id="price" class="text-lg font-bold"></span>
                     <span class="text-lg mt-[-8px]">Total</span>
@@ -221,16 +221,23 @@
         });
     </script>   
     <script src="{% static '/js/theme-menu-toggle.js' %}"></script>
+    <script>
+        document.getElementById('placeOrderBtn').onclick = function(e) {
+            e.preventDefault();
+
+            const options = {
+                "key": "{{ razorpay_key_id }}",
+                "amount": "{{ payment_amount|floatformat:2|floatformat:0 }}00",  // in paise
+                "currency": "INR",
+                "name": "SmartPlate",
+                "description": "Payment for your meal",
+                "order_id": "{{ razorpay_order_id }}",
+                "callback_url": "{{ callback_url }}"
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        };
+    </script>
 </body>
 </html> 
-
-
-    
-    
-    
-
-   
-    
-
-
-     

@@ -8,6 +8,9 @@ from django.db import connection
 from math import cos, radians
 from datetime import datetime
 import string,random, time, json
+import razorpay
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 @login_required
 def user_dashboard(request):
@@ -70,18 +73,111 @@ def process_payment(request,mess_id):
     
     else:
         return redirect('logout')
-    
-def razorpay_payment(request,mess_id):
-    # ADD PAYMENT GATEWAY HERE
-    
 
+def razorpay_payment(request, mess_id):
+    # Get order details from cookies
     order_details_data = request.COOKIES.get('order_details_data_for_payment')
-    if order_details_data:
-        send_data = json.loads(order_details_data)
-    else:
+    
+    if not order_details_data:
         return JsonResponse({"error": "Order details not found"}, status=400)
-    response = render(request,'USR_orderplaced.html',send_data)
-    return response
+    
+    order_details = json.loads(order_details_data)
+    
+    # Initialize Razorpay client
+    razorpay_client = razorpay.Client(auth=(
+        settings.RAZORPAY_KEY_ID,
+        settings.RAZORPAY_KEY_SECRET
+    ))
+    
+    # Get amount from order details (convert to paise)
+    # amount = int(float(order_details.get('total_price', 0)) * 100)
+    amount = int(float(order_details.get('payment_amount', 0)) * 100)
+    
+    # Create order with Razorpay
+    order_data = {
+        "amount": amount,
+        "currency": "INR",
+        "receipt": f"order_{mess_id}_{request.user.id}",
+        "notes": {
+            "mess_id": mess_id,
+            "user_id": request.user.id if request.user.is_authenticated else "guest"
+        }
+    }
+    
+    try:
+        # Create Razorpay order
+        razorpay_order = razorpay_client.order.create(data=order_data)
+        
+        # Add Razorpay order ID to context
+        order_details['razorpay_order_id'] = razorpay_order['id']
+        order_details['razorpay_key_id'] = settings.RAZORPAY_KEY_ID
+        order_details['callback_url'] = f"/user/razorpay-callback/{mess_id}/"
+        
+        # Render payment page with Razorpay details
+        response = render(request, 'USR_payment.html', order_details)
+        return response
+        
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+@csrf_exempt
+def razorpay_callback(request, mess_id):
+    if request.method == "POST":
+        # Get payment details from POST data
+        payment_id = request.POST.get('razorpay_payment_id', '')
+        order_id = request.POST.get('razorpay_order_id', '')
+        signature = request.POST.get('razorpay_signature', '')
+        
+        # Initialize Razorpay client
+        razorpay_client = razorpay.Client(auth=(
+            settings.RAZORPAY_KEY_ID,
+            settings.RAZORPAY_KEY_SECRET
+        ))
+        
+        # Verify payment signature
+        params_dict = {
+            'razorpay_payment_id': payment_id,
+            'razorpay_order_id': order_id,
+            'razorpay_signature': signature
+        }
+        
+        try:
+            # Verify signature
+            razorpay_client.utility.verify_payment_signature(params_dict)
+            
+            # Get order details from cookies
+            order_details_data = request.COOKIES.get('order_details_data_for_payment')
+            if order_details_data:
+                send_data = json.loads(order_details_data)
+            else:
+                send_data = {}
+            
+            # Add payment details to send_data
+            send_data['payment_id'] = payment_id
+            send_data['order_id'] = order_id
+            
+            # Render success page
+            response = render(request, 'USR_orderplaced.html', send_data)
+            return response
+            
+        except Exception as e:
+            # Payment verification failed
+            return JsonResponse({'error': str(e)}, status=400)
+    
+    # If not POST request
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+# def razorpay_payment(request,mess_id):
+#     # ADD PAYMENT GATEWAY HERE
+#     
+#
+#     order_details_data = request.COOKIES.get('order_details_data_for_payment')
+#     if order_details_data:
+#         send_data = json.loads(order_details_data)
+#     else:
+#         return JsonResponse({"error": "Order details not found"}, status=400)
+#     response = render(request,'USR_orderplaced.html',send_data)
+#     return response
 
 # --------------------------------------------- Order Food 
 
