@@ -11,6 +11,10 @@ urlpatterns = [
     
     # Accept Order
     path('<str:id>/accept_order/', views.accept_order, name='accept_order'),
+    path('<str:id>/get_accept_order_data/', views.get_accept_order_data, name='get_accept_order_data'),
+    path('<str:id>/update_order_status/', views.update_order_status, name='update_order_status'),
+    path('<str:id>/update_order_accepting/', views.update_order_accepting, name='update_order_accepting'),
+    path('<str:id>/get_accept_status/', views.get_accept_status, name='get_accept_status'),
     
     # Transaction
     path('<str:id>/transaction/', views.transaction, name='transaction'),

@@ -95,8 +95,58 @@ def api_get_dashboard_data(request,id):
 
 
 def accept_order(request,id):
-    return render(request, 'PARTNER/PRT_acceptorder.html')
+    return render(request, 'PARTNER/PRT_acceptorder.html',{'id':id})
 
 def transaction(request,id):
     return render(request, 'PARTNER/PRT_transaction.html')
 
+def get_accept_order_data(request,id):
+    mess_user = PartnerInfo.objects.filter(username=id).first()
+    mess_info = MessInfo.objects.filter(mess_id=mess_user.mess_id).first()
+    orders = OrderInformation.objects.filter(mess_id=mess_info.mess_id, date=date.today(), order_status=0).values()
+    if orders:
+        order_set = []
+        for i in orders:
+            order_detail_str = []
+            for j in i.get('order_details'):
+                order_detail_str_cap = str(j.get('quantity')) + " x " + str(j.get('name'))
+                order_detail_str.append(order_detail_str_cap)
+            order_set.append({
+                "table":i.get('order_id'),
+                "time_ago":i.get('time'),
+                "orderId":i.get('id'),
+                "customer":i.get('ordered_by_name'),
+                "items":order_detail_str,
+                "mess_id":i.get('mess_id')
+            })
+        return JsonResponse({"orders":order_set})
+    else:
+        return JsonResponse({"orders":[]})
+
+def update_order_status(request,id):
+    order_id = request.GET.get('order_id')
+    mess_id = request.GET.get('mess_id')
+    order = OrderInformation.objects.filter(mess_id=mess_id, order_id=order_id).first()
+    order.order_status = 1
+    order.save()
+    print("Order Status is ------------------------- ",order.order_status)
+    return JsonResponse({"message":"Order Status Updated Successfully"})
+
+def update_order_accepting(request,id):
+    is_accepting = request.GET.get('is_accepting')
+    if is_accepting == "true":
+        is_accepting = True
+    else:
+        is_accepting = False
+    mess_user = PartnerInfo.objects.filter(username=id).first()
+    mess_info = MessInfo.objects.filter(mess_id=mess_user.mess_id).first()
+    mess_info.is_accepting = is_accepting
+    mess_info.save()
+    print("Is Accepting is ------------------------- ",is_accepting)
+    return JsonResponse({"message":"Order Accepting Status Updated Successfully"})
+
+def get_accept_status(request,id):
+    mess_user = PartnerInfo.objects.filter(username=id).first()
+    mess_info = MessInfo.objects.filter(mess_id=mess_user.mess_id).first()
+    print("Is NEW NEW  Accepting is ------------------------- ",mess_info.is_accepting)
+    return JsonResponse({"is_accepting":mess_info.is_accepting})

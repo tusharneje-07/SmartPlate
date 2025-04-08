@@ -11,6 +11,7 @@ class MessInfo(models.Model):
     mess_address = models.TextField()
     crowd_status = models.IntegerField(default=-1)
     mess_rating = models.FloatField()
+    is_accepting = models.BooleanField(default=False)
     geo_lat = models.FloatField()
     geo_lng = models.FloatField()
     keywords = models.JSONField()
