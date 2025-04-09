@@ -1,156 +1,60 @@
-// Sample transaction data
-export const data = [
-    {
-        date: "2024-03-17",
-        time: "12:30",
-        order_id: "ORD001",
-        order_details: "Premium Package",
-        total: "$150.00",
-        status: "Completed"
-    },
-    {
-        date: "2024-03-17",
-        time: "12:30",
-        order_id: "ORD001",
-        order_details: "Premium Package",
-        total: "$150.00",
-        status: "Completed"
-    },
-    {
-        date: "2024-03-17",
-        time: "12:30",
-        order_id: "ORD001",
-        order_details: "Premium Package",
-        total: "$160.00",
-        status: "Completed"
-    },
-    {
-        date: "2024-03-17",
-        time: "12:30",
-        order_id: "ORD001",
-        order_details: "Premium Package",
-        total: "$170.00",
-        status: "Completed"
-    },
-    {
-        date: "2024-03-17",
-        time: "12:30",
-        order_id: "ORD001",
-        order_details: "Premium Package",
-        total: "$150.00",
-        status: "Completed"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    },
-    {
-        date: "2024-03-18",
-        time: "14:45",
-        order_id: "ORD002",
-        order_details: "Basic Package",
-        total: "$100.00",
-        status: "Pending"
-    }
-];
-
+// Remove hardcoded data and add API call
+let filteredData = [];
+let originalData = [];
 const ITEMS_PER_PAGE = 10;
 let currentPage = 1;
-let filteredData = [...data];
 
-// Make filteredData accessible to the download functions
+// Function to fetch transaction data from backend
+async function fetchTransactionData() {
+    try {
+        const host = window.location.origin;
+        const messIdElement = document.getElementById("mess_user_id");
+        
+        if (!messIdElement) {
+            console.error('mess_user_id element not found. Retrying in 1 second...');
+            setTimeout(fetchTransactionData, 1000);
+            return;
+        }
+        
+        const id = messIdElement.value;
+        if (!id) {
+            console.error('mess_user_id value is empty');
+            return;
+        }
+        
+        const url = `${host}/partner/${id}/get_all_transaction/`;
+        console.log('Fetching from URL:', url);
+        
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch transaction data');
+        }
+        
+        const data = await response.json();
+        
+        // Update to use the correct property name 'transaction'
+        originalData = data.transaction || [];
+        filteredData = [...originalData];
+        
+        // Log the data to verify
+        console.log('Processed data:', originalData);
+        
+        generateTable(filteredData);
+    } catch (error) {
+        console.error('Error fetching transaction data:', error);
+        const tableContainer = document.getElementById('tableContainer');
+        if (tableContainer) {
+            tableContainer.innerHTML = `
+                <div class="text-center p-4 text-red-500">
+                    Error loading transaction data. Please try again later.
+                </div>
+            `;
+        }
+    }
+}
+
+// fetchTransactionData();
+
 window.getAllFilteredData = function() {
     return filteredData;
 };
@@ -250,7 +154,7 @@ function applyFilters() {
     const amountOperator = document.getElementById('amountOperator').value;
     const amountFilter = document.getElementById('amountFilter').value;
 
-    filteredData = [...data];
+    filteredData = [...originalData];
 
     if (dateFilter) {
         filteredData = filteredData.filter(item => item.date === dateFilter);
@@ -267,7 +171,7 @@ function applyFilters() {
     if (amountFilter) {
         const filterAmount = parseFloat(amountFilter);
         filteredData = filteredData.filter(item => {
-            const itemAmount = parseFloat(item.total.replace('$', ''));
+            const itemAmount = parseFloat(item.total_price);
             switch (amountOperator) {
                 case '=':
                     return itemAmount === filterAmount;
@@ -286,7 +190,20 @@ function applyFilters() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    generateTable(filteredData);
+    // Initial data fetch with retry mechanism
+    let retryCount = 0;
+    const maxRetries = 5;
+    
+    function tryFetch() {
+        if (retryCount < maxRetries) {
+            fetchTransactionData();
+            retryCount++;
+        } else {
+            console.error('Failed to initialize after multiple attempts');
+        }
+    }
+    
+    tryFetch();
 
     // Set up filter event listeners
     document.getElementById('dateFilter').addEventListener('change', applyFilters);
@@ -303,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('amountFilter').value = '';
 
         // Reset filtered data to original data
-        filteredData = [...data];
+        filteredData = [...originalData];
         currentPage = 1;
         generateTable(filteredData);
     });
@@ -341,4 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateTime();
     setInterval(updateTime, 1000);
+
+    // Refresh data every 30 seconds
+    setInterval(fetchTransactionData, 30000);
 });

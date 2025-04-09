@@ -39,7 +39,7 @@ function renderOrders(orders) {
                     <div class="text-4xl px-12 dark:text-textPrimaryDark text-textPrimaryLight mb-1 font-extrabold">${order.table}</div>
                     <div class="text-1xl px-10 dark:text-textPrimaryDark text-textPrimaryLight">Order ID - ${order.orderId}</div>
                 </div>
-                <div class="text-sm px-14 dark:text-textPrimaryDark text-textPrimaryLight">${formatTimeAgo(order.time_ago)}</div>
+                <div class="w-full flex flex-col justify-center items-center text-sm px-14 dark:text-textPrimaryDark text-textPrimaryLight">${formatTimeAgo(order.time_ago)}</div>
             </div>
         </div>
         <div class="relative flex items-center">
@@ -117,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
       isAccepting = !isAccepting;
 
       statusText.textContent = isAccepting ? "Accepting Orders" : "Not Accepting Orders";
+      statusText.style.color = isAccepting ? '#0f0' : '#f00';
       
       const host = window.location.origin;
       id = document.getElementById("mess_user_id").value;

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI+ Report and Suggestion</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+    
+    
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <!-- Custom CSS for Hiding Scrollbars -->
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .custom-scrollbar {
+        -ms-overflow-style: none; /* Hide scrollbar for IE */
+        scrollbar-width: none; 
+        max-height: 300px;
+    }
+    .table-container {
+        max-height: 300px; /* Adjust height */
+        overflow-y: auto;
+    }
+    
+    thead {
+        /*position: sticky;
+        top: 0;*/
+        background-color: white;
+        z-index: 10;
+    }
+    /* Hide horizontal scrollbar but allow scrolling */
+.hidden-scrollbar {
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none; /* For IE and Edge */
+    scrollbar-width: none; /* For Firefox */
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}
+
+</style>
+</head>
+<body class="bg-backgroundLight text-textPrimaryLight dark:bg-backgroundDark dark:text-textPrimaryDark ">
+    <div class="w-full mx-auto p-6" >
+        <input type="hidden" id="mess_user_id" value="{{ id }}">
+        <!-- Navbar -->
+        <div class="flex justify-between items-center mb-6 hide-on-fullscreen">
+            <button class="bg-secbackgroundLight dark:bg-secbackgroundDark px-6 py-2 rounded">Logo</button>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">Home</a>
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">About Us</a>
+                <a href="#" class="text-textPrimaryLight dark:text-textPrimaryDark">Profile</a>
+                <button id="toggleTheme" class="w-10 h-10 bg-secbackgroundLight dark:bg-secbackgroundDark p-2 rounded">
+                    <span id="toggleIcon" class="w-6 h-6 block"></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6 hide-on-fullscreen">
+            <div>
+                <h1 class="text-4xl font-bold">AI+ Report and Suggestion</h1>
+                <p>Predict your mess plans with ease—stay prepared and make smarter choices!</p>
+            </div>
+            <div class="bg-secbackgroundLight dark:bg-secbackgroundDark rounded-md px-4 py-2">
+            <div id="dateTime" class="bg-secbackgroundLight dark:bg-secbackgroundDark font-sans px-4 py-2 rounded-md text-sm "></div>
+            </div>
+        </div>
+        <hr class="border-t border-borderLight dark:border-borderDark mb-4">
+        
+
+<!-- Dashboard Layout (Scrollable when needed) -->
+<div class="bg-secbackgroundLight dark:bg-secbackgroundDark p-4 hidden-scrollbar w-full">
+    <div class="grid grid-cols-5 gap-3 w-full">
+        <!-- Graphs -->
+        <div class="col-span-2 bg-backgroundLight dark:bg-backgroundDark p-6 rounded-lg min-w-[350px]">
+            <h2 class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Expected Customers</h2>
+            <canvas id="expectedCustomersChart" class="mt-10 h-24"></canvas>
+        </div>
+        <div class="col-span-2 bg-backgroundLight dark:bg-backgroundDark p-6 rounded-lg min-w-[350px]">
+            <h2 class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Expected Plates</h2>
+            <canvas id="expectedPlatesChart" class="mt-10 h-24"></canvas>
+        </div>
+        <div class="col-span-1 bg-backgroundLight dark:bg-backgroundDark p-6 rounded-lg min-w-[250px]">
+            <h2 class="text-lg font-bold text-center text-textPrimaryLight dark:text-textPrimaryDark">Past 1 Month</h2>
+            <hr class="border-t-2 dark:border-borderLight w-full border-borderDark mt-2 mb-2">
+    
+            <p class="mt-2 text-xl text-textPrimaryLight dark:text-textPrimaryDark font-semibold">1000+</p>
+            <p class="text-textPrimaryLight dark:text-textPrimaryDark text-sm">Customer Reach</p>
+            <hr class="border-t dark:border-borderLight border-borderDark mt-2 mb-2">
+    
+    
+            <p class="mt-2 text-xl text-textPrimaryLight dark:text-textPrimaryDark font-semibold">5000+</p>
+            <p class="text-textPrimaryLight dark:text-textPrimaryDark text-sm">Food Plates Sold</p>
+            <hr class="border-t dark:border-borderLight border-borderDark mt-2 mb-2">
+
+            <p class="mt-2 text-xl text-textPrimaryLight dark:text-textPrimaryDark font-semibold">4.5</p>
+            <p class="text-textPrimaryLight dark:text-textPrimaryDark text-sm">Average Rating</p>
+            <hr class="border-t dark:border-borderLight border-borderDark mt-2 mb-2">
+
+            <p class="mt-2 text-xl text-textPrimaryLight dark:text-textPrimaryDark font-semibold">120+</p>
+            <p class="text-textPrimaryLight dark:text-textPrimaryDark text-sm">Loyal Users</p>
+            
+        </div>
+    
+        <div class="col-span-2 bg-backgroundLight dark:bg-backgroundDark p-6 rounded-lg min-w-[350px]">
+            <h2 class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Rating of Customers</h2>
+            <canvas id="customerRatingChart"></canvas>
+        </div>
+        <div class="col-span-3 bg-backgroundLight dark:bg-backgroundDark p-6 rounded-lg min-w-[450px]">
+            <h2 class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Analysis</h2>
+            <div class="overflow-y-auto h-40">Markdown text with proper formatting</div>
+        </div>
+        <div class="col-span-2 bg-backgroundLight dark:bg-backgroundDark p-6 rounded-lg min-w-[350px]">
+            <h2 class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">Most Favorite Plate Ranking</h2>
+            <canvas id="favoritePlateChart"></canvas>
+        </div>
+        <div class="col-span-3 bg-backgroundLight dark:bg-backgroundDark p-6 rounded-lg min-w-[450px]">
+            <h2 class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">User Comments</h2>
+            <div class="overflow-y-auto h-40">Only authentic comments using a comment checker model</div>
+        </div>
+    </div>
+</div>
+
+
+            
+    <div class="col-span-5 bg-secbackgroundLight dark:bg-secbackgroundDark p-4 mt-4">
+        <h2 class="text-lg font-bold text-textPrimaryLight dark:text-textPrimaryDark">All Data Display</h2>
+
+<!-- Scrollable Table Container -->
+<div class="bg-backgroundLight dark:bg-backgroundDark p-4 rounded-lg mt-4 shadow-md">
+    <h2 class= "text-textPrimaryLight dark:text-textPrimaryDark font-semibold mb-2">Orders Data</h2>
+
+    <!-- Scrollable Container -->
+    <div class="border border-gray-300 rounded-lg overflow-x-auto overflow-y-auto custom-scrollbar">
+        <table class="w-full border-collapse text-left text-textPrimaryLight dark:text-textPrimaryDark">
+            <!-- Fix table-layout for proper column width alignment -->
+            <thead class="bg-secbackgroundLight dark:bg-secbackgroundDark sticky top-0">
+                <tr>
+                    <th class="p-3 w-16">Sr. No.</th>
+                    <th class="p-3 w-32">Ordered By</th>
+                    <th class="p-3 w-48">Ordered Menu</th>
+                    <th class="p-3 w-20">Quantity</th>
+                    <th class="p-3 w-32">Total Price</th>
+                    <th class="p-3 w-32">User Rating</th>
+                    <th class="p-3 w-64">Comment</th>
+                </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap gap-3 mt-4">
+            <button id="downloadExcel" class="bg-backgroundLight dark:bg-backgroundDark px-4 py-2 rounded-lg">
+                Download Excel
+            </button>
+            <button  class="bg-backgroundLight dark:bg-backgroundDark px-4 py-2 rounded-lg">
+                Refer this data and Chat with AI
+            </button>
+            <button id="downloadPdf" class="bg-backgroundLight dark:bg-backgroundDark px-4 py-2 rounded-lg">
+                Export PDF Report
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- fetching the data from the dummy js data file -->
+<script type="module">
+    import  orders  from '{% static 'js/PARTNER/PRT_orders.js' %}';
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const ordersTableBody = document.getElementById("ordersTableBody");
+    
+    
+        if (!ordersTableBody) {
+            console.error("ordersTableBody not found!");
+            return;
+        }
+    
+    
+        orders.forEach((order, index) => {
+            const maskedName = order.orderedBy.slice(0, 3) + "";
+    
+            let menuItems = order.menu; 
+            let menuQuantities = order.quantity; 
+            
+    
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${maskedName}</td>
+                <td>${menuItems}</td>
+                <td>${menuQuantities}</td>
+                <td>${order.totalPrice}</td>
+                <td>${order.rating}</td>  
+                <td>${order.comment}</td>
+            `;
+    
+            ordersTableBody.appendChild(row);
+        });
+    });
+    
+</script>
+
+
+<script type="module">
+    import { initializeCharts } from "{% static 'js/PARTNER/PRT_aireport.js' %}";
+
+    document.addEventListener("DOMContentLoaded", initializeCharts);
+</script>
+
+
+    
+    <script src="{% static 'js/PARTNER/PRT_admin_toggle.js' %}"></script>
+
+<!-- download the excel -->
+    <script>
+        document.getElementById("downloadExcel").addEventListener("click", function () {
+            let table = document.querySelector("table"); // Get the table element
+            let workbook = XLSX.utils.table_to_book(table, { sheet: "Orders Data" }); // Convert table to workbook
+            XLSX.writeFile(workbook, "Orders_Data.xlsx"); // Download as Excel file
+        });
+        </script>
+
+<!-- download the pdf  -->
+        <script>
+            document.getElementById("downloadPdf").addEventListener("click", function () {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                doc.text("Orders Data", 14, 10);
+        
+                // Ensure autoTable is properly used
+                doc.autoTable({
+                    head: [['Sr. No.', 'Ordered By', 'Ordered Menu', 'Quantity', 'Total Price', 'User Rating', 'Comment']], 
+                    body: Array.from(document.querySelectorAll("#ordersTableBody tr")).map(row =>
+                        Array.from(row.children).map(cell => cell.innerText)
+                    ),
+                    startY: 20
+                });
+        
+                doc.save("Orders_Report.pdf");
+            });
+            </script>
+            
+
+
+<!-- date time function -->
+    <script>
+        function updateDateTime() {
+        document.getElementById("dateTime").textContent = new Date().toLocaleString();
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+    </script>
+</body>
+</html>

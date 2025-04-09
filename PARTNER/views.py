@@ -1,9 +1,9 @@
 
-from datetime import date
+from datetime import date, timedelta
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from .models import MessInfo, PartnerInfo, OrderInformation
+from .models import MessInfo, PartnerInfo, OrderInformation, MenuInfo
 from django.db.models import Sum
 from datetime import datetime
 
@@ -98,7 +98,10 @@ def accept_order(request,id):
     return render(request, 'PARTNER/PRT_acceptorder.html',{'id':id})
 
 def transaction(request,id):
-    return render(request, 'PARTNER/PRT_transaction.html')
+    mess_user = PartnerInfo.objects.filter(username=id).first()
+    mess_info = MessInfo.objects.filter(mess_id=mess_user.mess_id).first()
+    print("Mess User is ------------------------- ",mess_user.mess_id)
+    return render(request, 'PARTNER/PRT_transaction.html',{'id':id, 'uid':mess_user.mess_id, 'mess_name':mess_info.mess_name})
 
 def get_accept_order_data(request,id):
     mess_user = PartnerInfo.objects.filter(username=id).first()
@@ -150,3 +153,86 @@ def get_accept_status(request,id):
     mess_info = MessInfo.objects.filter(mess_id=mess_user.mess_id).first()
     print("Is NEW NEW  Accepting is ------------------------- ",mess_info.is_accepting)
     return JsonResponse({"is_accepting":mess_info.is_accepting})
+
+def get_all_transaction(request,id):
+    mess_user = PartnerInfo.objects.filter(username=id).first()
+    transaction = OrderInformation.objects.filter(mess_id=mess_user.mess_id).values()
+    send_data = []
+    for i in transaction:
+        each_transaction = {}
+        each_transaction['id'] = i['id']
+        each_transaction['order_id'] = i['order_id']
+        each_transaction['date'] = i['date']
+        each_transaction['time'] = i['time']
+        each_transaction['ordered_by_name'] = i['ordered_by_name']
+        
+        order_data = i['order_details']
+        order_detail_str = ""
+        total_price = 0
+        for item in order_data:
+            order_detail_str += f"{item['name']} ({item['quantity']}) - {', '.join(item['details'])} & "
+            total_price += item['price']
+        order_detail_str = order_detail_str.rstrip(' & ') 
+        each_transaction['order_details'] = order_detail_str
+        each_transaction['total_price'] = total_price
+
+        if i['order_status'] == "-1":
+            each_transaction['status'] = "Pending"
+        elif i['order_status'] == "0":
+            each_transaction['status'] = "Confirmed"
+        elif i['order_status'] == "1":
+            each_transaction['status'] = "Delivered"
+        else:
+            each_transaction['status'] = "Cancelled"
+
+        
+        send_data.append(each_transaction)
+    
+    return JsonResponse({"transaction":send_data})
+
+
+def ai_report(request,id):
+    return render(request, 'PARTNER/PRT_aireport.html',{'id':id})
+
+def fetch_ai_report_data(request,id):
+    mess_user = PartnerInfo.objects.filter(username=id).first()
+    mess_info = MessInfo.objects.filter(mess_id=mess_user.mess_id).first()
+    
+    # Customer Visits -----------------------------------------------------------------------------
+    last_7_days = [date.today() - timedelta(days=i) for i in range(7)]
+    customer_data = []
+    menu_data = []
+    for day in last_7_days:
+        day_name = day.strftime('%A')  # Get day name (Monday, Tuesday, etc.)
+        count = OrderInformation.objects.filter(
+            mess_id=mess_info.mess_id,
+            date=day
+        ).count()
+        customer_data.append({
+            'day': day_name,
+            'count': count
+        })
+        menu_info = MenuInfo.objects.filter(mess_id=mess_info.mess_id, date=day).first()
+        if menu_info:
+            menu_data.append({
+                'day': day_name,
+                'date': day.strftime('%d/%m'),
+                'menu': menu_info.menu
+            })
+    
+    day_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    customer_data.sort(key=lambda x: day_order.index(x['day']))
+    visited_customers = []
+    for i in customer_data:
+        visited_customers.append(i.get('count'))
+    
+    formatted_dates = [day.strftime('%d/%m') for day in last_7_days]
+    # Customer Visits -----------------------------------------------------------------------------
+    
+    # Customer Rating -----------------------------------------------------------------------------
+    # for day in last_7_days
+    
+    
+    
+    
+    return JsonResponse({"mess_info":mess_info.mess_id, "customer_data":visited_customers, "formatted_dates":formatted_dates, "menu_data":menu_data})

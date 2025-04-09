@@ -18,4 +18,9 @@ urlpatterns = [
     
     # Transaction
     path('<str:id>/transaction/', views.transaction, name='transaction'),
+    path('<str:id>/get_all_transaction/', views.get_all_transaction, name='get_all_transaction'),
+    
+    # AI Report
+    path('<str:id>/ai_report/', views.ai_report, name='ai_report'),
+    path('<str:id>/fetch_ai_report_data/', views.fetch_ai_report_data, name='fetch_ai_report_data'),
 ] 
