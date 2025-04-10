@@ -23,4 +23,7 @@ urlpatterns = [
     # AI Report
     path('<str:id>/ai_report/', views.ai_report, name='ai_report'),
     path('<str:id>/fetch_ai_report_data/', views.fetch_ai_report_data, name='fetch_ai_report_data'),
+
+    # Set Menu
+    path('<str:id>/set_menu/', views.set_menu, name='set_menu'),
 ] 

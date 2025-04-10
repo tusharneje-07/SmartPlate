@@ -2,16 +2,22 @@ import orders from './PRT_orders.js'
 
   
 // function for generateExpectedCustomerChart parameter wll be the output from genAI model
-function generateExpectedCustomerChart(expectedNumbers) {
+function generateExpectedCustomerChart(expectedNumbers,predictedNumbers,formattedDates) {
     const ctx = document.getElementById('expectedCustomersChart').getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            labels: formattedDates,
             datasets: [{
-                label: 'Expected Customers',
+                label: 'Visited Customers',
                 data: expectedNumbers,
                 borderColor: 'blue',
+                fill: false
+            },
+            {
+                label: 'Predicted Customers',
+                data: predictedNumbers,
+                borderColor: 'red',
                 fill: false
             }]
         },
@@ -20,20 +26,20 @@ function generateExpectedCustomerChart(expectedNumbers) {
 }
 
 // function for generateExpectedPlateChart parameter wll be the output from genAI model
-function generateExpectedPlateChart(expectedNumbers,data2) {
+function generateExpectedPlateChart(expectedNumbers,data2,formattedDates) {
     const ctx = document.getElementById('expectedPlatesChart').getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            labels: formattedDates,
             datasets: [{
-                label: 'Expected Plates',
+                label: 'Sold Plates',
                 data: expectedNumbers,
                 borderColor: 'green',
                 fill: false
             },
             {
-                label: 'Expected Plates',
+                label: 'Predicted Plates',
                 data: data2,
                 borderColor: 'red',
                 fill: false
@@ -106,31 +112,31 @@ function generateCustomerRatingChart(orderData) {
 
 // function for myFavoritePlateChart which aggregate the data and then sort it give top 5 sold dishes with its frequency
 
-function generateFavoritePlateChart(orderData) {
-    if (!orderData || !Array.isArray(orderData)) {
-        console.error("Invalid order data:", orderData);
-        return;
-    }
+function generateFavoritePlateChart(names,counts) {
+    // if (!orderData || !Array.isArray(orderData)) {
+    //     console.error("Invalid order data:", orderData);
+    //     return;
+    // }
     
-    const menuCounts = orderData.reduce((acc, order) => {
-        if (!order.menu || !order.quantity) {
-            console.warn("Skipping order due to missing menu or quantity:", order);
-            return acc;
-        }
+    // const menuCounts = orderData.reduce((acc, order) => {
+    //     if (!order.menu || !order.quantity) {
+    //         console.warn("Skipping order due to missing menu or quantity:", order);
+    //         return acc;
+    //     }
 
-        // Count dish frequency
-        acc[order.menu] = (acc[order.menu] || 0) + order.quantity;
+    //     // Count dish frequency
+    //     acc[order.menu] = (acc[order.menu] || 0) + order.quantity;
 
-        return acc;
-    }, {});
+    //     return acc;
+    // }, {});
 
-    // Sort and get top 5 dishes
-    const sortedDishes = Object.entries(menuCounts)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5);
+    // // Sort and get top 5 dishes
+    // const sortedDishes = Object.entries(menuCounts)
+    //     .sort((a, b) => b[1] - a[1])
+    //     .slice(0, 5);
 
-    const dishNames = sortedDishes.map(item => item[0]);
-    const dishFrequencies = sortedDishes.map(item => item[1]);
+    // const dishNames = sortedDishes.map(item => item[0]);
+    // const dishFrequencies = sortedDishes.map(item => item[1]);
 
     const ctx = document.getElementById('favoritePlateChart')?.getContext('2d');
     if (!ctx) {
@@ -145,10 +151,10 @@ function generateFavoritePlateChart(orderData) {
     window.myFavoritePlateChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: dishNames,
+            labels: names,
             datasets: [{
                 label: 'Orders Frequency',
-                data: dishFrequencies,
+                data: counts,
                 backgroundColor: 'orange'
             }]
         },
@@ -171,14 +177,16 @@ function initializeCharts() {
     
     async function fetchData() {
         try {
+            document.getElementById('analysisText').classList.add('animate-pulse')
             const id = document.getElementById('mess_user_id').value;
             const response = await fetch(`${window.location.origin}/partner/${id}/fetch_ai_report_data/`);
             const data = await response.json();
             
-            generateExpectedCustomerChart(data.customer_data);
-            generateExpectedPlateChart(data.customer_data);
-            generateCustomerRatingChart(data.customer_data);
-            generateFavoritePlateChart(data.customer_data);
+            generateExpectedCustomerChart(data.customer_data,data.predicted_data.predicted_customers_next_week,data.formatted_dates);
+            generateExpectedPlateChart(data.plate_count,data.predicted_data.predicted_plates_next_week,data.formatted_dates);
+            // generateCustomerRatingChart(data.orders);
+            generateFavoritePlateChart(data.predicted_data.popular_dishes,data.popular_dish_counts);
+            document.getElementById('analysisText').innerHTML = data.predicted_data.suggestions;
         } catch (error) {
             console.error('Error fetching AI report data:', error);
             generateExpectedCustomerChart([100,120,130,140,100,90,80]);

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .models import MessInfo, PartnerInfo, OrderInformation, MenuInfo
 from django.db.models import Sum
 from datetime import datetime
-
+from .predict import get_chatbot_response, aggregate_orders
 @login_required
 def prt_dashboard(request,id):
     print("ID is ------------------------- ",id)
@@ -202,15 +202,58 @@ def fetch_ai_report_data(request,id):
     last_7_days = [date.today() - timedelta(days=i) for i in range(7)]
     customer_data = []
     menu_data = []
+    transaction_information = []
+    plates_per_day = []
+    orders = []  # New array for orders without rating and comment
+    dish_counts = {}  # Dictionary to store counts of popular dishes
+    
     for day in last_7_days:
-        day_name = day.strftime('%A')  # Get day name (Monday, Tuesday, etc.)
+        day_name = day.strftime('%A')
+        
         count = OrderInformation.objects.filter(
             mess_id=mess_info.mess_id,
             date=day
-        ).count()
+        )
+        plate_count = 0
+        if count:
+            for order in count:
+                total_price = 0
+                order_detail_str = ""
+                for item in order.order_details:
+                    order_detail_str += f"{item['name']} ({item['quantity']}) - {', '.join(item['details'])} & "
+                    total_price += item['price']
+                    plate_count += item['quantity']
+                    
+                    # Count occurrences of each dish
+                    dish_name = item['name'].strip().lower()  # Normalize dish names
+                    if dish_name not in dish_counts:
+                        dish_counts[dish_name] = 0
+                    dish_counts[dish_name] += item['quantity']
+                
+                transaction = {
+                    'id': order.id,
+                    'order_id': order.order_id,
+                    'date': order.date.strftime('%Y-%m-%d'),
+                    'time': order.time.strftime('%H:%M:%S'),
+                    'ordered_by_name': order.ordered_by_name,
+                    'order_details': order_detail_str,
+                    'total_price': total_price,
+                }
+                transaction_information.append(transaction)
+                
+                # Add to orders array without rating and comment
+                orders.append({
+                    'srNo': len(orders) + 1,
+                    'orderedBy': order.ordered_by_name,
+                    'menu': order_detail_str,
+                    'quantity': plate_count,
+                    'totalPrice': total_price
+                })
+
+        plates_per_day.append(plate_count)
         customer_data.append({
             'day': day_name,
-            'count': count
+            'count': count.count() if count else 0
         })
         menu_info = MenuInfo.objects.filter(mess_id=mess_info.mess_id, date=day).first()
         if menu_info:
@@ -230,9 +273,30 @@ def fetch_ai_report_data(request,id):
     # Customer Visits -----------------------------------------------------------------------------
     
     # Customer Rating -----------------------------------------------------------------------------
-    # for day in last_7_days
     
+    aggregated_data = aggregate_orders(transaction_information)
+    predicted_data = get_chatbot_response(aggregated_data)
     
+    # Get counts for predicted popular dishes with normalized names
+    popular_dish_counts = [0] * len(predicted_data.get('popular_dishes', []))
+    for dish in predicted_data.get('popular_dishes', []):
+        for i in orders:
+            quantity = 0
+            if dish in i.get('menu'):
+                quantity = i.get('quantity')
+                popular_dish_counts[predicted_data.get('popular_dishes', []).index(dish)] = quantity
     
-    
-    return JsonResponse({"mess_info":mess_info.mess_id, "customer_data":visited_customers, "formatted_dates":formatted_dates, "menu_data":menu_data})
+    return JsonResponse({
+        "mess_info": mess_info.mess_id, 
+        "customer_data": visited_customers, 
+        "formatted_dates": formatted_dates, 
+        "menu_data": menu_data,
+        'predicted_data': predicted_data,
+        'plate_count': plates_per_day,
+        'orders': orders,
+        'popular_dish_counts': popular_dish_counts  # Include counts of popular dishes
+    })
+
+
+def set_menu(request,id):
+    return render(request, 'PARTNER/PRT_setupmenu.html',{'id':id})
